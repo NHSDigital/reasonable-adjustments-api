@@ -116,9 +116,9 @@ jobs:
         parameters:
           env_vars_dir: 'dist'
 
-      # - template: azure/build-and-push-ecs-proxies.yml@utils
-      #   parameters:
-      #     env_vars_dir: 'dist'
+      - template: azure/build-and-push-ecs-proxies.yml@utils
+        parameters:
+          env_vars_dir: 'dist'
 
       - publish: dist/
         artifact: reasonable-adjustments-$(Build.BuildNumber)
