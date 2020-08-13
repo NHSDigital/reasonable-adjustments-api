@@ -16,6 +16,5 @@
     <SSLInfo>
       <Enabled>true</Enabled>
     </SSLInfo>
-    <!-- <URL>https://{{ APIM_PROXY_HOSTNAME }}</URL> -->
-    <URL>https://mocktarget.apigee.net/json</URL>
+    <URL>https://{{ APIM_PROXY_HOSTNAME }}</URL>
 </TargetEndpoint>
