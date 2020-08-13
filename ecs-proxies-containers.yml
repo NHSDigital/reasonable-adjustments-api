@@ -1,0 +1,5 @@
+docker_containers:
+
+    - name: reasonable-adjustments
+      dockerfile: "docker/reasonable-adjustments-sandbox/Dockerfile"
+      path: "docker/reasonable-adjustments-sandbox"
