@@ -17,4 +17,5 @@
       <Enabled>true</Enabled>
     </SSLInfo>
     <URL>https://{{ APIM_PROXY_HOSTNAME }}</URL>
+  </HTTPTargetConnection>
 </TargetEndpoint>
