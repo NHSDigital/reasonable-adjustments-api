@@ -5,11 +5,11 @@
     "latency": 50,
     "logRequestHeaders": false,
     "webServices": {
-        "test": {
+        "_status": {
             "latency": 20,
             "verbs": ["get"],
             "responses": {
-                "get": {"httpStatus": 200, "mockFile": "test.json"}
+                "get": {"httpStatus": 200, "mockFile": "status.json"}
             }
       }
     }
