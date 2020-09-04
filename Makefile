@@ -19,7 +19,7 @@ lint:
 	npm run lint
 	cd docker/reasonable-adjustments-sandbox && npm run lint && cd ..
 	poetry run flake8
-	
+
 
 publish:
 	npm run publish 2> /dev/null
@@ -59,7 +59,9 @@ build-proxy:
 release: clean publish build-proxy
 	mkdir -p dist
 	tar -zcvf dist/package.tar.gz build
-	cp -r terraform dist
+	for env in internal-dev-sandbox internal-qa-sandbox sandbox; do \
+		cp ecs-proxies-deploy.yml dist/ecs-deploy-$$env.yml; \
+	done
 	cp -r build/. dist
 	cp -r tests dist
 

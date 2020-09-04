@@ -1,0 +1,6 @@
+variables:
+  service_name: reasonable-adjustments
+  service_base_path: reasonable-adjustments
+  short_service_name: reasonable-adjustments
+  product_display_name: Reasonable Adjustments Api
+  product_description: Reasonable Adjustments Api
