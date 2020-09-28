@@ -8,7 +8,9 @@
       <Step>
         <Name>OAuthV2.VerifyAccessToken</Name>
       </Step>
-      <Step>
+
+      <!--Need full requirements to implement-->
+      <!-- <Step>
         <Name>AssignMessage.PopulateAsidFromApp</Name>
           <Condition>(app.asid IsNot null)</Condition>
       </Step>
@@ -18,7 +20,8 @@
       </Step>
       <Step>
         <Name>AssignMessage.AddAsidHeader</Name>
-      </Step>
+      </Step> -->
+      
     </Request>
     <Response>
       <Step>
