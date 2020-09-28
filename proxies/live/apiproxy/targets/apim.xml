@@ -1,5 +1,4 @@
 <TargetEndpoint name="apim">
-  <Flows/>
   <PostFlow name="PostFlow">
     <Request/>
     <Response/>
@@ -20,7 +19,7 @@
       <Step>
         <Name>AssignMessage.AddAsidHeader</Name>
       </Step>
-    </Request/>
+    </Request>
     <Response>
       <Step>
         <Name>AssignMessage.AddCors</Name>
