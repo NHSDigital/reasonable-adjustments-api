@@ -15,6 +15,10 @@
       "consent": {
           "latency": 20,
           "verbs": ["get","post"],
+          "headers": {
+            "NHSD-Session-URID": "test",
+            "X-Request-ID": "test"
+          },
           "responses": {
                 "get": {"httpStatus": 200, "mockFile": "readConsent.json"},
                 "post": {"httpStatus": 201, "mockFile": "createConsent.json"}

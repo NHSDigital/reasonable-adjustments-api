@@ -1,6 +1,6 @@
-var ApiMocker = require('apimocker');
-var options = {};
+// var ApiMocker = require('apimocker');
+// var options = {};
 
-ApiMocker.createServer(options)
-    .setConfigFile('src/config.json')
-    .start();
+// ApiMocker.createServer(options)
+//     .setConfigFile('src/config.json')
+//     .start();
