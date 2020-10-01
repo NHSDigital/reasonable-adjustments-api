@@ -4,12 +4,12 @@
   "description": "reasonable-adjustments-api-sandbox",
   "scripts": {
     "lint": "find . -type f -name '*.js' ! -name '.eslintrc.js' | grep -v 'node_modules/' | xargs eslint",
-    "start": "node src/app2.js --use_strict"
+    "start": "node src/app.js --use_strict"
   },
   "author": "NHS Digital",
   "license": "(MIT OR OGL)",
   "homepage": "https://github.com/NHSDigital/reasonable-adjustments-api",
-  "main": "app2.js",
+  "main": "app.js",
   "dependencies": {
     "apimocker": "^1.1.4",
     "@hapi/hapi": "18.4.1",
