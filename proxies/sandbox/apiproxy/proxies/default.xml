@@ -100,7 +100,7 @@
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/list/*") and (request.verb = "PUT"))</Condition>
     </Flow>
-    <Flow name="removerarerecord-POST">
+    <Flow name="removerarecord-POST">
       <Request>
         <Step>
           <Name>RaiseFault.404NotFound</Name>
