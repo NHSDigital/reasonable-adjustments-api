@@ -95,7 +95,7 @@
       <Request>
         <Step>
           <Name>RaiseFault.400BadRequest</Name>
-          <Condition>((request.content = "") and (request.header.If-Match = null))</Condition>
+          <Condition>((request.content = "") or (request.header.If-Match = null))</Condition>
         </Step>
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/list/*") and (request.verb = "PUT"))</Condition>
@@ -110,7 +110,7 @@
           <Name>RaiseFault.400BadRequest</Name>
           <Condition>(request.content = "")</Condition>
         </Step>
-        <Condition>((proxy.pathsuffix MatchesPath "/removerarerecord") and (request.verb = "POST"))</Condition>
+        <Condition>((proxy.pathsuffix MatchesPath "/removerarecord") and (request.verb = "POST"))</Condition>
       </Request>
     </Flow>
   </Flows>
