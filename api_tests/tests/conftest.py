@@ -1,6 +1,5 @@
 import pytest
 from api_tests.steps.check_oauth import CheckOauth
-from api_tests.steps.check_pds import CheckPds
 from api_tests.steps.check_reasonable_adjustments import CheckReasonableAdjustments
 
 def _get_parametrized_values(request):
@@ -52,9 +51,6 @@ def setup(request):
 
     oauth = CheckOauth()
     setattr(request.cls, "oauth", oauth)
-
-    pds = CheckPds()
-    setattr(request.cls, "pds", pds)
 
     reasonable_adjustments = CheckReasonableAdjustments()
     setattr(request.cls, "reasonable_adjustments", reasonable_adjustments)
