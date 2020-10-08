@@ -5,6 +5,10 @@
         <Name>RaiseFault.400BadRequest</Name>
         <Condition>request.header.X-Request-ID = null or request.header.NHSD-Session-URID = null</Condition>
       </Step>
+      <Step>
+        <Name>RaiseFault.400BadRequest</Name>
+        <Condition>request.verb != "GET" and request.header.content-type != "application/fhir+json"</Condition>
+      </Step>
     </Request>
     <Response>
       <Step>
@@ -13,6 +17,19 @@
     </Response>
   </PreFlow>
   <HTTPTargetConnection>
+    <PreFlow name="PreFlow">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>request.header.X-Request-ID = null or request.header.NHSD-Session-URID = null</Condition>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AssignMessage.AddCors</Name>
+        </Step>
+      </Response>
+    </PreFlow>
     <SSLInfo>
       <Enabled>true</Enabled>
     </SSLInfo>

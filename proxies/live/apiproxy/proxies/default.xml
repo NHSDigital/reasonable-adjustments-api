@@ -10,7 +10,6 @@
       <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
     </Flow>
     <Flow name="AddPayloadToPing">
-      <Description/>
       <Request/>
       <Response>
         <Step>
@@ -18,6 +17,100 @@
         </Step>
       </Response>
       <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+    </Flow>
+    <Flow name="consent-GET">
+      <Request>
+      <Step>
+        <Name>RaiseFault.404NotFound</Name>
+        <Condition>request.queryparam.patient = null or request.queryparam.status = null or request.queryparam.category = null</Condition>
+      </Step>  
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/consent") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="consent-POST">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>request.content = ""</Condition>
+        </Step>
+      </Request>      
+      <Condition>((proxy.pathsuffix MatchesPath "/consent") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="consent-PUT">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>request.content = ""</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/consent/*") and (request.verb = "PUT"))</Condition>
+    </Flow>
+    <Flow name="flag-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.404NotFound</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.status = null or request.queryparam.category = null</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/flag") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="flag-POST">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>request.content = ""</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/flag") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="flag-PUT">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>((request.content = "") and (request.header.If-Match = null))</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/flag/*") and (request.verb = "PUT"))</Condition>
+    </Flow>
+    <Flow name="list-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.404NotFound</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.status = null or request.queryparam.code = null</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/list") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="list-POST">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>request.content = ""</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/list") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="list-PUT">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>((request.content = "") and (request.header.If-Match = null))</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/list/*") and (request.verb = "PUT"))</Condition>
+    </Flow>
+    <Flow name="removeRarecord-POST">
+      <Request>
+        <Step>
+          <Name>RaiseFault.404NotFound</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.removalReason = null or request.queryparam.supportingComment  = null</Condition>
+        </Step>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>(request.content = "")</Condition>
+        </Step>
+        <Condition>((proxy.pathsuffix MatchesPath "/removerarecord") and (request.verb = "POST"))</Condition>
+      </Request>
     </Flow>
   </Flows>
   <PostClientFlow name="PostClientFlow">

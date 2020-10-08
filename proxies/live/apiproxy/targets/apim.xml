@@ -8,7 +8,14 @@
       <Step>
         <Name>OAuthV2.VerifyAccessToken</Name>
       </Step>
-
+      <Step>
+        <Name>RaiseFault.400BadRequest</Name>
+        <Condition>request.header.X-Request-ID = null or request.header.NHSD-Session-URID = null</Condition>
+      </Step>
+      <Step>
+        <Name>RaiseFault.400BadRequest</Name>
+        <Condition>request.verb != "GET" and request.header.content-type != "application/fhir+json"</Condition>
+      </Step>
       <!--Need full requirements to implement-->
       <!-- <Step>
         <Name>AssignMessage.PopulateAsidFromApp</Name>
@@ -21,7 +28,6 @@
       <Step>
         <Name>AssignMessage.AddAsidHeader</Name>
       </Step> -->
-      
     </Request>
     <Response>
       <Step>

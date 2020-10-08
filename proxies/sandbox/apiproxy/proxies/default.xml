@@ -100,7 +100,7 @@
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/list/*") and (request.verb = "PUT"))</Condition>
     </Flow>
-    <Flow name="removerarecord-POST">
+    <Flow name="removeRarecord-POST">
       <Request>
         <Step>
           <Name>RaiseFault.404NotFound</Name>
@@ -114,7 +114,7 @@
       </Request>
     </Flow>
   </Flows>
-  <PreFlow/>
+  
   <HTTPProxyConnection>
     <BasePath>{{ SERVICE_BASE_PATH }}</BasePath>
     <VirtualHost>secure</VirtualHost>
