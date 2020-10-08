@@ -15,6 +15,9 @@ utils
 __pycache__/
 .envrc
 
+### VS Code ###
+.vscode
+
 ### IntelliJ IDEA ###
 .idea/*
 .idea
@@ -30,3 +33,5 @@ __pycache__/
 sandbox.postman_environment.json
 
 docker/*/node_modules
+.pytest_cache/
+docker.env
