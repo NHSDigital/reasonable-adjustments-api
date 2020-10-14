@@ -13,7 +13,7 @@ class TestAsidSuite:
 
     @pytest.mark.asid
     @pytest.mark.usefixtures('get_token')
-    def test_consent_get(self):
+    def test_asid(self):
         # Given
         debug_session = ApigeeDebugApi(REASONABLE_ADJUSTMENTS_PROXY)
         expected_asid = '200000001115'

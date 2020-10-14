@@ -21,18 +21,10 @@
                 <Name>RaiseFault.InvalidPayload</Name>
                 <Condition>request.verb != "GET" and request.content = ""</Condition>
             </Step>
-            <!--Need full requirements to implement-->
-            <!-- <Step>
-        <Name>AssignMessage.PopulateAsidFromApp</Name>
-          <Condition>(app.asid IsNot null)</Condition>
-      </Step>
-      <Step>
-        <Name>RaiseFault.InvalidAsidOrOds</Name>
-          <Condition>(verifyapikey.VerifyAPIKey.CustomAttributes.asid is null) or (verifyapikey.VerifyAPIKey.CustomAttributes.ods is null)</Condition>
-      </Step>
-      <Step>
-        <Name>AssignMessage.AddAsidHeader</Name>
-      </Step> -->
+            <Step>
+              <Name>RaiseFault.InvalidAsidOrOds</Name>
+                <Condition>(verifyapikey.VerifyAPIKey.CustomAttributes.asid is null) or (verifyapikey.VerifyAPIKey.CustomAttributes.ods is null)</Condition>
+            </Step>
         </Request>
         <Response>
             <Step>
