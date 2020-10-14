@@ -59,7 +59,7 @@
         <Flow name="flag-PUT">
             <Request>
                 <Step>
-                    <Name>RaiseFault.Invalid-IfMatch</Name>
+                    <Name>RaiseFault.InvalidIfMatch</Name>
                     <Condition>(request.header.If-Match = null or request.header.If-Match = "")</Condition>
                 </Step>
             </Request>
@@ -81,7 +81,7 @@
         <Flow name="list-PUT">
             <Request>
                 <Step>
-                    <Name>RaiseFault.Invalid-IfMatch</Name>
+                    <Name>RaiseFault.InvalidIfMatch</Name>
                     <Condition>request.header.If-Match = null or request.header.If-Match = ""</Condition>
                 </Step>
             </Request>
