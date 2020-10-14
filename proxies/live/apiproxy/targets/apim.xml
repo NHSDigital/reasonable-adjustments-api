@@ -6,15 +6,15 @@
                 <Name>OAuthV2.VerifyAccessToken</Name>
             </Step>
             <Step>
-                <Name>RaiseFault.Invalid-X-Request-Id</Name>
+                <Name>RaiseFault.InvalidXRequestId</Name>
                 <Condition>request.header.X-Request-ID = null or request.header.X-Request-ID = ""</Condition>
             </Step>
             <Step>
-                <Name>RaiseFault.Invalid-NHSD-Session-URID</Name>
+                <Name>RaiseFault.InvalidNHSDSessionURID</Name>
                 <Condition>request.header.NHSD-Session-URID = null or request.header.NHSD-Session-URID = ""</Condition>
             </Step>
             <Step>
-                <Name>RaiseFault.Invalid-Content-Type</Name>
+                <Name>RaiseFault.InvalidContentType</Name>
                 <Condition>request.verb != "GET" and request.header.content-type != "application/fhir+json"</Condition>
             </Step>
             <Step>
