@@ -4,10 +4,10 @@ import json
 
 @pytest.mark.usefixtures("setup")
 class TestInvalidRequestSuite:
-    """ A test suite to verify the correct error messages from an invalid request """ 
+    """ A test suite to verify the correct error messages from an invalid request """
 
     @pytest.mark.errors
-    def test_missing_access_token(self):        
+    def test_missing_access_token(self):
         assert self.reasonable_adjustments.check_endpoint(
             verb='GET',
             endpoint='consent',
@@ -29,7 +29,7 @@ class TestInvalidRequestSuite:
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
-    def test_missing_x_request_id_header(self):        
+    def test_missing_x_request_id_header(self):
         assert self.reasonable_adjustments.check_endpoint(
             verb='GET',
             endpoint='consent',
@@ -50,7 +50,7 @@ class TestInvalidRequestSuite:
         )
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
-    def test_missing_nhsd_session_urid_header(self):        
+    def test_missing_nhsd_session_urid_header(self):
         assert self.reasonable_adjustments.check_endpoint(
             verb='GET',
             endpoint='consent',
@@ -73,7 +73,7 @@ class TestInvalidRequestSuite:
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
-    def test_invalid_content_type(self):        
+    def test_invalid_content_type(self):
         assert self.reasonable_adjustments.check_endpoint(
             verb='POST',
             endpoint='consent',
@@ -95,7 +95,7 @@ class TestInvalidRequestSuite:
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
-    def test_invalid_payload(self):        
+    def test_invalid_payload(self):
         assert self.reasonable_adjustments.check_endpoint(
             verb='POST',
             endpoint='consent',
@@ -115,7 +115,7 @@ class TestInvalidRequestSuite:
     ## TODO: Implment mock endpoint that returns 500 response to test DefaultFaultRule
     # @pytest.mark.errors
     # @pytest.mark.usefixtures('get_token')
-    # def test_unkown_error(self):        
+    # def test_unkown_error(self):
     #     assert self.reasonable_adjustments.check_endpoint(
     #         verb='POST',
     #         endpoint='consent',

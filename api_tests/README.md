@@ -85,12 +85,8 @@ Test can be either executed with a combination of either Docker or using a virtu
 from a terminal/command window or from within an IDE (preferably PyCharm). These are explained below.
 
 ## Using Apigee debug session
-You can start an Apigee debug session by providing an Authorization token.
-Inorder to this locally first acquire a token by sending a GET request with Basic Authentication to the apigee.
-Open postman and sed a GET request to `https://api.enterprise.apigee.com/v1/organizations/nhsd-nonprod/environments/internal-dev/apis/{proxy-name}/revisions/{revision-number}/debugsessions?session=mysession`
-and provide your username and password. If you get 200 response back you can see the token that postman used to make the call under "Headers" tab. Copy This token
-and provide it to the test framework under `APIGEE_API_AUTHENTICATION` environment variable.
-You should also change the value of `IS_REMOTE` to `False`
+In order to enable Apigee debug locally, you must provide `APIGEE_USERNAME` and `APIGEE_PASSWORD` as
+environment variables.
 
 ### Execute using Docker
 There are `make` commands that allow you to quickly perform certain actions:

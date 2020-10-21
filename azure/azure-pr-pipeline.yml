@@ -35,9 +35,16 @@ extends:
     product_display_name: ${{ variables.product_display_name }}
     product_description: ${{ variables.product_description }}
     spec_file: ${{ variables.spec_file }}
+    config_ids:
+        - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_ID
+        - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_SECRET
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
+        post_deploy:
+          - template: templates/tests.yml
+            parameters:
+              service_name: ${{ variables.service_name }}
       - environment: internal-dev-sandbox
         make_spec_visible: true
         proxy_path: sandbox

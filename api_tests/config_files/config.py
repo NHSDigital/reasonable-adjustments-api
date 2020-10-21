@@ -11,6 +11,9 @@ TOKEN_URL = f"{BASE_URL}/token"
 APIGEE_API_URL = ENV['apigee']['base_url']
 APIGEE_AUTHENTICATION = ENV['apigee']['api_authentication']
 APIGEE_ENVIRONMENT = "internal-dev"
+APIGEE_USERNAME = ENV['apigee']['username']
+APIGEE_PASSWORD = ENV['apigee']['password']
+APIGEE_ORGANISATION = ENV['apigee']['organisation']
 
 # Reasonable Adjustments
 REASONABLE_ADJUSTMENTS_BASE_URL = ENV['reasonable_adjustments']['base_url']
@@ -39,8 +42,3 @@ ENDPOINTS = {
     'remove_ra_record': REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD
 }
 
-# Flag to indicate if tests are running locally or remotely i.e. in the pipeline
-# Toggles token type set:
-#        True: 'Bearer'
-#        False: 'Basic'
-IS_REMOTE = False

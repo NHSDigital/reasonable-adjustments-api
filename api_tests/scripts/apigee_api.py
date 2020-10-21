@@ -1,7 +1,9 @@
 from api_tests.scripts.generic_request import GenericRequest
-from api_tests.config_files.config import APIGEE_API_URL, APIGEE_AUTHENTICATION, APIGEE_ENVIRONMENT, IS_REMOTE
+from api_tests.config_files.config import APIGEE_API_URL, APIGEE_AUTHENTICATION, APIGEE_ENVIRONMENT, APIGEE_USERNAME, \
+    APIGEE_PASSWORD
 import json
 import uuid
+import base64
 
 
 class ApigeeDebugApi(GenericRequest):
@@ -10,10 +12,14 @@ class ApigeeDebugApi(GenericRequest):
         self.session_name = self._generate_uuid()
         self.proxy = proxy
 
-        # Temporary fix until we create a way to get apigee tokens
-        # https://docs.apigee.com/api-platform/system-administration/using-gettoken
-        scheme = ('Basic', 'Bearer')[IS_REMOTE]
-        self.headers = {'Authorization': f'{scheme} {APIGEE_AUTHENTICATION}'}
+        if APIGEE_USERNAME != '' and APIGEE_PASSWORD != '':
+            token = base64.b64encode(f'{APIGEE_USERNAME}:{APIGEE_PASSWORD}'.encode('ascii'))
+            self.headers = {'Authorization': f'Basic {token.decode("ascii")}'}
+        elif APIGEE_AUTHENTICATION != '':
+            self.headers = {'Authorization': f'Bearer {APIGEE_AUTHENTICATION}'}
+        else:
+            raise Exception("None of apigee authentication methods is provided. If you're running this remotely you \
+                must provide APIGEE_AUTHENTICATION otherwise provide APIGEE_USERNAME and APIGEE_PASSWORD")
 
         self.revision = self._get_latest_revision()
         self.create_debug_session()
@@ -27,7 +33,7 @@ class ApigeeDebugApi(GenericRequest):
         url = f"{APIGEE_API_URL}/apis/{self.proxy}/revisions"
 
         response = self.get(url, headers=self.headers)
-        revisions = response.text.strip('[]').replace("\"", "").strip().split(', ')
+        revisions = response.json()
         return revisions[-1]
 
     def create_debug_session(self):
@@ -35,6 +41,7 @@ class ApigeeDebugApi(GenericRequest):
               f"debugsessions?session={self.session_name}"
 
         response = self.post(url, headers=self.headers)
+
         assert self.check_status_code(response, 201), f"Unable to create apigee debug session {self.session_name}"
 
     def _get_transaction_id(self) -> str:

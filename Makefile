@@ -65,8 +65,10 @@ release: clean publish build-proxy
 	done
 	for env in internal-dev internal-qa; do \
 			cp ecs-proxies-deploy.yml dist/ecs-deploy-$$env.yml; \
-		done
+	done
+
 	cp -r build/. dist
+	cp -r api_tests dist
 	cp -r tests dist
 
 sandbox: update-examples
