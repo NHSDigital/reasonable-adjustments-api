@@ -135,8 +135,7 @@ class TestInvalidRequestSuite:
     #         }
     #     )
 
-    @pytest.mark.consent_errors
-    @pytest.mark.consent
+    @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_consent_invalid_query_params(self):
         assert self.reasonable_adjustments.check_endpoint(

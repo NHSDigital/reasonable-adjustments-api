@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GenerateJWT async="false" continueOnError="false" enabled="true" name="GenerateJWT">
+    <DisplayName>GenerateJWT</DisplayName>
+    <Algorithm>RS256</Algorithm>
+    <PrivateKey>
+        <Value ref="private.jwtKey"/>
+    </PrivateKey>
+    <Subject>https://fhir.nhs.uk/Id/sds-role-profile-id|{request.header.nhsd-session-urid}</Subject>
+    <Issuer>http://api.service.nhs.uk</Issuer>
+    <Audience ref="request.path"/>
+    <AdditionalClaims>
+        <Claim name="reason_for_request" type="string">directcare</Claim>
+        <Claim name="scope" ref="request.querystring"/>
+        <!--
+        <Claim name="requesting_system" type="string">directcare</Claim>
+        <Claim name="requesting_organization" type="string">directcare</Claim>
+        !-->
+        <Claim name="requesting_user" type="string">https://fhir.nhs.uk/Id/sds-role-profile-id|{request.header.nhsd-session-urid}</Claim>
+    </AdditionalClaims>
+    <OutputVariable>jwt</OutputVariable>
+</GenerateJWT>

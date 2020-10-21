@@ -12,6 +12,12 @@
               <Name>AccessEntity.CustomAttributes</Name>
             </Step>
             <Step>
+                <Name>KeyValueMapOperations.GetVariables</Name>
+            </Step>
+            <Step>
+                <Name>GenerateJWT</Name>
+            </Step>
+            <Step>
                 <Name>RaiseFault.Invalid-X-Request-Id</Name>
                 <Condition>request.header.X-Request-ID = null or request.header.X-Request-ID = ""</Condition>
             </Step>
