@@ -1,0 +1,9 @@
+<KeyValueMapOperations mapIdentifier="ra-interactionID" async="false" continueOnError="false" enabled="true" name="KeyValueMapOperations.GetInteractionIDPutList">
+  <DisplayName>GetInteractionID</DisplayName>
+  <Get assignTo="interactionID">
+    <Key>
+      <Parameter ref="request.verb"/>
+      <Parameter>list</Parameter>
+    </Key>
+  </Get>
+</KeyValueMapOperations>

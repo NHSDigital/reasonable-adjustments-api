@@ -1,0 +1,7 @@
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS.AmmendPath">
+    <DisplayName>JS.AmmendPath</DisplayName>
+    <Properties>
+        <Property name="path">proxy.pathsuffix</Property>
+    </Properties>
+    <ResourceURL>jsc://AmmendPath.js</ResourceURL>
+</Javascript>

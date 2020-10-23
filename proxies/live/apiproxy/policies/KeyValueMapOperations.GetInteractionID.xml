@@ -1,0 +1,9 @@
+<KeyValueMapOperations mapIdentifier="ra-interactionID" async="false" continueOnError="false" enabled="true" name="KeyValueMapOperations.GetInteractionID">
+  <DisplayName>GetInteractionID</DisplayName>
+  <Get assignTo="interactionID">
+    <Key>
+      <Parameter ref="request.verb"/>
+      <Parameter ref="trimmedPath"/>
+    </Key>
+  </Get>
+</KeyValueMapOperations>

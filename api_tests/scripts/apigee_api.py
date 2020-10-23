@@ -78,3 +78,20 @@ class ApigeeDebugApi(GenericRequest):
             for item in result['accessList']:
                 if item.get('Get', {}).get('name', '') == name:
                     return item.get('Get', {}).get('value', '')
+
+    def get_apigee_header(self, name: str) -> str:
+        data = self._get_transaction_data()
+        executions = [x.get('results', None) for x in data['point'] if x.get('id', "") == "Execution"]
+        executions = list(filter(lambda x: x != [], executions))
+
+        request_messages = []
+
+        for execution in executions:
+            for item in execution:
+                if item.get('ActionResult', '') == 'RequestMessage':
+                    request_messages.append(item)
+
+        for result in request_messages:  # One being sent as the header
+            for item in result['headers']:
+                if item['name'] == name:
+                    return item['value']

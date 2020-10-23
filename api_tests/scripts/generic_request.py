@@ -142,7 +142,7 @@ class GenericRequest:
             json.loads(response.text)
         except json.JSONDecodeError:
             return False
-        
+
         return True
 
     def error_assertion_has_message_id(self, response) -> bool:
@@ -152,16 +152,16 @@ class GenericRequest:
             return True
         except KeyError:
             return False
-        
+
     def verify_response_content_type(self, response: 'response type', expected_status_code: int) -> bool:
         """Check a given response has returned the expected key value pairs"""
 
         assert self.check_status_code(response, expected_status_code), f"Status code is incorrect, " \
                                                                        f"expected {expected_status_code} " \
                                                                        f"but got {response.status_code}"
-        
+
         assert self.is_valid_json(response), "Response body is not json or valid json"
-            
+
         return True
 
     def verify_response(self, response: 'response type', expected_status_code: int,
@@ -176,16 +176,18 @@ class GenericRequest:
             data = json.loads(response.text)
             # Strip out white spaces
             actual_response = dict(
-                (k.strip().lower() if isinstance(k, str) else k,
-                 v.strip().lower() if isinstance(v, str) else v
+                (k.strip() if isinstance(k, str) else k,
+                 v.strip() if isinstance(v, str) else v
                  ) for k, v in data.items()
             )
-        
+
             if response.status_code >= 400:
-                assert self.error_assertion_has_message_id(actual_response), "Error response missing message_id property" 
+                assert self.error_assertion_has_message_id(actual_response), "Error response missing message_id property"
 
             actual_response.pop('message_id', None)
-          
+            print(actual_response)
+            print(expected_response)
+
             assert actual_response == expected_response, "Actual response is different from the expected response"
         except json.JSONDecodeError:
             # Might be HTML

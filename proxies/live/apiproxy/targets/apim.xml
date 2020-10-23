@@ -40,8 +40,12 @@
                 <Condition>request.verb != "GET" and request.content = ""</Condition>
             </Step>
             <Step>
-              <Name>RaiseFault.InvalidAsidOrOds</Name>
-                <Condition>(verifyapikey.VerifyAPIKey.CustomAttributes.asid is null) or (verifyapikey.VerifyAPIKey.CustomAttributes.ods is null)</Condition>
+              <Name>RaiseFault.MissingASID</Name>
+                <Condition>verifyapikey.VerifyAPIKey.CustomAttributes.asid is null</Condition>
+            </Step>
+            <Step>
+              <Name>RaiseFault.MissingODS</Name>
+              <Condition>verifyapikey.VerifyAPIKey.CustomAttributes.ods is null</Condition>
             </Step>
         </Request>
         <Response>

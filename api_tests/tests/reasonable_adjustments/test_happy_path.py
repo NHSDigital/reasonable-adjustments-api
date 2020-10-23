@@ -7,8 +7,7 @@ class TestHappyPathSuite:
     """ A test suite to verify all the happy path oauth endpoints """
 
     @pytest.mark.happy_path
-    @pytest.mark.usefixtures('get_token')
-    def test_consent_get(self):
+    def test_consent_get(self, use_internal_testing_internal_dev_app, get_token):
         # Test consent endpoint returns a 200 and returns a json response
         assert self.reasonable_adjustments.check_endpoint(
             verb='GET',
@@ -157,8 +156,8 @@ class TestHappyPathSuite:
                 'content-type': 'application/fhir+json'
             },
             data=json.dumps({'message': 'test'})
-        )    
-    
+        )
+
     @pytest.mark.happy_path
     @pytest.mark.usefixtures('get_token')
     def test_list_put(self):
