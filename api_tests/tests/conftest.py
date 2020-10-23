@@ -1,7 +1,7 @@
 import pytest
 
 from api_tests.config_files import config
-from api_tests.config_files.environments import ENV
+from api_tests.environments import ENV
 from api_tests.steps.check_oauth import CheckOauth
 from api_tests.steps.check_reasonable_adjustments import CheckReasonableAdjustments
 
