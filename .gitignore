@@ -34,4 +34,6 @@ sandbox.postman_environment.json
 
 docker/*/node_modules
 .pytest_cache/
-docker.env
+*.env
+report.xml
+
