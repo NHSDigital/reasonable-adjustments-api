@@ -2,5 +2,5 @@ requests
 pytest
 pytest-xdist
 pytest-sugar
-python-jwt
+pyjwt
 python-dotenv
