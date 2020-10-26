@@ -1,5 +1,4 @@
-from api_tests.environments import ENV
-#from api_tests.config_files.environments import ENV
+from api_tests.config_files.environments import ENV
 
 # Api details
 APIGEE_CLIENT_ID = ENV['oauth']['apigee_client_id']
