@@ -3,15 +3,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Configure Test Environment
-# def get_env(variable_name: str, default: str = "") -> str:
-#     """Returns a environment variable"""
-#     try:
-#         return os.environ[variable_name]
-#     except KeyError:
-#         return default
-
 ENV = {
+    'apps': {
+        'internal_testing_internal_dev': {
+            'client_id': os.getenv('CLIENT_ID'),
+            'client_secret': os.getenv('CLIENT_SECRET'),
+            'redirect_url': os.getenv('REDIRECT_URI')
+        },
+        'missing_asid': {
+            'client_id': os.getenv('MISSING_ASID_CLIENT_ID'),
+            'client_secret': os.getenv('MISSING_ASID_CLIENT_SECRET'),
+            'redirect_url': 'https://example.com/callback'
+        },
+        'missing_ods': {
+            'client_id': os.getenv('MISSING_ODS_CLIENT_ID'),
+            'client_secret': os.getenv('MISSING_ODS_CLIENT_SECRET'),
+            'redirect_url': 'https://example.com/callback'
+        }
+    },
     'oauth': {
         'apigee_client_id': os.getenv('APIGEE_CLIENT_ID'),
         'base_url': os.getenv('BASE_URL'),
