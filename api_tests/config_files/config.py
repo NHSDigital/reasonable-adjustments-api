@@ -40,9 +40,3 @@ ENDPOINTS = {
     'list': REASONABLE_ADJUSTMENTS_LIST,
     'remove_ra_record': REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD
 }
-
-# Flag to indicate if tests are running locally or remotely i.e. in the pipeline
-# Toggles token type set:
-#        True: 'Bearer'
-#        False: 'Basic'
-IS_REMOTE = True
