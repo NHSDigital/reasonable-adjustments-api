@@ -36,6 +36,8 @@ extends:
     product_display_name: ${{ variables.product_display_name }}
     product_description: ${{ variables.product_description }}
     spec_file: ${{ variables.spec_file }}
+    secret_file_ids:
+      - ptl/temp/apm-1509
     secret_ids:
       - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_KEY
       - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_SECRET
