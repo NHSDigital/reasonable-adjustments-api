@@ -39,7 +39,7 @@ class TestJwtSuite:
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
-                'x-request-id': 'test'
+                'x-request-id': 'test',
             }
         )
 
