@@ -22,7 +22,7 @@ class TestJwtSuite:
             'requesting_user': 'https://fhir.nhs.uk/Id/sds-role-profile-id|test',
             'sub': 'https://fhir.nhs.uk/Id/sds-role-profile-id|test',
             'iss': 'http://api.service.nhs.uk',
-            'aud': '/reasonable-adjustments-pr-38/consent'
+            'aud': f'/{REASONABLE_ADJUSTMENTS_PROXY}/consent'
         }
         
         # When
@@ -44,7 +44,7 @@ class TestJwtSuite:
         )
 
         # Then
-        actual_jwt = debug_session.get_apigee_variable('jwt')
+        actual_jwt = debug_session.get_apigee_header('jwt')
         actual_jwt_claims = jwt.decode(actual_jwt, verify=False)
 
         assert expected_jwt_claims['reason_for_request'] == actual_jwt_claims['reason_for_request'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['reason_for_request'], actual_jwt_claims['reason_for_request'])
