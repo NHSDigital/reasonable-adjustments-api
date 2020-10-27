@@ -8,6 +8,7 @@ resources:
     - repository: common
       type: github
       name: NHSDigital/api-management-utils
+      ref: refs/heads/APM-1509-multiline-secret
       endpoint: NHSDigital
 
   pipelines:
@@ -38,6 +39,8 @@ extends:
     secret_ids:
       - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_KEY
       - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_SECRET
+      - ptl/temp/apm-1509
+      - ptl/temp/apm-1509-one-line
     config_ids:
       - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_ID
       - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_SECRET
