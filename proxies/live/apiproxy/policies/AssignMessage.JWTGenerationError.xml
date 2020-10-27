@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.JWTGenerationError">
+    <DisplayName>AssignMessage.JWTGenerationError</DisplayName>
+    <Set>
+        <Payload contentType="application/json">
+            {
+                "error": "unexpected server error",
+                "error_description": "jwt generation failure",
+                "message_id": "{messageid}"
+            }    
+            </Payload>
+        <StatusCode>500</StatusCode>
+        <ReasonPhrase>Internal Server Error</ReasonPhrase>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>
