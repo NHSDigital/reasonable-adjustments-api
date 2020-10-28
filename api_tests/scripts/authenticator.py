@@ -1,4 +1,5 @@
 from api_tests.config_files import config
+from urllib import parse
 
 
 class Authenticator:
@@ -25,7 +26,7 @@ class Authenticator:
         assert success_response.status_code == 302, f"Getting an error: {success_response.text}"
 
         call_back_url = success_response.headers.get('Location')
-        state = self.session.get_param_from_url(call_back_url, 'state')
+        state = self.get_param_from_url(call_back_url, 'state')
         return call_back_url, state
 
     def _get_request_data(self) -> dict:
@@ -64,4 +65,14 @@ class Authenticator:
         assert callback_response.status_code == 302, f"Callback request failed with {callback_response.status_code}"
 
         # Return code param from location header
-        return self.session.get_param_from_url(callback_response.headers.get('Location'), 'code')
+        return self.get_param_from_url(callback_response.headers.get('Location'), 'code')
+
+    @staticmethod
+    def get_params_from_url(url: str) -> dict:
+        """Returns all the params and param values from a given url as a dictionary"""
+        return dict(parse.parse_qsl(parse.urlsplit(url).query))
+
+    def get_param_from_url(self, url: str, param: str) -> str:
+        """Returns a single param and its value as a dictionary"""
+        params = self.get_params_from_url(url)
+        return params[param]
