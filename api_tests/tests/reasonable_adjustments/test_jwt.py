@@ -1,7 +1,8 @@
 import pytest
 import jwt
+import requests
 
-from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY
+from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY, REASONABLE_ADJUSTMENTS_CONSENT
 from api_tests.scripts.apigee_api import ApigeeDebugApi
 
 @pytest.mark.usefixtures("setup")
@@ -26,16 +27,9 @@ class TestJwtSuite:
         }
         
         # When
-        self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=200,
-            expected_response=None,
-            params={
-                'patient':  'test',
-                'category': 'test',
-                'status':   'test',
-            },
+        requests.get(
+            url=REASONABLE_ADJUSTMENTS_CONSENT, 
+            params={'patient': 'test', 'category': 'test', 'status': 'test'},
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
