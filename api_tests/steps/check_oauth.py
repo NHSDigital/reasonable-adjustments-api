@@ -1,15 +1,18 @@
-from api_tests.scripts.generic_request import GenericRequest
 from api_tests.config_files import config
 from api_tests.scripts.authenticator import Authenticator
+import requests
+import json
 
 
-class CheckOauth(GenericRequest):
+class CheckOauth:
     def __init__(self):
         super(CheckOauth, self).__init__()
+        self.session = requests.Session()
+        self.endpoints = config.ENDPOINTS
 
     def get_authenticated(self) -> str:
         """Get the code parameter value required to post to the oauth /token endpoint"""
-        authenticator = Authenticator(self)
+        authenticator = Authenticator(self.session)
         response = authenticator.authenticate()
         code = authenticator.get_code_from_provider(response)
         return code
@@ -30,3 +33,21 @@ class CheckOauth(GenericRequest):
 
         response = self.post(self.endpoints['token'], data=data)
         return self.get_all_values_from_json_response(response)
+
+    def post(self, url: str, **kwargs) -> 'response type':
+        """Sends a post request and returns the response"""
+        try:
+            return self.session.post(url, **kwargs)
+        except requests.ConnectionError:
+            raise Exception(f"the url: {url} does not exist or is invalid")
+
+    def get_all_values_from_json_response(self, response: 'response type') -> dict:
+        """Convert json response string into a python dictionary"""
+        self._validate_response(response)
+        return json.loads(response.text)
+
+    @staticmethod
+    def _validate_response(response: 'response type') -> None:
+        """Verifies the response provided is of a valid response type"""
+        if not type(response) == requests.models.Response:
+            raise TypeError("Expected response type object for response argument")
