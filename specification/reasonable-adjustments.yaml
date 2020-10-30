@@ -8,71 +8,61 @@
 
 # Find the full OpenAPI reference at:
 # https://github.com/OAI/OpenAPI-Specification
-openapi: "3.0.0"
-
+openapi: 3.0.0
 info:
-  version: "0.3.4-beta"
+  version: 0.3.4-beta
   title: Reasonable Adjustments API
   description: |
     ## Overview
-    Use this API to access and update [Reasonable Adjustments (RA)](https://digital.nhs.uk/services/reasonable-adjustment-flag) - a new service which has been created to provide the means to access and update [Spine](https://digital.nhs.uk/services/spine) data relating to adjustments and impairments for patients with a learning disability or autism.  This API is a key enabler to NHS Digital’s requirement to adhere to one of the 9 digital milestones within the [NHS Long Term Plan](https://www.longtermplan.nhs.uk/online-version/chapter-3-further-progress-on-care-quality-and-outcomes/a-strong-start-in-life-for-children-and-young-people/learning-disability-and-autism/), which states: 
+    Use this API to access and update the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag#top) on the [NHS Spine](https://digital.nhs.uk/services/spine). 
 
-      **"By 2023/24, a ‘digital flag’ in the patient record will ensure staff know a patient has a learning disability or autism”.** 
-  
-      You can:
-      - create a consent
-      - create a flag
-      - create a list
-  
-  
-      - read a consent
-      - read a flag
-      - read a list
-  
-  
-      - update a consent
-      - update a flag
-      - update a list
-  
-      - remove a RA record
-  
-      Currently, this API can only be accessed by healthcare professionals, authenticated with an NHS smartcard or equivalent.
+    The flag indicates the need for services to be adjusted to meet the needs of patients with learning, physical or sensory disabilities, autism or other significant impairments such as dementia – as defined in the [Equality Act (2010)](https://www.legislation.gov.uk/ukpga/2010/15/contents). A reasonable adjustment can mean alterations to buildings, such as providing lifts, wide doors, ramps and tactile signage. It may also mean changes to policies, procedures and staff training to ensure that services work equally well for people with physical or sensory disabilities, learning disabilities or long-term conditions such as dementia.
+
+    Other adjustments include longer appointments, providing easy read materials or communications via a carer. This legal duty is anticipatory, which means a service should know about a person’s need for adjustments when they are referred or present for care.
+
+    This API is a key enabler to NHS Digital’s requirement to adhere to one of the 9 digital milestones within the [NHS Long Term Plan](https://www.longtermplan.nhs.uk/online-version/chapter-3-further-progress-on-care-quality-and-outcomes/a-strong-start-in-life-for-children-and-young-people/learning-disability-and-autism/), which states:
+
+    ** "By 2023/24, a ‘digital flag’ in the patient record will ensure staff know a patient has a learning disability or autism”. **
+
+    Using this API, you can:
+    - create, read, update amd remove the **Reasonable Adjustment Flag**, which stores the relevant details for the patient 
+    - create, read, update and remove **impairments**, which enable clinicians to understand the range of adjustments the patient may require. **Note** the patient may decline to say what their impairments are
+    - create, read, update and remove **adjustments** which are needed by the patient when providing their care
+    - capture, view or update details of **consent** to record [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag#top) information and and how this was obtained. Consent may have been given by the patient or via a 'best interest decision' under the [Mental Capacity Act](https://www.nhs.uk/conditions/social-care-and-support-guide/making-decisions-for-someone-else/mental-capacity-act/). In some cases consent can also be obtained from a lasting power of attorney for health and welfare or a court appoointed deputy. 
+
+    The presence of a flag is intended to be visible to all staff who have access to the patient record.  The contents of the flag may only be visible to clinical staff - as determined by Role Based Access Controls.
+
+    To find out more about how the flag works, categories and types of adjustments and the recording of impairments see [How the Reasonable Adjustment Flag works](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+
+    To watch a video of a Reasonable Adjustment Flag being created in [SCRa](https://digital.nhs.uk/services/summary-care-record-application) see [Creating a Reasonable Adjustment Flag on the NHS Spine](https://www.youtube.com/watch?v=dX-IwYXXEwE). 
+
+    This API can only be accessed by relevant health and care staff providing direct care, authenticated with an NHS smartcard or equivalent.
+
     ## Legal Use
-    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. 
+    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
 
-    You must do this before you can go live (see ‘Onboarding’ below).
-    
     ## Related APIs
-    To use this API, you must also use one of the following APIs to retrieve a patient's demographic details before you can access their RA record:
+    To use this API, you will need the patient's NHS number, which can be retrieved by using the following API:
 
-      - [Personal Demographics Service (FHIR) API](https://portal.developer.nhs.uk/docs/personal-demographics-int/1/overview) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
-      
-     - [Personal Demographics Service (HL7 V3) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-hl7-v3) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. Once our roadmap is complete, this API will become redundant, however you can continue to use this API as part of your RA development if you have an existing integration.
- 
+      - [Personal Demographics Service (FHIR) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
+
      When using this API, we also recommend that you consider using these related APIs:
- 
-      - [Female Genital Mutilation Information Sharing System (FGM-IS)](https://developer.nhs.uk/apis/fgm-v2.1/) - use this API to store and share FGM information of children under 18 with relevant NHS healthcare professionals across departments, organisations and geographical boundaries within England.
- 
-      - [Child Protection Information Sharing (CP-IS) - HL7 V3 API](https://digital.nhs.uk/services/child-protection-information-sharing-project/cp-is-domain-message-specification) - use this messaging and interactions guide to provide access to CP-IS, a sharing system which provides healthcare workers with access to recent unscheduled care attendance information for children under a local authority social care plan. 
- 
-      - [National Record Locator (NRL) (FHIR) API](https://developer.nhs.uk/apis/nrl/) - use this API to locate and share patient records held within local health and social care systems.
- 
-    ## API Status and Roadmap
-    This API is in [beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status), meaning:
 
-      - we might make breaking changes, but only if we can't avoid it, and we'll give advance notice
-      - we can't guarantee availability or performance
-  
-    The following items are on our roadmap:
-      - basic analytics
-      - implement status endpoints
-      - implement proxy
-      - implement rate limiting
-        
-      To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/107521/reasonable-adjustments-ra-fhir-api).
-  
-      If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
-  
+      - [Female Genital Mutilation Information Sharing System (FGM-IS)](https://developer.nhs.uk/apis/fgm-v2.1/) - use this API to store and share FGM information of children under 18 with relevant NHS healthcare professionals across departments, organisations and geographical boundaries within England.
+
+      - [Child Protection Information Sharing (CP-IS) - HL7 V3 API](https://digital.nhs.uk/services/child-protection-information-sharing-project/cp-is-domain-message-specification) - use this messaging and interactions guide to provide access to CP-IS, a sharing system which provides healthcare workers with access to recent unscheduled care attendance information for children under a local authority social care plan. 
+
+      - [National Record Locator (NRL) (FHIR) API](https://developer.nhs.uk/apis/nrl/) - use this API to locate and share patient records held within local health and social care systems.
+
+    ## API Status and Roadmap
+     This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status) - expect further breaking changes.
+     
+     The API is currently available for sandbox testing, but not integration testing or for production use.
+         
+    To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=all&tag=reasonable-adjustment-flag#controls).
+
+    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
+
     ## Technology
     This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#basic-rest-apis). 
 
@@ -82,36 +72,36 @@ info:
     - array names are singular, for example `line` not `lines` for address lines
     - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
+    ### Resources
+    For information on the resources used within the Reasonable Adjustment Flag see [Reasonable Adjustment Flag FHIR specification](https://dev-reasonable-adjust-beta.netlify.app/explore.html).
+
 
     ## Network Access
-    This API is available on the Internet, but can be accessed with NHS smartcards through the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network) if necessary.  If you have a use case which requires access via HSCN please [contact us](https://digital.nhs.uk/developer/help-and-support).
+    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with NHS smartcards (see below) you do need an HSCN connection, although internet-facing alternatives are available.
 
     For more details see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
-    ## Security and authorisation
-
-    ### Authentication
+    ## Authorisation
     This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
     - a healthcare professional
-    - strongly authenticated, using either an NHS smartcard or a modern alternative
+    - strongly authenticated, using either an NHS smartcard or a modern alternative available via [NHS Identity](https://digital.nhs.uk/services/nhs-identity)
 
-    ### Authorisation
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
 
-      - user-restricted RESTful API - using NHS Identity - combined authentication and authorisation
-      - user-restricted RESTful API - using NHS Identity - separate authentication and authorisation
- 
-     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
- 
+    - [user-restricted RESTful API - using NHS Identity - combined authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-combined-authentication-and-authorisation)
+    - [user-restricted RESTful API - using NHS Identity - separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-separate-authentication-and-authorisation)
+
+    For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
+
 
     ## Environments and testing
-    | Purpose           | URL                                                            |
-    | -------------     | -----------------------------------------                      |
-    | Sandbox           | `https://sandbox.service.nhs.uk/reasonable-adjustments`       |
-    | Integration test (Available Nov 2020)  | `https://int.service.nhs.uk/reasonable-adjustments`           |
-    | Production (Available Dec 2020/Jan 2021)         | `https://api.service.nhs.uk/reasonable-adjustments`  |
+    | Purpose                                | Base URL                                 |
+    | ---------------------------------------|------------------------------------------|
+    | Sandbox                                | `https://sandbox.service.nhs.uk/reasonable-adjustment-flag`    |
+    | Integration test **(available Nov 2020)**  | `https://int.service.nhs.uk/reasonable-adjustment-flag`        |
+    | Production **(available Dec 2020/Jan 2021)** | `https://api.service.nhs.uk/reasonable-adjustment-flag`      |
 
 
     ### Sandbox testing
@@ -120,186 +110,162 @@ info:
       - only covers a limited set of scenarios
       - is stateless, so it does not actually persist any updates
       - is open access, so does not allow you to test authorisation
-  
-      For more details on sandbox testing, or to try out the sandbox using our \"Try this API\" feature, see the documentation for each endpoint.
-  
-    ### Integration testing
-    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
-      - is for formal integration testing
-      - is stateful, so persists updates
-      - includes authorisation with either a username/password or smartcard/PIN
-  
-      For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
-  
-    ## Resources
-    For information on the resources used within the FHIR® Reasonable Adjustments API go to:
 
-      [https://dev-reasonable-adjust-beta.netlify.app/explore.html](https://dev-reasonable-adjust-beta.netlify.app/explore.html)
-  
+      For more details on sandbox testing, or to try out the sandbox using our \"Try this API\" feature, see the documentation for each endpoint.
+
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
 
-    To onboard for this API, follow the [Supplier Conformance Assessment List (SCAL) process.](https://digital.nhs.uk/developer/guides-and-documentation/onboarding-process#onboard-using-the-supplier-conformance-assessment-list-scal-process)
+    We will provide further details about how to onboard onto the API in December 2020.
+
   
   contact:
     name: API Management Support
     email: api.management@nhs.net
-
+  
 servers:
   - url: 'https://sandbox.api.service.nhs.uk/reasonable-adjustments'
     description: Sandbox environment.
-
-paths:
-  /consent:
-    post:
-      summary: Create Consent
-      description: Use this endpoint to create a consent, profiled as [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1), for a patient to record Reasonable Adjustment [Impairment](https://www.gov.uk/definition-of-disability-under-equality-act-2010) and [Adjustment](https://www.gov.uk/government/publications/reasonable-adjustments-a-legal-duty/reasonable-adjustments-a-legal-duty) information.
-      operationId: postConsent
-      parameters:
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
-      requestBody:
-        description: Create consent
-        required: true
-        content:
-          application/fhir+json:
-            schema:
-              $ref: components/schemas/createConsent.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/createConsent.json           
-      responses:
-        '201':                                                      
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  Date:
-                    type: string
-                    format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
-                  Last-Modified:
-                    type: string
-                    format: date-time
-                    example: 2018-07-23T11:00:00+00:00
-                  Location:
-                    type: string
-                    example: 
-                  ETag:
-                    type: string
-                    example: resourceVID
-                  Content-Type:
-                    type: string
-                    example: application/fhir+json
-      tags:
-        - Endpoints              
-                    
-    get:
-      summary: Read Consent
-      description: Use this endpoint to read a consent, profiled as [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1), contained in a patient resource.
-      operationId: readConsent
-      parameters: 
-      - $ref: '#/components/parameters/patient'
-      - $ref: '#/components/parameters/status'
-      - $ref: '#/components/parameters/category'
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
-      responses:
-        '200':                                                      
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  Date:
-                    type: string
-                    format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
-                  Content-Type:
-                    type: string
-                    example: application/fhir+json                
-      tags:
-        - Endpoints
   
-  /consent/{consentID}:    
-    put:
-      summary: Update Consent
-      description: Use this endpoint to update a consent, profiled as [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1), of a patient to update Reasonable Adjustment [Impairment](https://www.gov.uk/definition-of-disability-under-equality-act-2010) and [Adjustment](https://www.gov.uk/government/publications/reasonable-adjustments-a-legal-duty/reasonable-adjustments-a-legal-duty) information.
-      operationId: updateConsent
-      parameters:
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
-      - $ref: '#/components/parameters/consentID' 
-      requestBody:
-        description: Update record
-        required: true
-        content:
-          application/fhir+json:
-            schema:
-              $ref: components/schemas/updateFlag.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/updateFlag.json     
-      responses:
-        '200':                                                      
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  Date:
-                    type: string
-                    format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
-                  Last-Modified:
-                    type: string
-                    format: date-time
-                    example: 2018-07-23T11:00:00+00:00
-                  ETag:
-                    type: string
-                    example: resourceVID
-                  Content-Type:
-                    type: string
-                    example: application/fhir+json                
-      tags:
-        - Endpoints    
-        
+paths:
   /flag:
     post:
-      summary: Create Flag
-      description: Use this endpoint to create a flag, profiled as [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5), for a patient.  This can then be used to record specific [Adjustments - as defined under the Equality Act (2010)](https://www.gov.uk/government/publications/reasonable-adjustments-a-legal-duty/reasonable-adjustments-a-legal-duty), which have been identified by the patient or supporting healthcare professional.
+      summary: Create a Flag resource
+      description: |-
+        ## Overview
+        Use this endpoint to create a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine). This will describe the adjustment that the patient needs and will either be a coded national adjustment as defined by [SNOMED CT](https://digital.nhs.uk/services/terminology-and-classifications/snomed-ct), or an adjustment which has been manually keyed by a clinician. To find out more about the different types of adjustments see [How the Reasonable Adjustment Flag work](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+
+
+        For full details of this API resource see [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5).
       operationId: postFlag
       parameters:
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
       requestBody:
         description: Create flag
         required: true
         content:
           application/fhir+json:
             schema:
-              $ref: components/schemas/createFlag.yaml
+              type: object
+              properties:
+                resourceType:
+                  type: string
+                  example: Flag
+                fhir_comments:
+                  type: array
+                  items:
+                    type: string
+                    example: ' xml example fileAddExample-CreateFlagRequest.xml '
+                meta:
+                  type: object
+                  properties:
+                    profile:
+                      type: array
+                      items:
+                        type: string
+                        example: 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1'
+                extension:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        example: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-AdjustmentCategory-1'
+                      valueCodeableConcept:
+                        type: object
+                        properties:
+                          coding:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                system:
+                                  type: string
+                                  example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1'
+                                code:
+                                  type: string
+                                  example: comms
+                                display:
+                                  type: string
+                                  example: Communication
+                status:
+                  type: string
+                  example: active
+                category:
+                  type: object
+                  properties:
+                    coding:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                            example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1'
+                          code:
+                            type: string
+                            example: reasonable adjustments flag
+                          display:
+                            type: string
+                            example: Reasonable Adjustments Flag
+                code:
+                  type: object
+                  properties:
+                    coding:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                            example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1'
+                          code:
+                            type: string
+                            example: requiresinformationineasyread
+                          display:
+                            type: string
+                            example: Requires information in Easyread
+                subject:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                      example: demographics.spineservices.nhs.uk/STU3/Patient/999999998
             examples:
               success:
                 value:
-                  $ref: components/examples/createFlag.json 
-              
+                  resourceType: Flag
+                  fhir_comments:
+                    - ' xml example fileAddExample-CreateFlagRequest.xml '
+                  meta:
+                    profile:
+                      - 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1'
+                  extension:
+                    - url: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-AdjustmentCategory-1'
+                      valueCodeableConcept:
+                        coding:
+                          - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1'
+                            code: comms
+                            display: Communication
+                  status: active
+                  category:
+                    coding:
+                      - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1'
+                        code: reasonable adjustments flag
+                        display: Reasonable Adjustments Flag
+                  code:
+                    coding:
+                      - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1'
+                        code: requiresinformationineasyread
+                        display: Requires information in Easyread
+                  subject:
+                    reference: demographics.spineservices.nhs.uk/STU3/Patient/999999998
       responses:
-        '201':                                                      
+        '201':
           description: Successful response.
           content:
             application/json:
@@ -309,14 +275,14 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Last-Modified:
                     type: string
                     format: date-time
-                    example: 2018-07-23T11:00:00+00:00
+                    example: '2018-07-23T11:00:00+00:00'
                   Location:
                     type: string
-                    example: 
+                    example: null
                   ETag:
                     type: string
                     example: resourceVID
@@ -324,22 +290,26 @@ paths:
                     type: string
                     example: application/fhir+json
       tags:
-        - Endpoints              
-                    
+        - Endpoints
     get:
-      summary: Read Flag
-      description: Use this endpoint to read a flag, profiled as [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5), contained in a patient resource.
+      summary: Read a Flag resource
+      description: |-
+        ## Overview
+        Use this endpoint to view a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine). This will describe the adjustment that the patient needs and will either be a coded national adjustment as defined by [SNOMED CT](https://digital.nhs.uk/services/terminology-and-classifications/snomed-ct), or an adjustment which has been manually keyed by a clinician. To find out more about the different types of adjustments see [How the Reasonable Adjustment Flag works](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+
+
+        For full details of this API resource see [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5).
       operationId: readFlag
-      parameters: 
-      - $ref: '#/components/parameters/patient'
-      - $ref: '#/components/parameters/status'
-      - $ref: '#/components/parameters/category'
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
+      parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
       responses:
-        '200':                                                      
+        '200':
           description: Successful response.
           content:
             application/json:
@@ -349,38 +319,331 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Content-Type:
                     type: string
-                    example: application/fhir+json                
+                    example: application/fhir+json
       tags:
         - Endpoints
-  
-  /flag/{flagID}:    
+  '/flag/{flagID}':
     put:
-      summary: Update Flag
-      description: Use this endpoint to update a flag, profiled as [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5), for a patient to update specific [Adjustments - as defined under the Equality Act (2010)](https://www.gov.uk/government/publications/reasonable-adjustments-a-legal-duty/reasonable-adjustments-a-legal-duty), which have been identified by the patient or supporting healthcare professional.
+      summary: Update a Flag resource
+      description: |-
+        ## Overview
+        Use this endpoint to update a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine). This will describe the adjustment that the patient needs and will either be a coded national adjustment as defined by [SNOMED CT](https://digital.nhs.uk/services/terminology-and-classifications/snomed-ct), or an adjustment which has been manually keyed by a clinician. You can also use this endpoint to delete an existing adjustment. To find out more about the different types of adjustments see [How the Reasonable Adjustment Flag work](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+
+
+        For full details of this API resource see [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5).
       operationId: updateFlag
       parameters:
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
-      - $ref: '#/components/parameters/If-Match'
-      - $ref: '#/components/parameters/flagID'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/If-Match'
+        - $ref: '#/components/parameters/flagID'
       requestBody:
         description: Update flag
         required: true
         content:
           application/fhir+json:
             schema:
-              $ref: components/schemas/updateFlag.yaml
+              type: object
+              properties:
+                resourceType:
+                  type: string
+                  example: Flag
+                id:
+                  type: string
+                  example: 2acb0536-0a8f-48c9-8a2f-6ee82860f186
+                fhir_comments:
+                  type: array
+                  items:
+                    type: string
+                    example: ' xml example fileUpdateExample-UpdateFlagRequest.xml '
+                meta:
+                  type: object
+                  properties:
+                    versionId:
+                      type: string
+                      example: aa755bd6-2be9-4971-972a-6724879c5cb1
+                    lastUpdated:
+                      type: string
+                      example: '2018-07-24T10:01:00+00:00'
+                    profile:
+                      type: array
+                      items:
+                        type: string
+                        example: 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1'
+                contained:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      resourceType:
+                        type: string
+                        example: Provenance
+                      id:
+                        type: string
+                        example: 43124f67-b09d-453d-b889-a5e2e8780b9e
+                      meta:
+                        type: object
+                        properties:
+                          profile:
+                            type: array
+                            items:
+                              type: string
+                              example: 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1'
+                      target:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reference:
+                              type: string
+                              example: Flag/2acb0536-0a8f-48c9-8a2f-6ee82860f186
+                      recorded:
+                        type: string
+                        example: '2018-07-24T10:05:33+00:00'
+                      agent:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            role:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  coding:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        system:
+                                          type: string
+                                          example: 'https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1'
+                                        code:
+                                          type: string
+                                          example: R1974
+                                        display:
+                                          type: string
+                                          example: Community Learning Disabilities Nurse
+                            whoReference:
+                              type: object
+                              properties:
+                                reference:
+                                  type: string
+                                  example: 'https://sds.spineservices.nhs.uk/STU3/Practitioner/4tr6ee6a9'
+                                display:
+                                  type: string
+                                  example: Nurse N
+                            onBehalfOfResource:
+                              type: object
+                              properties:
+                                reference:
+                                  type: string
+                                  example: 'https://directory.spineservices.nhs.uk/STU3/Organization/a3e5i7'
+                                display:
+                                  type: string
+                                  example: Some Hospital Learning Disability Support Department
+                extension:
+                  type: array
+                  items:
+                    anyOf:
+                      - type: object
+                        properties:
+                          url:
+                            type: string
+                            example: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-Provenance-1'
+                          extension:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  example: created
+                                valueReference:
+                                  type: object
+                                  properties:
+                                    reference:
+                                      type: string
+                                      example: '#43124f67-b09d-453d-b889-a5e2e8780b9e'
+                      - type: object
+                        properties:
+                          url:
+                            type: string
+                            example: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-RemovalReason-1'
+                          extension:
+                            type: array
+                            items:
+                              anyOf:
+                                - type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                      example: removalReason
+                                    valueCodeableConcept:
+                                      type: object
+                                      properties:
+                                        coding:
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              system:
+                                                type: string
+                                                example: 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1'
+                                              code:
+                                                type: string
+                                                example: Error
+                                              display:
+                                                type: string
+                                                example: The Reasonable Adjustment Flag was created in error
+                                - type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                      example: supportingComment
+                                    valueString:
+                                      type: string
+                                      example: Requires Large Print rather than Easy Read
+                      - type: object
+                        properties:
+                          url:
+                            type: string
+                            example: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-AdjustmentCategory-1'
+                          valueCodeableConcept:
+                            type: object
+                            properties:
+                              coding:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    system:
+                                      type: string
+                                      example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1'
+                                    code:
+                                      type: string
+                                      example: comms
+                                    display:
+                                      type: string
+                                      example: Communication
+                status:
+                  type: string
+                  example: inactive
+                category:
+                  type: object
+                  properties:
+                    coding:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                            example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1'
+                          code:
+                            type: string
+                            example: reasonable adjustments flag
+                          display:
+                            type: string
+                            example: Reasonable Adjustments Flag
+                code:
+                  type: object
+                  properties:
+                    coding:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                            example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1'
+                          code:
+                            type: string
+                            example: requiresinformationineasyread
+                          display:
+                            type: string
+                            example: Requires information in Easyread
+                subject:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                      example: demographics.spineservices.nhs.uk/STU3/Patient/999999998
             examples:
               success:
                 value:
-                  $ref: components/examples/updateFlag.json        
+                  resourceType: Flag
+                  id: 2acb0536-0a8f-48c9-8a2f-6ee82860f186
+                  fhir_comments:
+                    - ' xml example fileUpdateExample-UpdateFlagRequest.xml '
+                  meta:
+                    versionId: aa755bd6-2be9-4971-972a-6724879c5cb1
+                    lastUpdated: '2018-07-24T10:01:00+00:00'
+                    profile:
+                      - 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1'
+                  contained:
+                    - resourceType: Provenance
+                      id: 43124f67-b09d-453d-b889-a5e2e8780b9e
+                      meta:
+                        profile:
+                          - 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1'
+                      target:
+                        - reference: Flag/2acb0536-0a8f-48c9-8a2f-6ee82860f186
+                      recorded: '2018-07-24T10:05:33+00:00'
+                      agent:
+                        - role:
+                            - coding:
+                                - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1'
+                                  code: R1974
+                                  display: Community Learning Disabilities Nurse
+                          whoReference:
+                            reference: 'https://sds.spineservices.nhs.uk/STU3/Practitioner/4tr6ee6a9'
+                            display: Nurse N
+                          onBehalfOfReference:
+                            reference: 'https://directory.spineservices.nhs.uk/STU3/Organization/a3e5i7'
+                            display: Some Hospital Learning Disability Support Department
+                  extension:
+                    - url: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-Provenance-1'
+                      extension:
+                        - url: created
+                          valueReference:
+                            reference: '#43124f67-b09d-453d-b889-a5e2e8780b9e'
+                    - url: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-RemovalReason-1'
+                      extension:
+                        - url: removalReason
+                          valueCodeableConcept:
+                            coding:
+                              - system: 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1'
+                                code: Error
+                                display: The Reasonable Adjustment Flag was created in error
+                        - url: supportingComment
+                          valueString: Requires Large Print rather than Easy Read
+                    - url: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-AdjustmentCategory-1'
+                      valueCodeableConcept:
+                        coding:
+                          - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1'
+                            code: comms
+                            display: Communication
+                  status: inactive
+                  category:
+                    coding:
+                      - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1'
+                        code: reasonable adjustments flag
+                        display: Reasonable Adjustments Flag
+                  code:
+                    coding:
+                      - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1'
+                        code: requiresinformationineasyread
+                        display: Requires information in Easyread
+                  subject:
+                    reference: demographics.spineservices.nhs.uk/STU3/Patient/999999998
       responses:
-        '200':                                                      
+        '200':
           description: Successful response.
           content:
             application/json:
@@ -390,11 +653,11 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Last-Modified:
                     type: string
                     format: date-time
-                    example: 2018-07-23T11:00:00+00:00
+                    example: '2018-07-23T11:00:00+00:00'
                   ETag:
                     type: string
                     example: resourceVID
@@ -411,37 +674,50 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Content-Type:
                     type: string
-                    example: application/fhir+json           
+                    example: application/fhir+json
       tags:
-        - Endpoints 
-  
+        - Endpoints
   /list:
     post:
-      summary: Create List
-      description: Use this endpoint to create a list, profiled as [CareConnect-RARecord-List-1](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1), for storing a new Impairment resource.
+      summary: Create a List resource
+      description: |-
+        ## Overview
+        Use this endpoint to create a list of impairments held within the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) stored on the [NHS Spine](https://digital.nhs.uk/services/spine). These impairments will likely have been captured during the discussion between the clinician and the patient or their carer. Patients may however decline to provide details of their impairments if they do not want to share them. To capture an impairment the member of staff selects an impairment type and then provides additional information using a free text field. For more details regards impairments see [How the Reasonable Adjustment Flag work](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+
+        For full details of this API resource see [CareConnect-RARecord-List-1](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1)
       operationId: postList
       parameters:
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
       requestBody:
         description: Create list
         required: true
         content:
           application/fhir+json:
             schema:
-              $ref: components/schemas/createList.yaml
+              type: object
+              properties:
+                resourceType:
+                  type: string
+                  example: Condition
+                fhir_comments:
+                  type: array
+                  items:
+                    type: string
+                    example: ' json example AAJSONPlaceholder.json '
             examples:
               success:
                 value:
-                  $ref: components/examples/createList.json 
-              
+                  resourceType: Condition
+                  fhir_comments:
+                    - ' json example AAJSONPlaceholder.json '
       responses:
-        '201':                                                      
+        '201':
           description: Successful response.
           content:
             application/json:
@@ -451,14 +727,14 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Last-Modified:
                     type: string
                     format: date-time
-                    example: 2018-07-23T11:00:00+00:00
+                    example: '2018-07-23T11:00:00+00:00'
                   Location:
                     type: string
-                    example: 
+                    example: null
                   ETag:
                     type: string
                     example: resourceVID
@@ -466,22 +742,25 @@ paths:
                     type: string
                     example: application/fhir+json
       tags:
-        - Endpoints              
-                    
+        - Endpoints
     get:
-      summary: Read List
-      description: Use this endpoint to read a list, profiled as [CareConnect-RARecord-List-1](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1), of a patient’s impairment resources.
+      summary: Read a List resource
+      description: |-
+        ## Overview
+        Use this endpoint to read a list of impairments held within the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) information stored on the [NHS Spine](https://digital.nhs.uk/services/spine). These impairments will likely have been captured during the discussion between the clinician and the patient or their carer. Patients may however decline to provide details of their impairments if they do not want to share them. To capture an impairment the member of staff selects an impairment type and then provides additional information using a free text field. For more details regards impairments see [How the Reasonable Adjustment Flag work](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+
+        For full details of this API resource see [CareConnect-RARecord-List-1](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1)
       operationId: readList
-      parameters: 
-      - $ref: '#/components/parameters/patient'
-      - $ref: '#/components/parameters/status'
-      - $ref: '#/components/parameters/code'
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
+      parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/code'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
       responses:
-        '200':                                                      
+        '200':
           description: Successful response.
           content:
             application/json:
@@ -491,17 +770,20 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Content-Type:
                     type: string
-                    example: application/fhir+json                
+                    example: application/fhir+json
       tags:
         - Endpoints
-  
-  /list/{listID}:    
+  '/list/{listID}':
     put:
-      summary: Update List
-      description: Use this endpoint to remove entries in a list, profiled as [CareConnect-RARecord-List-1](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1), of a patient, by changing the delete value of an entry to true.
+      summary: Update a List resource
+      description: |-
+        ## Overview
+        Use this endpoint to update a list of impairments held within the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) information held on the [NHS Spine](https://digital.nhs.uk/services/spine). These impairments will likely have been captured during the discussion between the clinician and the patient or their carer. Patients may however decline to provide details of their impairments if they do not want to share them. To capture an impairment the member of staff selects an impairment type and then provides additional information using a free text field. For more details regards impairments see [How the Reasonable Adjustment Flag work](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+
+        For full details of this API resource see [CareConnect-RARecord-List-1](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1)
       operationId: updateList
       requestBody:
         description: Update list
@@ -509,20 +791,31 @@ paths:
         content:
           application/fhir+json:
             schema:
-              $ref: components/schemas/updateList.yaml
+              type: object
+              properties:
+                resourceType:
+                  type: string
+                  example: Condition
+                fhir_comments:
+                  type: array
+                  items:
+                    type: string
+                    example: ' json example AAJSONPlaceholder.json '
             examples:
               success:
                 value:
-                  $ref: components/examples/updateList.json 
-      parameters: 
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
-      - $ref: '#/components/parameters/If-Match'
-      - $ref: '#/components/parameters/listID'
+                  resourceType: Condition
+                  fhir_comments:
+                    - ' json example AAJSONPlaceholder.json '
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/If-Match'
+        - $ref: '#/components/parameters/listID'
       responses:
-        '200':                                                      
+        '200':
           description: Successful response.
           content:
             application/json:
@@ -532,11 +825,11 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Last-Modified:
                     type: string
                     format: date-time
-                    example: 2018-07-23T11:00:00+00:00
+                    example: '2018-07-23T11:00:00+00:00'
                   ETag:
                     type: string
                     example: resourceVID
@@ -553,39 +846,204 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Content-Type:
                     type: string
-                    example: application/fhir+json  
+                    example: application/fhir+json
       tags:
         - Endpoints
-        
-  /removerarecord:
+  /consent:
     post:
-      summary: Remove RA Record
-      description: Use this endpoint to remove an RA record by providing a removal reason, profiled as [CodeSystem-RARecord-RemovalReason-1](https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1). This triggers the system to inactivate all RA resources contained in a patient resource.
-      operationId: removeRecord
+      summary: Create a Consent resource
+      description: |-
+        ## Overview
+        Use this endpoint to record details regarding the patient's consent to share a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) record, as well as how this was obtained. Consent may have been given by the patient or via a 'best interest decision' under the [Mental Capacity Act (2005)](https://www.nhs.uk/conditions/social-care-and-support-guide/making-decisions-for-someone-else/mental-capacity-act/). In some cases consent can also be obtained from a lasting power of attorney for health and welfare, or a court appointed deputy. Consent is usually obtained by a suitable member of staff discussing the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) with the patient, their carer or the approriate patient representative. The member of staff will then record the type of consent captured, along with some free text details providing more information about who provided the consent.
+
+        For full details of this API resource see [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1)
+      operationId: postConsent
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
       requestBody:
-        description: Remove RA record
+        description: Create consent
         required: true
         content:
           application/fhir+json:
             schema:
-              $ref: components/schemas/removerarecord.yaml
+              type: object
+              properties:
+                resourceType:
+                  type: string
+                  example: Consent
+                fhir_comments:
+                  type: array
+                  items:
+                    type: string
+                    example: ' CreateExample-CreateConsentRequest.xml '
+                meta:
+                  type: object
+                  properties:
+                    profile:
+                      type: array
+                      items:
+                        type: string
+                        example: 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1'
+                extension:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        example: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-ProxyRole-1'
+                      valueCodeableConcept:
+                        type: object
+                        properties:
+                          coding:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                system:
+                                  type: string
+                                  example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-ProxyRole-1'
+                                code:
+                                  type: string
+                                  example: lpa
+                                display:
+                                  type: string
+                                  example: Lasting power of attorney personal welfare
+                status:
+                  type: string
+                  example: active
+                category:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      coding:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            system:
+                              type: string
+                              example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1'
+                            code:
+                              type: string
+                              example: reasonable adjustments flag
+                            display:
+                              type: string
+                              example: Reasonable Adjustments Flag
+                patient:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                      example: demographics.spineservices.nhs.uk/STU3/Patient/999999998
+                policy:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      authority:
+                        type: string
+                        example: 'https://www.gov.uk/'
+                      uri:
+                        type: string
+                        example: 'https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/535024/data-security-review.pdf'
+                purpose:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      system:
+                        type: string
+                        example: 'https://snomed.info/sct'
+                      code:
+                        type: string
+                        example: '370856009'
+                      display:
+                        type: string
+                        example: Limiting access to confidential patient information
             examples:
               success:
                 value:
-                  $ref: components/examples/removerarecord.json                    
-      parameters:
-      - $ref: '#/components/parameters/patient'
-      - $ref: '#/components/parameters/removalReason'
-      - $ref: '#/components/parameters/supportingComment'
-      - $ref: '#/components/parameters/BearerAuthorization'
-      - $ref: '#/components/parameters/RoleId'
-      - $ref: '#/components/parameters/CorrelationID'
-      - $ref: '#/components/parameters/RequestID'
+                  resourceType: Consent
+                  fhir_comments:
+                    - ' CreateExample-CreateConsentRequest.xml '
+                  meta:
+                    profile:
+                      - 'https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1'
+                  extension:
+                    - url: 'https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-ProxyRole-1'
+                      valueCodeableConcept:
+                        coding:
+                          - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-ProxyRole-1'
+                            code: lpa
+                            display: Lasting power of attorney personal welfare
+                  status: active
+                  category:
+                    - coding:
+                        - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1'
+                          code: reasonable adjustments flag
+                          display: Reasonable Adjustments Flag
+                  patient:
+                    reference: demographics.spineservices.nhs.uk/STU3/Patient/999999998
+                  policy:
+                    - authority: 'https://www.gov.uk/'
+                      uri: 'https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/535024/data-security-review.pdf'
+                  purpose:
+                    - system: 'https://snomed.info/sct'
+                      code: '370856009'
+                      display: Limiting access to confidential patient information
       responses:
-        '200':                                                      
+        '201':
+          description: Consent created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Date:
+                    type: string
+                    format: date-time
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
+                  Last-Modified:
+                    type: string
+                    format: date-time
+                    example: '2018-07-23T11:00:00+00:00'
+                  Location:
+                    type: string
+                    example: null
+                  ETag:
+                    type: string
+                    example: resourceVID
+                  Content-Type:
+                    type: string
+                    example: application/fhir+json
+      tags:
+        - Endpoints
+    get:
+      summary: Read a Consent resource
+      description: |-
+        ## Overview
+        Use this endpoint to read details regarding the patient's consent to share a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) record, as well as how this was obtained. Consent may have been given by the patient or via a 'best interest decision' under the [Mental Capacity Act (2005)](https://www.nhs.uk/conditions/social-care-and-support-guide/making-decisions-for-someone-else/mental-capacity-act/). In some cases consent can also be obtained from a lasting power of attorney for health and welfare, or a court appointed deputy. Consent is usually obtained by a suitable member of staff discussing the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) with the patient, their carer or the approriate patient representative. The member of staff will then record the type of consent captured, along with some free text details providing more information about who provided the consent.
+
+        For full details of this API resource see [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1)
+      operationId: readConsent
+      parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+      responses:
+        '200':
           description: Successful response.
           content:
             application/json:
@@ -595,13 +1053,187 @@ paths:
                   Date:
                     type: string
                     format: date-time
-                    example: Tue, 23 Jul 2018 11:00:00 GMT
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
                   Content-Type:
                     type: string
                     example: application/fhir+json
       tags:
-        - Endpoints    
+        - Endpoints
+  '/consent/{consentID}':
+    put:
+      summary: Update a Consent resource
+      description: |-
+        ## Overview
+        Use this endpoint to update details regarding the patient's consent to share a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) record, as well as how this was obtained. Consent may have been given by the patient or via a 'best interest decision' under the [Mental Capacity Act (2005)](https://www.nhs.uk/conditions/social-care-and-support-guide/making-decisions-for-someone-else/mental-capacity-act/). In some cases consent can also be obtained from a lasting power of attorney for health and welfare, or a court appointed deputy. Consent is usually obtained by a suitable member of staff discussing the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) with the patient, their carer or the approriate patient representative. The member of staff will then record the type of consent captured, along with some free text details providing more information about who provided the consent. This information can be updated in the event that it changes.
 
+        For full details of this API resource see [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1)
+      operationId: updateConsent
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/consentID'
+      requestBody:
+        description: Update record
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              $ref: '#/paths/~1flag~1%7BflagID%7D/put/requestBody/content/application~1fhir%2Bjson/schema'
+            examples:
+              success:
+                value:
+                  $ref: '#/paths/~1flag~1%7BflagID%7D/put/requestBody/content/application~1fhir%2Bjson/examples/success/value'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Date:
+                    type: string
+                    format: date-time
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
+                  Last-Modified:
+                    type: string
+                    format: date-time
+                    example: '2018-07-23T11:00:00+00:00'
+                  ETag:
+                    type: string
+                    example: resourceVID
+                  Content-Type:
+                    type: string
+                    example: application/fhir+json
+      tags:
+        - Endpoints
+  /removerarecord:
+    post:
+      summary: Remove Reasonable Adjustment Flag Record
+      description: |
+        ## Overview
+        Use this endpoint to remove a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) from the [NHS Spine](https://digital.nhs.uk/services/spine).  To remove a flag you must provide a reason for it being removed, for example the flag may have been created in error, or the flag may no longer apply to the patient. 
+
+        For a patient it is represented as [CodeSystem-RARecord-RemovalReason-1](https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1). This triggers the system to inactivate all Reasonable Adjustment Flag resources contained within the patient record.
+      operationId: removeRecord
+      requestBody:
+        description: Remove Reasonable Adjustment Flag record
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: A container for a remove RA record request.
+              required:
+                - resourceType
+                - parameter
+              properties:
+                resourceType:
+                  type: string
+                  description: FHIR Resource type.
+                  enum:
+                    - Parameters
+                  example: Parameters
+                parameter:
+                  type: array
+                  description: A parameter in a bundle resource - will either contain a resource or information about a resource (transactions and history only).
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - part
+                    properties:
+                      name:
+                        type: string
+                        description: Name of parameter
+                        example: removerarecord
+                      part:
+                        type: array
+                        description: A list of parameters parts.
+                        items:
+                          anyOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  example: nhsNumber
+                                valueString:
+                                  type: string
+                                  example: '999999998'
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  example: removalReason
+                                valueCodeableConcept:
+                                  type: object
+                                  properties:
+                                    coding:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          system:
+                                            type: string
+                                            example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1'
+                                          code:
+                                            type: string
+                                            example: DoesntApply
+                                          display:
+                                            type: string
+                                            example: The Reasonable Adjustment Flag no longer applies to the patient
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  example: supportingComment
+                                valueString:
+                                  type: string
+                                  example: No longer applies
+            examples:
+              success:
+                value:
+                  resourceType: Parameters
+                  parameter:
+                    - name: removerarecord
+                      part:
+                        - name: nhsNumber
+                          valueString: '999999998'
+                        - name: removalReason
+                          valueCodeableConcept:
+                            coding:
+                              - system: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1'
+                                code: DoesntApply
+                                display: The Reasonable Adjustment Flag no longer applies to the patient
+                        - name: supportingComment
+                          valueString: No longer applies
+      parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/removalReason'
+        - $ref: '#/components/parameters/supportingComment'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Date:
+                    type: string
+                    format: date-time
+                    example: 'Tue, 23 Jul 2018 11:00:00 GMT'
+                  Content-Type:
+                    type: string
+                    example: application/fhir+json
+      tags:
+        - Endpoints
 components:
   parameters:
     nhsNumber:
@@ -614,10 +1246,10 @@ components:
         properties:
           name:
             type: string
-            example: "nhsNumber"
+            example: nhsNumber
           valueString:
             type: string
-            example: "999999998"
+            example: '999999998'
     removalReason:
       name: removalReason
       in: query
@@ -628,7 +1260,7 @@ components:
         properties:
           name:
             type: string
-            example: "removalReason"
+            example: removalReason
           valueCodeableConcept:
             type: object
             properties:
@@ -639,13 +1271,13 @@ components:
                   properties:
                     system:
                       type: string
-                      example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1"
+                      example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1'
                     code:
                       type: string
-                      example: "DoesntApply"
+                      example: DoesntApply
                     display:
                       type: string
-                      example: "The Reasonable Adjustment Flag no longer applies to the patient"
+                      example: The Reasonable Adjustment Flag no longer applies to the patient
     supportingComment:
       name: supportingComment
       in: query
@@ -656,10 +1288,10 @@ components:
         properties:
           name:
             type: string
-            example: "supportingComment"
+            example: supportingComment
           valueString:
             type: string
-            example: "No longer applies"    
+            example: No longer applies
     If-Match:
       name: If-Match
       in: header
@@ -667,7 +1299,7 @@ components:
       description: Latest known version identifier enclosed in quotes preceded by `W/`.
       schema:
         type: string
-        example: "aa755bd6-2be9-4971-972a-6724879c5cb1"
+        example: aa755bd6-2be9-4971-972a-6724879c5cb1
     consentID:
       name: consentID
       in: path
@@ -675,7 +1307,7 @@ components:
       description: The id of the record
       schema:
         type: string
-        example: "1"
+        example: '1'
     flagID:
       name: flagID
       in: path
@@ -683,7 +1315,7 @@ components:
       description: The id of the flag
       schema:
         type: string
-        example: "1"
+        example: '1'
     listID:
       name: listID
       in: path
@@ -691,7 +1323,7 @@ components:
       description: The id of the list
       schema:
         type: string
-        example: "1"    
+        example: '1'
     patient:
       name: patient
       in: query
@@ -699,7 +1331,7 @@ components:
       description: The id of the patient
       schema:
         type: string
-        example: "9999999998"    
+        example: '9999999998'
     status:
       name: status
       in: query
@@ -707,7 +1339,7 @@ components:
       description: status
       schema:
         type: string
-        example: "active" 
+        example: active
     category:
       name: category
       in: query
@@ -715,7 +1347,7 @@ components:
       description: category
       schema:
         type: string
-        example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1|reasonable%20adjustments%20flag&_format=json"
+        example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1|reasonable%20adjustments%20flag&_format=json'
     code:
       name: code
       in: query
@@ -723,7 +1355,7 @@ components:
       description: code
       schema:
         type: string
-        example: "http://snomed.info/sct|1094391000000102&_format=json"
+        example: 'http://snomed.info/sct|1094391000000102&_format=json'
     RoleId:
       name: NHSD-Session-URID
       in: header
@@ -732,7 +1364,7 @@ components:
         A User Role ID (URID), also known as a User Role Profile ID (URPID), specifies the role the user is acting in.
         A URID belongs to a user (they are not generic) and a user may have more than one.
         Find out more about [User role ID](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-combined-authentication-and-authorisation#step-6-determine-the-user-s-role)
-        
+
         **Note: This parameter is required unless interacting with the Sandbox.**
       schema:
         type: string
@@ -744,18 +1376,18 @@ components:
       required: false
       description: |
         An [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
-        
+
         **Note: This parameter is required unless interacting with the Sandbox.**
       schema:
         type: string
         pattern: '^Bearer\ [[:ascii:]]+$'
-        example: 'Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM'
+        example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
     CorrelationID:
       name: X-Correlation-ID
       in: header
       required: false
       description: |
-        An identifer should be created when making a request, this will assist with any problems that may occur and should be included when an issue is raised with the helpdesk.
+        An identifier should be created when making a request, this will assist with any problems that may occur and should be included when an issue is raised with the helpdesk.
         It should ideally be a unique value to make message tracing easier and we would advise that there are no `"."` characters, but these are not enforced.
         This will be mirrored back in the response headers.
       schema:
@@ -766,14 +1398,14 @@ components:
       in: header
       required: false
       description: |
-        A **globally unique identifer (GUID)** should be created when making a request, this will be used in message de-duplication, meaning if you need to replay any messages an identical response will be returned as the first time.
-        The identifer must be a universally unique identifier (UUID) (ideally version 4).
+        A **globally unique identifier (GUID)** should be created when making a request, this will be used in message de-duplication, meaning if you need to replay any messages an identical response will be returned as the first time.
+        The identifier must be a universally unique identifier (UUID) (ideally version 4).
         This will be mirrored back in the response headers.
-        
+
         **Note: This parameter is required for `update`, `get` and `search` unless interacting with the Sandbox.**
       schema:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
 tags:
-- name: Reasonable Adjustments 
+  - name: Reasonable Adjustments
