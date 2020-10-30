@@ -1,13 +1,3 @@
-# Example OpenAPI YAML to get you started quickly.
-# Note: YAML has indentation based coping.
-# Code completion support is available so start typing for
-# available options.
-# This example follows the recommendations of the API 
-# Improvement Proposals for common API patterns. Find more
-# at https://google.aip.dev/
-
-# Find the full OpenAPI reference at:
-# https://github.com/OAI/OpenAPI-Specification
 openapi: 3.0.0
 info:
   version: 0.3.4-beta
@@ -117,8 +107,7 @@ info:
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
 
     We will provide further details about how to onboard onto the API in December 2020.
-
-  
+    
   contact:
     name: API Management Support
     email: api.management@nhs.net
@@ -139,6 +128,9 @@ paths:
         For full details of this API resource see [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5).
       operationId: postFlag
       parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/code'
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
         - $ref: '#/components/parameters/CorrelationID'
@@ -289,6 +281,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
     get:
@@ -323,6 +334,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
   '/flag/{flagID}':
@@ -336,6 +366,9 @@ paths:
         For full details of this API resource see [RARecord-Flag-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1/_history/0.0.5).
       operationId: updateFlag
       parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/category'
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
         - $ref: '#/components/parameters/CorrelationID'
@@ -678,6 +711,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
   /list:
@@ -690,6 +742,9 @@ paths:
         For full details of this API resource see [CareConnect-RARecord-List-1](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1)
       operationId: postList
       parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/code'
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
         - $ref: '#/components/parameters/CorrelationID'
@@ -741,6 +796,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
     get:
@@ -774,6 +848,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
   '/list/{listID}':
@@ -808,6 +901,9 @@ paths:
                   fhir_comments:
                     - ' json example AAJSONPlaceholder.json '
       parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/code'
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
         - $ref: '#/components/parameters/CorrelationID'
@@ -850,6 +946,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
   /consent:
@@ -862,6 +977,9 @@ paths:
         For full details of this API resource see [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1)
       operationId: postConsent
       parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/category'
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
         - $ref: '#/components/parameters/CorrelationID'
@@ -1024,6 +1142,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
     get:
@@ -1057,6 +1194,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
   '/consent/{consentID}':
@@ -1069,6 +1225,9 @@ paths:
         For full details of this API resource see [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1)
       operationId: updateConsent
       parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/category'
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
         - $ref: '#/components/parameters/CorrelationID'
@@ -1107,6 +1266,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
   /removerarecord:
@@ -1232,6 +1410,25 @@ paths:
                   Content-Type:
                     type: string
                     example: application/fhir+json
+        '400':
+          description: Invalid search paramaters supplied.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS Number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome   
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1"
+                              code: "INVALID_NHS_NUMBER"
+                              display: "Invalid NHS number" 
       tags:
         - Endpoints
 components:
