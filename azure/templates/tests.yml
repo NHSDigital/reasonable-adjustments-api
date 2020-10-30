@@ -25,7 +25,8 @@ steps:
           -e MISSING_ODS_CLIENT_ID=$(INTERNAL_TESTING_WITHOUT_ODS_KEY) \
           -e MISSING_ODS_CLIENT_SECRET=$(INTERNAL_TESTING_WITHOUT_ODS_SECRET) \
           -e REASONABLE_ADJUSTMENTS_BASE_URL=https://internal-dev.api.service.nhs.uk \
-          -e REASONABLE_ADJUSTMENTS_PROXY=$(SERVICE_BASE_PATH) \
+          -e REASONABLE_ADJUSTMENTS_PROXY_PATH=$(SERVICE_BASE_PATH) \
+          -e REASONABLE_ADJUSTMENTS_PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
           reasonable-adjustments-api/test-env:latest -v  --junitxml=/var/api_tests/reports/test_report.xml tests
 
       workingDirectory: $(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)/api_tests

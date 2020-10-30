@@ -1,7 +1,7 @@
 import pytest
 import requests
 import json
-from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY, REASONABLE_ADJUSTMENTS_CONSENT
+from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY_NAME, REASONABLE_ADJUSTMENTS_CONSENT
 from api_tests.scripts.apigee_api import ApigeeDebugApi
 from assertpy import assert_that
 
@@ -13,7 +13,7 @@ class TestAsidSuite:
     @pytest.mark.asid
     def test_valid_asid(self, get_token):
         # Given
-        debug_session = ApigeeDebugApi(REASONABLE_ADJUSTMENTS_PROXY)
+        debug_session = ApigeeDebugApi(REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_asid = '200000001115'
 
         # When
