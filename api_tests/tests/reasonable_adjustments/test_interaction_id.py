@@ -12,7 +12,7 @@ class TestInteractionIDSuite:
     @pytest.mark.usefixtures('get_token')
     def test_consent_get(self):
         # Given
-        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY)
+        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_interaction_id = 'urn:nhs:names:services:raflags:Consent.read:1'
 
         # When
@@ -44,7 +44,7 @@ class TestInteractionIDSuite:
     @pytest.mark.usefixtures('get_token')
     def test_consent_put(self):
         # Given
-        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY)
+        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_interaction_id = 'urn:nhs:names:services:raflags:Consent.write:1'
 
         # When
@@ -73,7 +73,7 @@ class TestInteractionIDSuite:
     @pytest.mark.usefixtures('get_token')
     def test_flag_put(self):
         # Given
-        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY)
+        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_interaction_id = 'urn:nhs:names:services:raflags:Flag.write:1'
 
         # When
@@ -103,7 +103,7 @@ class TestInteractionIDSuite:
     @pytest.mark.usefixtures('get_token')
     def test_list_put(self):
         # Given
-        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY)
+        debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_interaction_id = 'urn:nhs:names:services:raflags:List.write:1'
 
         # When

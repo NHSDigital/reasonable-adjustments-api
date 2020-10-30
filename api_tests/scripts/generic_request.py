@@ -1,9 +1,12 @@
 import requests
+import textwrap
 import json
 from urllib import parse
 import re
 from api_tests.config_files import config
 from urllib.parse import urlparse
+from distutils.util import strtobool
+from os import environ
 
 
 class GenericRequest:
@@ -11,6 +14,8 @@ class GenericRequest:
     reusable components & functions that can be shared between test cases"""
     def __init__(self):
         self.session = requests.Session()
+        if bool(strtobool(environ.get('DEBUG', 'False'))):
+            self.session.hooks['response'] = [print_roundtrip]
         self.endpoints = config.ENDPOINTS
 
     def get_response(self, verb: str, endpoint: str, **kwargs) -> 'response type':
@@ -257,3 +262,24 @@ class GenericRequest:
             else:
                 url += f'&{param}'
         return url
+
+
+def print_roundtrip(response, *args, **kwargs):
+    format_headers = lambda d: '\n'.join(f'{k}: {v}' for k, v in d.items())
+    print(textwrap.dedent('''
+        ---------------- request ----------------
+        {req.method} {req.url}
+        {reqhdrs}
+
+        {req.body}
+        ---------------- response ----------------
+        {res.status_code} {res.reason} {res.url}
+        {reshdrs}
+
+        {res.text}
+    ''').format(
+        req=response.request,
+        res=response,
+        reqhdrs=format_headers(response.request.headers),
+        reshdrs=format_headers(response.headers),
+    ))
