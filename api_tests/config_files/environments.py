@@ -45,6 +45,7 @@ ENV = {
     },
     'reasonable_adjustments': {
         'base_url': get_env('REASONABLE_ADJUSTMENTS_BASE_URL'),
-        'proxy_name': get_env('REASONABLE_ADJUSTMENTS_PROXY'),
+        'proxy_path': get_env('REASONABLE_ADJUSTMENTS_PROXY_PATH'),
+        'proxy_name': get_env('REASONABLE_ADJUSTMENTS_PROXY_NAME'),
     }
 }
