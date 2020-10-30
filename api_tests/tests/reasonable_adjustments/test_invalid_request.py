@@ -1,6 +1,9 @@
-from api_tests.config_files import config
 import pytest
 import json
+import requests
+from api_tests.config_files import config
+from assertpy import assert_that
+
 
 @pytest.mark.usefixtures("setup")
 class TestInvalidRequestSuite:
@@ -8,14 +11,16 @@ class TestInvalidRequestSuite:
 
     @pytest.mark.errors
     def test_missing_access_token(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=401,
-            expected_response={
-                "error": "access token is invalid or expired",
-                "error_description": "access token is invalid or expired"
-            },
+        # Given
+        expected_status_code = 401
+        expected_response = {
+            "error": "access token is invalid or expired",
+            "error_description": "access token is invalid or expired"
+        }
+
+        # When
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             params={
                 'patient':  'test',
                 'category': 'test',
@@ -26,18 +31,27 @@ class TestInvalidRequestSuite:
                 'x-request-id': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_missing_x_request_id_header(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=400,
-            expected_response={
-                "error": "invalid header",
-                "error_description": "x-request-id is missing or invalid"
-            },
+        # Given
+        expected_status_code = 400
+        expected_response = {
+            "error": "invalid header",
+            "error_description": "x-request-id is missing or invalid"
+        }
+
+        # When
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             params={
                 'patient':  'test',
                 'category': 'test',
@@ -48,17 +62,27 @@ class TestInvalidRequestSuite:
                 'nhsd-session-urid': 'test',
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_missing_nhsd_session_urid_header(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=400,
-            expected_response={
-                "error": "invalid header",
-                "error_description": "nhsd-session-urid is missing or invalid"
-            },
+        # Given 
+        expected_status_code = 400
+        expected_response = {
+            "error": "invalid header",
+            "error_description": "nhsd-session-urid is missing or invalid"
+        }
+
+        # When
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             params={
                 'patient':  'test',
                 'category': 'test',
@@ -70,18 +94,27 @@ class TestInvalidRequestSuite:
                 'nhsd-session-urid': '',
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_invalid_content_type(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='POST',
-            endpoint='consent',
-            expected_status_code=400,
-            expected_response={
-                "error": "invalid header",
-                "error_description": "content-type must be set to application/fhir+json"
-            },
+        # Given
+        expected_status_code = 400
+        expected_response={
+            "error": "invalid header",
+            "error_description": "content-type must be set to application/fhir+json"
+        }
+
+        # When
+        response = requests.post(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'x-request-id': 'test',
@@ -92,18 +125,27 @@ class TestInvalidRequestSuite:
                 'message': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_invalid_payload(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='POST',
-            endpoint='consent',
-            expected_status_code=400,
-            expected_response={
-                "error": "invalid request payload",
-                "error_description": "requires payload"
-            },
+        # Given
+        expected_status_code = 400
+        expected_response={
+            "error": "invalid request payload",
+            "error_description": "requires payload"
+        }
+
+        # When
+        response = requests.post(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'x-request-id': 'test',
@@ -111,41 +153,27 @@ class TestInvalidRequestSuite:
                 'content-type': 'application/fhir+json'
             }
         )
+        actual_response = json.loads(response.text)
 
-    ## TODO: Implment mock endpoint that returns 500 response to test DefaultFaultRule
-    # @pytest.mark.errors
-    # @pytest.mark.usefixtures('get_token')
-    # def test_unkown_error(self):
-    #     assert self.reasonable_adjustments.check_endpoint(
-    #         verb='POST',
-    #         endpoint='consent',
-    #         expected_status_code=500,
-    #         expected_response={
-    #             "error": "unknown_error",
-    #             "error_description": "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
-    #         },
-    #         headers={
-    #             'Authorization': f'Bearer {self.token}',
-    #             'x-request-id': 'test',
-    #             'nhsd-session-urid': 'test',
-    #             'content-type': 'application/fhir+json'
-    #         },
-    #         data={
-    #             'message': 'test'
-    #         }
-    #     )
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_consent_invalid_query_params(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=404,
-            expected_response={
-                'error': 'invalid query parameters',
-                'error_description': 'required query parameters are missing or have empty values'
-            },
+        # Given
+        expected_status_code = 404
+        expected_response={
+            'error': 'invalid query parameters',
+            'error_description': 'required query parameters are missing or have empty values'
+        }
+
+        # When
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             params={
                 'patient':  'test',
                 'category': 'test'
@@ -156,18 +184,27 @@ class TestInvalidRequestSuite:
                 'x-request-id': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_flag_invalid_query_params(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='flag',
-            expected_status_code=404,
-            expected_response={
-                'error': 'invalid query parameters',
-                'error_description': 'required query parameters are missing or have empty values'
-            },
+        # Given
+        expected_status_code = 404
+        expected_response={
+            'error': 'invalid query parameters',
+            'error_description': 'required query parameters are missing or have empty values'
+        }
+
+        # When
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             params={
                 'patient':  'test',
                 'status':   'test',
@@ -178,18 +215,28 @@ class TestInvalidRequestSuite:
                 'x-request-id': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+    
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_flag_invalid_header_put(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='PUT',
-            endpoint=config.REASONABLE_ADJUSTMENTS_FLAG + '/1',
-            expected_status_code=400,
-            expected_response={
-                "error": "invalid header",
-                "error_description": "if-match is missing or invalid",
-            },
+        # Given
+        expected_status_code = 400
+        expected_response={
+            "error": "invalid header",
+            "error_description": "if-match is missing or invalid",
+        }
+
+        # When
+        response = requests.put(
+            url=config.REASONABLE_ADJUSTMENTS_FLAG + '/1',
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
@@ -199,19 +246,27 @@ class TestInvalidRequestSuite:
                 'message': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_list_invalid_query_params(self):
-        # Test list endpoint returns a 200 and returns a json response
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='list',
-            expected_status_code=404,
-            expected_response={
-                'error': 'invalid query parameters',
-                'error_description': 'required query parameters are missing or have empty values'
-            },
+        # Given
+        expected_status_code = 404
+        expected_response = {
+            'error': 'invalid query parameters',
+            'error_description': 'required query parameters are missing or have empty values'
+        }
+
+        # When
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_LIST,
             params={
                 'patient':  'test',
                 'code': '',
@@ -223,18 +278,27 @@ class TestInvalidRequestSuite:
                 'x-request-id': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_list_invalid_header_put(self):
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='PUT',
-            endpoint=config.REASONABLE_ADJUSTMENTS_LIST + '/1',
-            expected_status_code=400,
-            expected_response={
-                "error": "invalid header",
-                "error_description": "if-match is missing or invalid",
-            },
+        # Given
+        expected_status_code=400
+        expected_response={
+            "error": "invalid header",
+            "error_description": "if-match is missing or invalid"
+        }
+        
+        # When
+        response = requests.put(
+            url=config.REASONABLE_ADJUSTMENTS_LIST + '/1',
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
@@ -245,19 +309,26 @@ class TestInvalidRequestSuite:
                 'message': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.usefixtures('get_token')
     def test_remove_ra_record_invalid_query_params(self):
-        # Test list endpoint returns a 200 and returns a json response
-        assert self.reasonable_adjustments.check_endpoint(
-            verb='POST',
-            endpoint='remove_ra_record',
-            expected_status_code=404,
-            expected_response={
-                'error': 'invalid query parameters',
-                'error_description': 'required query parameters are missing or have empty values'
-            },
+        # Given
+        expected_status_code = 404
+        expected_response = {
+            'error': 'invalid query parameters',
+            'error_description': 'required query parameters are missing or have empty values'
+        }
+
+        response = requests.post(
+            url=config.REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD,
             params={
                 'patient':  'test',
                 'removalReason': '',
@@ -269,3 +340,10 @@ class TestInvalidRequestSuite:
                 'x-request-id': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])

@@ -1,6 +1,9 @@
 import pytest
+import requests
+import json
 
-from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY
+from assertpy import assert_that
+from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY, REASONABLE_ADJUSTMENTS_CONSENT
 from api_tests.scripts.apigee_api import ApigeeDebugApi
 
 
@@ -16,41 +19,38 @@ class TestOdsSuite:
         expected_ods = 'D82106'
 
         # When
-        self.send_a_request()
+        requests.get(
+            url=REASONABLE_ADJUSTMENTS_CONSENT,
+            params={
+                'patient':  'test',
+                'category': 'test',
+                'status':   'test',
+            },
+            headers={
+                'Authorization': f'Bearer {self.token}',
+                'nhsd-session-urid': 'test',
+                'x-request-id': 'test'
+            }
+        )
 
         # Then
         actual_ods = debug_session.get_apigee_variable('verifyapikey.VerifyAPIKey.CustomAttributes.ods')
-        assert actual_ods == expected_ods
+
+        assert_that(expected_ods).is_equal_to(actual_ods)
 
     @pytest.mark.ods
     @pytest.mark.errors
     def test_missing_ods(self, use_internal_testing_internal_dev_without_ods_app, get_token):
-        self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=500,
-            expected_response={
-                'error': 'missing ODS',
-                'error_description': 'An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID',
-            },
-            params={
-                'patient':  'test',
-                'category': 'test',
-                'status':   'test',
-            },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
-                'x-request-id': 'test'
-            }
-        )
+        # Given
+        expected_status_code = 500
+        expected_response = {
+            'error': 'missing ODS',
+            'error_description': 'An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID',
+        }
 
-    def send_a_request(self):
-        self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=200,
-            expected_response=None,
+        # When
+        response = requests.get(
+            url=REASONABLE_ADJUSTMENTS_CONSENT,
             params={
                 'patient':  'test',
                 'category': 'test',
@@ -62,3 +62,10 @@ class TestOdsSuite:
                 'x-request-id': 'test'
             }
         )
+        actual_response = json.loads(response.text)
+        
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])

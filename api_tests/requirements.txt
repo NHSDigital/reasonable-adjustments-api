@@ -4,3 +4,4 @@ pytest-xdist
 pytest-sugar
 pyjwt
 python-dotenv
+assertpy

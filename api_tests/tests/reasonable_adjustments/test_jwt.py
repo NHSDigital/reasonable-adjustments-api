@@ -2,6 +2,7 @@ import pytest
 import jwt
 import requests
 
+from assertpy import assert_that
 from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY, REASONABLE_ADJUSTMENTS_CONSENT
 from api_tests.scripts.apigee_api import ApigeeDebugApi
 
@@ -41,11 +42,11 @@ class TestJwtSuite:
         actual_jwt = debug_session.get_apigee_header('jwt')
         actual_jwt_claims = jwt.decode(actual_jwt, verify=False)
 
-        assert expected_jwt_claims['reason_for_request'] == actual_jwt_claims['reason_for_request'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['reason_for_request'], actual_jwt_claims['reason_for_request'])
-        assert expected_jwt_claims['scope'] == actual_jwt_claims['scope'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['reason_for_request'], actual_jwt_claims['scope'])
-        assert expected_jwt_claims['requesting_organization'] == actual_jwt_claims['requesting_organization'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['requesting_organization'], actual_jwt_claims['requesting_organization'])
-        assert expected_jwt_claims['requesting_system'] == actual_jwt_claims['requesting_system'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['requesting_system'], actual_jwt_claims['requesting_system'])
-        assert expected_jwt_claims['requesting_user'] == actual_jwt_claims['requesting_user'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['requesting_user'], actual_jwt_claims['requesting_user'])
-        assert expected_jwt_claims['sub'] == actual_jwt_claims['sub'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['sub'], actual_jwt_claims['sub'])
-        assert expected_jwt_claims['iss'] == actual_jwt_claims['iss'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['iss'], actual_jwt_claims['iss'])
-        assert expected_jwt_claims['aud'] == actual_jwt_claims['aud'], 'Expected: {}, Actual: {}'.format(expected_jwt_claims['aud'], actual_jwt_claims['aud'])
+        assert_that(expected_jwt_claims['reason_for_request']).is_equal_to_ignoring_case(actual_jwt_claims['reason_for_request'])
+        assert_that(expected_jwt_claims['scope']).is_equal_to_ignoring_case(actual_jwt_claims['scope'])
+        assert_that(expected_jwt_claims['requesting_organization']).is_equal_to_ignoring_case(actual_jwt_claims['requesting_organization'])
+        assert_that(expected_jwt_claims['requesting_system']).is_equal_to_ignoring_case(actual_jwt_claims['requesting_system'])
+        assert_that(expected_jwt_claims['requesting_user']).is_equal_to_ignoring_case(actual_jwt_claims['requesting_user'])
+        assert_that(expected_jwt_claims['sub']).is_equal_to_ignoring_case(actual_jwt_claims['sub'])
+        assert_that(expected_jwt_claims['iss']).is_equal_to_ignoring_case(actual_jwt_claims['iss'])
+        assert_that(expected_jwt_claims['aud']).is_equal_to_ignoring_case(actual_jwt_claims['aud'])

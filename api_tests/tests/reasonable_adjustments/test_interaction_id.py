@@ -1,8 +1,9 @@
 import pytest
 import json
+import requests
 from api_tests.config_files import config
 from api_tests.scripts.apigee_api import ApigeeDebugApi
-
+from assertpy import assert_that
 
 @pytest.mark.usefixtures("setup")
 class TestInteractionIDSuite:
@@ -16,18 +17,8 @@ class TestInteractionIDSuite:
         expected_interaction_id = 'urn:nhs:names:services:raflags:Consent.read:1'
 
         # When
-        self.send_a_get_consent_request()
-
-        # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
-        assert actual_interaction_id == expected_interaction_id
-
-    def send_a_get_consent_request(self):
-        self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=200,
-            expected_response=None,
+        requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             params={
                 'patient':  'test',
                 'category': 'test',
@@ -40,6 +31,11 @@ class TestInteractionIDSuite:
             }
         )
 
+        # Then
+        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+
+        assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
+
     @pytest.mark.interaction_id
     @pytest.mark.usefixtures('get_token')
     def test_consent_put(self):
@@ -48,18 +44,8 @@ class TestInteractionIDSuite:
         expected_interaction_id = 'urn:nhs:names:services:raflags:Consent.write:1'
 
         # When
-        self.send_a_put_consent_request()
-
-        # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
-        assert actual_interaction_id == expected_interaction_id
-
-    def send_a_put_consent_request(self):
-        self.reasonable_adjustments.check_endpoint(
-            verb='PUT',
-            endpoint=config.REASONABLE_ADJUSTMENTS_CONSENT + '/1',
-            expected_status_code=200,
-            expected_response=None,
+        requests.put(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT + '/1',
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
@@ -69,6 +55,11 @@ class TestInteractionIDSuite:
             data=json.dumps({'message': 'test'})
         )
 
+        # Then
+        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+
+        assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
+
     @pytest.mark.interaction_id
     @pytest.mark.usefixtures('get_token')
     def test_flag_put(self):
@@ -77,18 +68,8 @@ class TestInteractionIDSuite:
         expected_interaction_id = 'urn:nhs:names:services:raflags:Flag.write:1'
 
         # When
-        self.send_a_put_flag_request()
-
-        # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
-        assert actual_interaction_id == expected_interaction_id
-
-    def send_a_put_flag_request(self):
-        self.reasonable_adjustments.check_endpoint(
-            verb='PUT',
-            endpoint=config.REASONABLE_ADJUSTMENTS_FLAG + '/1',
-            expected_status_code=200,
-            expected_response=None,
+        requests.put(
+            url=config.REASONABLE_ADJUSTMENTS_FLAG + '/1',
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
@@ -98,6 +79,11 @@ class TestInteractionIDSuite:
             },
             data=json.dumps({'message': 'test'})
         )
+
+        # Then
+        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+
+        assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
 
     @pytest.mark.interaction_id
     @pytest.mark.usefixtures('get_token')
@@ -107,18 +93,8 @@ class TestInteractionIDSuite:
         expected_interaction_id = 'urn:nhs:names:services:raflags:List.write:1'
 
         # When
-        self.send_a_put_list_request()
-
-        # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
-        assert actual_interaction_id == expected_interaction_id
-
-    def send_a_put_list_request(self):
-        self.reasonable_adjustments.check_endpoint(
-            verb='PUT',
-            endpoint=config.REASONABLE_ADJUSTMENTS_LIST + '/1',
-            expected_status_code=200,
-            expected_response=None,
+        requests.put(
+            url=config.REASONABLE_ADJUSTMENTS_LIST + '/1',
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
@@ -128,3 +104,8 @@ class TestInteractionIDSuite:
             },
             data=json.dumps({'message': 'test'})
         )
+
+        # Then
+        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+
+        assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
