@@ -3,7 +3,6 @@ import pytest
 from api_tests.config_files import config
 from api_tests.config_files.environments import ENV
 from api_tests.steps.check_oauth import CheckOauth
-from api_tests.steps.check_reasonable_adjustments import CheckReasonableAdjustments
 
 def _get_parametrized_values(request):
     for mark in request.node.own_markers:
@@ -76,9 +75,6 @@ def setup(request, use_internal_testing_internal_dev_app):
 
     oauth = CheckOauth()
     setattr(request.cls, "oauth", oauth)
-
-    reasonable_adjustments = CheckReasonableAdjustments()
-    setattr(request.cls, "reasonable_adjustments", reasonable_adjustments)
 
     yield  # Handover to test
 
