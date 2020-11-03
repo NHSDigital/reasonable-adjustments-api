@@ -1,7 +1,7 @@
 import pytest
 import jwt
 import requests
-
+from api_tests.tests.utils import Utils
 from assertpy import assert_that
 from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY_NAME, REASONABLE_ADJUSTMENTS_PROXY_PATH, REASONABLE_ADJUSTMENTS_CONSENT
 from api_tests.scripts.apigee_api import ApigeeDebugApi
@@ -9,7 +9,7 @@ from api_tests.scripts.apigee_api import ApigeeDebugApi
 @pytest.mark.usefixtures("setup")
 class TestJwtSuite:
     """ A test suite to check that the JWT attached to the request is valid """
-        
+    
 
     @pytest.mark.jwt
     @pytest.mark.usefixtures('get_token')
@@ -28,16 +28,8 @@ class TestJwtSuite:
         }
 
         # When
-        requests.get(
-            url=REASONABLE_ADJUSTMENTS_CONSENT,
-            params={'patient': 'test', 'category': 'test', 'status': 'test'},
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
-                'x-request-id': 'test',
-            }
-        )
-
+        Utils.send_request(self)
+        
         # Then
         actual_jwt = debug_session.get_apigee_header('jwt')
         actual_jwt_claims = jwt.decode(actual_jwt, verify=False)

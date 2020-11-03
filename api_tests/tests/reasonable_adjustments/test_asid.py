@@ -1,6 +1,7 @@
 import pytest
 import requests
 import json
+from api_tests.tests.utils import Utils
 from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY_NAME, REASONABLE_ADJUSTMENTS_CONSENT
 from api_tests.scripts.apigee_api import ApigeeDebugApi
 from assertpy import assert_that
@@ -11,30 +12,32 @@ class TestAsidSuite:
     """ A test suit to verify ASID is fetched from Custom Attributes associated with the App """
 
     @pytest.mark.asid
+    @pytest.mark.usefixtures('get_token')
     def test_valid_asid(self, get_token):
         # Given
         debug_session = ApigeeDebugApi(REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_asid = '200000001115'
 
         # When
-        requests.get(
-            url=REASONABLE_ADJUSTMENTS_CONSENT,
-            params={
-                'patient':  'test',
-                'category': 'test',
-                'status':   'test',
-            },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
-                'x-request-id': 'test'
-            }
-        )
+        Utils.send_request(self)
+
+        # requests.get(
+        #     url=REASONABLE_ADJUSTMENTS_CONSENT,
+        #     params={
+        #         'patient':  'test',
+        #         'category': 'test',
+        #         'status':   'test',
+        #     },
+        #     headers={
+        #         'Authorization': f'Bearer {self.token}',
+        #         'nhsd-session-urid': 'test',
+        #         'x-request-id': 'test'
+        #     }
+        # )
 
         # Then
         actual_asid = debug_session.get_apigee_variable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
         assert_that(expected_asid).is_equal_to(actual_asid)
-        #assert actual_asid == expected_asid
 
     @pytest.mark.asid
     @pytest.mark.errors

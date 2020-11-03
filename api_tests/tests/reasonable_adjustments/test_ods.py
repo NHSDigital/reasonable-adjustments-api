@@ -1,6 +1,7 @@
 import pytest
 import requests
 import json
+from api_tests.tests.utils import Utils
 from assertpy import assert_that
 from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY_NAME, REASONABLE_ADJUSTMENTS_CONSENT
 from api_tests.scripts.apigee_api import ApigeeDebugApi
@@ -18,19 +19,7 @@ class TestOdsSuite:
         expected_ods = 'D82106'
 
         # When
-        requests.get(
-            url=REASONABLE_ADJUSTMENTS_CONSENT,
-            params={
-                'patient':  'test',
-                'category': 'test',
-                'status':   'test',
-            },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
-                'x-request-id': 'test'
-            }
-        )
+        Utils.send_request(self)
 
         # Then
         actual_ods = debug_session.get_apigee_variable('verifyapikey.VerifyAPIKey.CustomAttributes.ods')
