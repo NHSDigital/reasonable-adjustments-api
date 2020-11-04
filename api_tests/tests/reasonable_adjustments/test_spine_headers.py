@@ -52,21 +52,3 @@ class TestSpineHeadersSuite:
         x_request_id = debug_session.get_apigee_header('x-request-id')
 
         assert_that(trace_id).is_equal_to(x_request_id)
-
-    # def send_a_get_consent_request(self):
-    #     self.reasonable_adjustments.check_endpoint(
-    #         verb='GET',
-    #         endpoint='consent',
-    #         expected_status_code=200,
-    #         expected_response=None,
-    #         params={
-    #             'patient':  'test',
-    #             'category': 'test',
-    #             'status':   'test',
-    #         },
-    #         headers={
-    #             'Authorization': f'Bearer {self.token}',
-    #             'nhsd-session-urid': 'test',
-    #             'x-request-id': 'test'
-    #         }
-    #     )
