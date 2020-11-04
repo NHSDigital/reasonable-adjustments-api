@@ -9,7 +9,7 @@
                 "error": "invalid header",
                 "error_description": "if-match is missing or invalid",
                 "message_id": "{messageid}"
-            }    
+            }
             </Payload>
             <StatusCode>400</StatusCode>
             <ReasonPhrase>Bad Request</ReasonPhrase>

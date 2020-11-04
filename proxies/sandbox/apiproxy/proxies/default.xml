@@ -24,7 +24,7 @@
       <Step>
         <Name>RaiseFault.404NotFound</Name>
         <Condition>request.queryparam.patient = null or request.queryparam.status = null or request.queryparam.category = null</Condition>
-      </Step>  
+      </Step>
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/consent") and (request.verb = "GET"))</Condition>
     </Flow>
@@ -34,7 +34,7 @@
           <Name>RaiseFault.400BadRequest</Name>
           <Condition>request.content = ""</Condition>
         </Step>
-      </Request>      
+      </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/consent") and (request.verb = "POST"))</Condition>
     </Flow>
     <Flow name="consent-PUT">
@@ -114,7 +114,7 @@
       </Request>
     </Flow>
   </Flows>
-  
+
   <HTTPProxyConnection>
     <BasePath>{{ SERVICE_BASE_PATH }}</BasePath>
     <VirtualHost>secure</VirtualHost>
