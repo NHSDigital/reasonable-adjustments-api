@@ -21,20 +21,6 @@ class TestAsidSuite:
         # When
         Utils.send_request(self)
 
-        # requests.get(
-        #     url=REASONABLE_ADJUSTMENTS_CONSENT,
-        #     params={
-        #         'patient':  'test',
-        #         'category': 'test',
-        #         'status':   'test',
-        #     },
-        #     headers={
-        #         'Authorization': f'Bearer {self.token}',
-        #         'nhsd-session-urid': 'test',
-        #         'x-request-id': 'test'
-        #     }
-        # )
-
         # Then
         actual_asid = debug_session.get_apigee_variable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
         assert_that(expected_asid).is_equal_to(actual_asid)
