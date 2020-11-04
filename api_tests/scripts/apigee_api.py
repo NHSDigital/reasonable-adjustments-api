@@ -1,14 +1,15 @@
-from api_tests.scripts.generic_request import GenericRequest
 from api_tests.config_files.config import APIGEE_API_URL, APIGEE_AUTHENTICATION, APIGEE_ENVIRONMENT, APIGEE_USERNAME, \
     APIGEE_PASSWORD
 import json
 import uuid
 import base64
+import requests
 
 
-class ApigeeDebugApi(GenericRequest):
+class ApigeeDebugApi:
     def __init__(self, proxy: str):
         super(ApigeeDebugApi, self).__init__()
+        self.session = requests.Session()
         self.session_name = self._generate_uuid()
         self.proxy = proxy
 
@@ -23,6 +24,44 @@ class ApigeeDebugApi(GenericRequest):
 
         self.revision = self._get_latest_revision()
         self.create_debug_session()
+
+    def get(self, url: str, **kwargs) -> 'response type':
+        """Sends a get request and returns the response"""
+        try:
+            return self.session.get(url, **kwargs)
+        except requests.ConnectionError:
+            raise Exception(f"the url: {url} does not exist or is invalid")
+
+    def post(self, url: str, **kwargs) -> 'response type':
+        """Sends a post request and returns the response"""
+        try:
+            return self.session.post(url, **kwargs)
+        except requests.ConnectionError:
+            raise Exception(f"the url: {url} does not exist or is invalid")
+
+    def check_status_code(self, response: 'response type', expected_status_code: int) -> bool:
+        """Compare the actual and expected status code for a given response"""
+        self._validate_response(response)
+        self._verify_status_code(expected_status_code)
+        return response.status_code == expected_status_code
+
+    @staticmethod
+    def _validate_response(response: 'response type') -> None:
+        """Verifies the response provided is of a valid response type"""
+        if not type(response) == requests.models.Response:
+            raise TypeError("Expected response type object for response argument")
+
+    @staticmethod
+    def _verify_status_code(status_code: int or str) -> None:
+        """Verifies the status code provided is a valid status code"""
+        if not type(status_code) == int:
+            try:
+                int(status_code)
+            except ValueError:
+                raise TypeError('Status code must only consist of numbers')
+        else:
+            if len(str(status_code)) != 3:
+                raise TypeError('Status code must be a 3 digit number')
 
     @staticmethod
     def _generate_uuid():
