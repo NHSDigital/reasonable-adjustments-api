@@ -1,4 +1,6 @@
 import pytest
+from api_tests.tests.utils import Utils
+from assertpy import assert_that
 from api_tests.config_files import config
 from api_tests.scripts.apigee_api import ApigeeDebugApi
 
@@ -14,11 +16,11 @@ class TestSpineHeadersSuite:
         expected_header_value = '200000001115'
 
         # When
-        self.send_a_get_consent_request()
+        Utils.send_request(self)
 
         # Then
-        actual_header_value = debug_session.get_apigee_header('FromASID')
-        assert actual_header_value == expected_header_value
+        actual_header_value = debug_session.get_apigee_header('FromASID')        
+        assert_that(expected_header_value).is_equal_to(actual_header_value)
 
     @pytest.mark.spine_headers
     @pytest.mark.usefixtures('get_token')
@@ -27,11 +29,12 @@ class TestSpineHeadersSuite:
         debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
 
         # When
-        self.send_a_get_consent_request()
+        Utils.send_request(self)
+
 
         # Then
         actual_header_value = debug_session.get_apigee_header('ToASID')
-        assert actual_header_value is not None and actual_header_value != ''
+        assert_that(actual_header_value).is_not_empty()
 
     @pytest.mark.spine_headers
     @pytest.mark.usefixtures('get_token')
@@ -41,28 +44,29 @@ class TestSpineHeadersSuite:
         debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
 
         # When
-        self.send_a_get_consent_request()
+        Utils.send_request(self)
+
 
         # Then
         trace_id = debug_session.get_apigee_header('TraceID')
         x_request_id = debug_session.get_apigee_header('x-request-id')
 
-        assert trace_id == x_request_id
+        assert_that(trace_id).is_equal_to(x_request_id)
 
-    def send_a_get_consent_request(self):
-        self.reasonable_adjustments.check_endpoint(
-            verb='GET',
-            endpoint='consent',
-            expected_status_code=200,
-            expected_response=None,
-            params={
-                'patient':  'test',
-                'category': 'test',
-                'status':   'test',
-            },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
-                'x-request-id': 'test'
-            }
-        )
+    # def send_a_get_consent_request(self):
+    #     self.reasonable_adjustments.check_endpoint(
+    #         verb='GET',
+    #         endpoint='consent',
+    #         expected_status_code=200,
+    #         expected_response=None,
+    #         params={
+    #             'patient':  'test',
+    #             'category': 'test',
+    #             'status':   'test',
+    #         },
+    #         headers={
+    #             'Authorization': f'Bearer {self.token}',
+    #             'nhsd-session-urid': 'test',
+    #             'x-request-id': 'test'
+    #         }
+    #     )
