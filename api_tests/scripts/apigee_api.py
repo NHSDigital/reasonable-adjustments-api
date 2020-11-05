@@ -29,30 +29,6 @@ class ApigeeDebugApi:
         unique_id = uuid.uuid4()
         return str(unique_id)
 
-    def check_status_code(self, response: 'response type', expected_status_code: int) -> bool:
-        """Compare the actual and expected status code for a given response"""
-        self._validate_response(response)
-        self._verify_status_code(expected_status_code)
-        return response.status_code == expected_status_code
-
-    @staticmethod
-    def _validate_response(response: 'response type') -> None:
-        """Verifies the response provided is of a valid response type"""
-        if not type(response) == requests.models.Response:
-            raise TypeError("Expected response type object for response argument")
-
-    @staticmethod
-    def _verify_status_code(status_code: int or str) -> None:
-        """Verifies the status code provided is a valid status code"""
-        if not type(status_code) == int:
-            try:
-                int(status_code)
-            except ValueError:
-                raise TypeError('Status code must only consist of numbers')
-        else:
-            if len(str(status_code)) != 3:
-                raise TypeError('Status code must be a 3 digit number')
-
     def _get_latest_revision(self) -> str:
         url = f"{APIGEE_API_URL}/apis/{self.proxy}/revisions"
 
@@ -66,11 +42,8 @@ class ApigeeDebugApi:
 
         response = self.session.post(url, headers=self.headers)
 
-        try:
-            if response.status_code != 201:
-                raise ValueError(f"Unable to create apigee debug session {self.session_name}")
-        except ValueError as ve:
-            print(ve)
+        if response.status_code != 201:
+            raise ValueError(f"Unable to create apigee debug session {self.session_name}")
 
     def _get_transaction_id(self) -> str:
         url = f"{APIGEE_API_URL}/environments/{APIGEE_ENVIRONMENT}/apis/{self.proxy}/revisions/{self.revision}/" \
@@ -78,11 +51,8 @@ class ApigeeDebugApi:
 
         response = self.session.get(url, headers=self.headers)
 
-        try:
-            if response.status_code != 200:
-                raise ValueError(f"Unable to get apigee transaction id for {self.session_name}")
-        except ValueError as ve:
-                print(ve)            
+        if response.status_code != 200:
+            raise ValueError(f"Unable to get apigee transaction id for {self.session_name}")
 
         return response.text.strip('[]').replace("\"", "").strip().split(', ')[0]
 
@@ -92,12 +62,10 @@ class ApigeeDebugApi:
               f"debugsessions/{self.session_name}/data/{transaction_id}"
 
         response = self.session.get(url, headers=self.headers)
-        try:
-            if response.status_code != 200:
-                raise ValueError(f"Unable to get apigee transaction {transaction_id}")
-        except ValueError as ve:
-                    print(ve)        
-
+        
+        if response.status_code != 200:
+            raise ValueError(f"Unable to get apigee transaction {transaction_id}")
+        
         return json.loads(response.text)
 
     def get_apigee_variable(self, name: str) -> str:

@@ -31,23 +31,5 @@ class CheckOauth:
             data['code'] = self.get_authenticated()
             data['_access_token_expiry_ms'] = timeout
 
-        response = self.post(self.endpoints['token'], data=data)
-        return self.get_all_values_from_json_response(response)
-
-    def post(self, url: str, **kwargs) -> 'response type':
-        """Sends a post request and returns the response"""
-        try:
-            return self.session.post(url, **kwargs)
-        except requests.ConnectionError:
-            raise Exception(f"the url: {url} does not exist or is invalid")
-
-    def get_all_values_from_json_response(self, response: 'response type') -> dict:
-        """Convert json response string into a python dictionary"""
-        self._validate_response(response)
+        response = self.session.post(self.endpoints['token'], data=data)
         return json.loads(response.text)
-
-    @staticmethod
-    def _validate_response(response: 'response type') -> None:
-        """Verifies the response provided is of a valid response type"""
-        if not type(response) == requests.models.Response:
-            raise TypeError("Expected response type object for response argument")

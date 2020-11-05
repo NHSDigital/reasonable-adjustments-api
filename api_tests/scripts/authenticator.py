@@ -10,7 +10,9 @@ class Authenticator:
     def _simulated_oauth_prerequisite(self):
         """Request the login page and retrieve the callback url and assigned state"""
         login_page_response = self.session.get(config.AUTHENTICATE_URL)
-        assert login_page_response.status_code == 200
+        
+        if login_page_response.status_code != 200:
+            raise ValueError("Invalid login page respons statuse code")
 
         # Login
         params = {
@@ -23,10 +25,11 @@ class Authenticator:
         success_response = self.session.get(config.AUTHORIZE_URL, params=params, allow_redirects=False)
 
         # Confirm request was successful
-        assert success_response.status_code == 302, f"Getting an error: {success_response.text}"
+        if success_response.status_code != 302:
+            raise ValueError(f"Getting an error: {success_response.text}")
 
         call_back_url = success_response.headers.get('Location')
-        state = self.get_param_from_url(call_back_url, 'state')
+        state = self.get_params_from_url(call_back_url)['state']
         return call_back_url, state
 
     def _get_request_data(self) -> dict:
@@ -51,8 +54,10 @@ class Authenticator:
         )
 
         # Confirm request was successful
-        assert sign_in_response.status_code == 302, f"Failed to get authenticated " \
-                                                    f"with error {sign_in_response.status_code}"
+        if sign_in_response.status_code != 302:
+            raise ValueError(f"Failed to get authenticated " \
+                                                    f"with error {sign_in_response.status_code}")
+
         return sign_in_response
 
     def get_code_from_provider(self, sign_in_response: 'response type') -> str:
@@ -62,17 +67,13 @@ class Authenticator:
         callback_response = self.session.get(callback_url, allow_redirects=False)
 
         # Confirm request was successful
-        assert callback_response.status_code == 302, f"Callback request failed with {callback_response.status_code}"
+        if callback_response.status_code != 302:
+            raise ValueError(f"Callback request failed with {callback_response.status_code}")
 
         # Return code param from location header
-        return self.get_param_from_url(callback_response.headers.get('Location'), 'code')
+        return self.get_params_from_url(callback_response.headers.get('Location'))['code']
 
     @staticmethod
     def get_params_from_url(url: str) -> dict:
         """Returns all the params and param values from a given url as a dictionary"""
         return dict(parse.parse_qsl(parse.urlsplit(url).query))
-
-    def get_param_from_url(self, url: str, param: str) -> str:
-        """Returns a single param and its value as a dictionary"""
-        params = self.get_params_from_url(url)
-        return params[param]
