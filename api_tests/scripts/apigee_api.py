@@ -1,17 +1,16 @@
-from api_tests.config_files.config import APIGEE_API_URL, APIGEE_AUTHENTICATION, APIGEE_ENVIRONMENT, APIGEE_USERNAME, \
-    APIGEE_PASSWORD
 import json
 import uuid
 import base64
 import requests
-
+from api_tests.config_files.config import APIGEE_API_URL, APIGEE_AUTHENTICATION, APIGEE_ENVIRONMENT, APIGEE_USERNAME, \
+    APIGEE_PASSWORD
 
 class ApigeeDebugApi:
     def __init__(self, proxy: str):
         super(ApigeeDebugApi, self).__init__()
-        self.session = requests.Session()
         self.session_name = self._generate_uuid()
         self.proxy = proxy
+        self.session = requests.Session()
 
         if APIGEE_USERNAME != '' and APIGEE_PASSWORD != '':
             token = base64.b64encode(f'{APIGEE_USERNAME}:{APIGEE_PASSWORD}'.encode('ascii'))
@@ -25,19 +24,10 @@ class ApigeeDebugApi:
         self.revision = self._get_latest_revision()
         self.create_debug_session()
 
-    def get(self, url: str, **kwargs) -> 'response type':
-        """Sends a get request and returns the response"""
-        try:
-            return self.session.get(url, **kwargs)
-        except requests.ConnectionError:
-            raise Exception(f"the url: {url} does not exist or is invalid")
-
-    def post(self, url: str, **kwargs) -> 'response type':
-        """Sends a post request and returns the response"""
-        try:
-            return self.session.post(url, **kwargs)
-        except requests.ConnectionError:
-            raise Exception(f"the url: {url} does not exist or is invalid")
+    @staticmethod
+    def _generate_uuid():
+        unique_id = uuid.uuid4()
+        return str(unique_id)
 
     def check_status_code(self, response: 'response type', expected_status_code: int) -> bool:
         """Compare the actual and expected status code for a given response"""
@@ -63,15 +53,10 @@ class ApigeeDebugApi:
             if len(str(status_code)) != 3:
                 raise TypeError('Status code must be a 3 digit number')
 
-    @staticmethod
-    def _generate_uuid():
-        unique_id = uuid.uuid4()
-        return str(unique_id)
-
     def _get_latest_revision(self) -> str:
         url = f"{APIGEE_API_URL}/apis/{self.proxy}/revisions"
 
-        response = self.get(url, headers=self.headers)
+        response = self.session.get(url, headers=self.headers)
         revisions = response.json()
         return revisions[-1]
 
@@ -79,16 +64,26 @@ class ApigeeDebugApi:
         url = f"{APIGEE_API_URL}/environments/{APIGEE_ENVIRONMENT}/apis/{self.proxy}/revisions/{self.revision}/" \
               f"debugsessions?session={self.session_name}"
 
-        response = self.post(url, headers=self.headers)
+        response = self.session.post(url, headers=self.headers)
 
-        assert self.check_status_code(response, 201), f"Unable to create apigee debug session {self.session_name}"
+        try:
+            if response.status_code != 201:
+                raise ValueError(f"Unable to create apigee debug session {self.session_name}")
+        except ValueError as ve:
+            print(ve)
 
     def _get_transaction_id(self) -> str:
         url = f"{APIGEE_API_URL}/environments/{APIGEE_ENVIRONMENT}/apis/{self.proxy}/revisions/{self.revision}/" \
               f"debugsessions/{self.session_name}/data"
 
-        response = self.get(url, headers=self.headers)
-        assert self.check_status_code(response, 200), f"Unable to get apigee transaction id for {self.session_name}"
+        response = self.session.get(url, headers=self.headers)
+
+        try:
+            if response.status_code != 200:
+                raise ValueError(f"Unable to get apigee transaction id for {self.session_name}")
+        except ValueError as ve:
+                print(ve)            
+
         return response.text.strip('[]').replace("\"", "").strip().split(', ')[0]
 
     def _get_transaction_data(self) -> dict:
@@ -96,8 +91,12 @@ class ApigeeDebugApi:
         url = f"{APIGEE_API_URL}/environments/{APIGEE_ENVIRONMENT}/apis/{self.proxy}/revisions/{self.revision}/" \
               f"debugsessions/{self.session_name}/data/{transaction_id}"
 
-        response = self.get(url, headers=self.headers)
-        assert self.check_status_code(response, 200), f"Unable to get apigee transaction {transaction_id}"
+        response = self.session.get(url, headers=self.headers)
+        try:
+            if response.status_code != 200:
+                raise ValueError(f"Unable to get apigee transaction {transaction_id}")
+        except ValueError as ve:
+                    print(ve)        
 
         return json.loads(response.text)
 
