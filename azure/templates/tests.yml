@@ -14,7 +14,7 @@ steps:
           -e BASE_URL="https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/oauth2" \
           -e CLIENT_ID="$(CLIENT_ID)" \
           -e CLIENT_SECRET="$(CLIENT_SECRET)" \
-          -e REDIRECT_URI="https://nhsd-apim-testing-internal-dev.herokuapp.com/callback" \
+          -e REDIRECT_URI="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/callback" \
           -e AUTHENTICATE_URL="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/" \
           -e API_URL="https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/hello-world/hello/user" \
           -e APIGEE_CLIENT_ID="969567331415.apps.national" \
@@ -24,7 +24,7 @@ steps:
           -e MISSING_ASID_CLIENT_SECRET=$(INTERNAL_TESTING_WITHOUT_ASID_SECRET) \
           -e MISSING_ODS_CLIENT_ID=$(INTERNAL_TESTING_WITHOUT_ODS_KEY) \
           -e MISSING_ODS_CLIENT_SECRET=$(INTERNAL_TESTING_WITHOUT_ODS_SECRET) \
-          -e REASONABLE_ADJUSTMENTS_BASE_URL=https://internal-dev.api.service.nhs.uk \
+          -e REASONABLE_ADJUSTMENTS_BASE_URL=https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk \
           -e REASONABLE_ADJUSTMENTS_PROXY_PATH=$(SERVICE_BASE_PATH) \
           -e REASONABLE_ADJUSTMENTS_PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
           reasonable-adjustments-api/test-env:latest -v  --junitxml=/var/api_tests/reports/test_report.xml tests
