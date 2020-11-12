@@ -1,5 +1,6 @@
 import requests
 import pytest
+
 from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_CONSENT
 
 class Utils:
