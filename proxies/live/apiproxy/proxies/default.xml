@@ -13,8 +13,7 @@
             <Step>
               <Name>ExtractVariables.EndpointName</Name>
             </Step>
-            <Condition>not (proxy.pathsuffix MatchesPath "/_ping") or not (proxy.pathsuffix MatchesPath "/_status")</Condition>
-
+            <Condition>not ((proxy.pathsuffix MatchesPath "/_ping") or  (proxy.pathsuffix MatchesPath "/_status"))</Condition>
           </Request>
         </Flow>
         <Flow name="OptionsPreFlight">
