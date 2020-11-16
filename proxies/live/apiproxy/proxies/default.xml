@@ -8,14 +8,14 @@
         </DefaultFaultRule>
     </FaultRules>
     <Flows>
-        <Flow name="ExtractEndpointName">
-          <Request>
-            <Step>
-              <Name>ExtractVariables.EndpointName</Name>
-            </Step>
-          </Request>
-          <Condition>not ((proxy.pathsuffix MatchesPath "/_ping") or  (proxy.pathsuffix MatchesPath "/_status"))</Condition>
-        </Flow>
+<!--        <Flow name="ExtractEndpointName">-->
+<!--          <Request>-->
+<!--            <Step>-->
+<!--              <Name>ExtractVariables.EndpointName</Name>-->
+<!--            </Step>-->
+<!--          </Request>-->
+<!--          <Condition>not ((proxy.pathsuffix MatchesPath "/_ping") or  (proxy.pathsuffix MatchesPath "/_status"))</Condition>-->
+<!--        </Flow>-->
         <Flow name="OptionsPreFlight">
             <Request/>
             <Response>
