@@ -38,6 +38,8 @@ extends:
         - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_KEY
         - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_SECRET
     config_ids:
+        - /ptl/azure-devops/env-int/test-app/ra-testing/RA_INT_CLIENT_ID
+        - /ptl/azure-devops/env-int/test-app/ra-testing/RA_INT_CLIENT_SECRET
         - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_ID
         - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_SECRET
         - /ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_KEY

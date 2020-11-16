@@ -62,10 +62,10 @@ class ApigeeDebugApi:
               f"debugsessions/{self.session_name}/data/{transaction_id}"
 
         response = self.session.get(url, headers=self.headers)
-        
+
         if response.status_code != 200:
             raise ValueError(f"Unable to get apigee transaction {transaction_id}")
-        
+
         return json.loads(response.text)
 
     def get_apigee_variable(self, name: str) -> str:
@@ -101,3 +101,8 @@ class ApigeeDebugApi:
             for item in result['headers']:
                 if item['name'] == name:
                     return item['value']
+
+    def dump_data(self):
+        data = self._get_transaction_data()
+        print(json.dumps(data))
+

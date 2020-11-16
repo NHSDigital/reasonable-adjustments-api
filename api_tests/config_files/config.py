@@ -23,11 +23,6 @@ REASONABLE_ADJUSTMENTS_FLAG = f"{REASONABLE_ADJUSTMENTS_BASE_URL}/{REASONABLE_AD
 REASONABLE_ADJUSTMENTS_LIST = f"{REASONABLE_ADJUSTMENTS_BASE_URL}/{REASONABLE_ADJUSTMENTS_PROXY_PATH}/list"
 REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD = f"{REASONABLE_ADJUSTMENTS_BASE_URL}/{REASONABLE_ADJUSTMENTS_PROXY_PATH}/removerarecord"
 
-# App details
-CLIENT_ID = ENV['oauth']['client_id']
-CLIENT_SECRET = ENV['oauth']['client_secret']
-REDIRECT_URI = ENV['oauth']['redirect_uri']
-
 # Authentication provider (Simulated OAuth)
 AUTHENTICATE_URL = ENV['oauth']['authenticate_url']
 
@@ -41,3 +36,26 @@ ENDPOINTS = {
     'list': REASONABLE_ADJUSTMENTS_LIST,
     'remove_ra_record': REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD
 }
+
+# App details
+INTERNAL_TESTING_INTERNAL_DEV = {
+    'client_id': ENV['oauth']['client_id'],
+    'client_secret': ENV['oauth']['client_secret'],
+    'redirect_url': ENV['oauth']['redirect_uri'],
+    'endpoints': ENDPOINTS
+}
+
+MISSING_ASID = {
+    'client_id': ENV['apps']['missing_asid']['client_id'],
+    'client_secret': ENV['apps']['missing_asid']['client_secret'],
+    'redirect_url': 'https://example.com/callback',
+    'endpoints': ENDPOINTS
+}
+
+MISSING_ODS = {
+    'client_id': ENV['apps']['missing_ods']['client_id'],
+    'client_secret': ENV['apps']['missing_ods']['client_secret'],
+    'redirect_url': 'https://example.com/callback',
+    'endpoints': ENDPOINTS
+}
+

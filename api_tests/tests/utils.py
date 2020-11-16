@@ -2,6 +2,7 @@ import requests
 import pytest
 
 from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_CONSENT
+import uuid
 
 class Utils:
     """ A Utils class to be used for shared functionality between tests  """
@@ -14,7 +15,7 @@ class Utils:
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
-                'x-request-id': 'test',
+                'x-request-id': str(uuid.uuid4()),
             }
         )
 

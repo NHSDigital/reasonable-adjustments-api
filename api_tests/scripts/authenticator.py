@@ -1,32 +1,32 @@
-from api_tests.config_files import config
 from urllib import parse
 
 
 class Authenticator:
-    def __init__(self, session):
+    def __init__(self, session, creds):
         self.session = session
+        self.creds = creds
         self.data = self._get_request_data()
 
     def _simulated_oauth_prerequisite(self):
         """Request the login page and retrieve the callback url and assigned state"""
-        login_page_response = self.session.get(config.AUTHENTICATE_URL)
-
+        login_page_response = self.session.get(self.creds['endpoints']['authenticate'])
+        
         if login_page_response.status_code != 200:
             raise ValueError("Invalid login page respons statuse code")
 
         # Login
         params = {
-            'client_id': config.CLIENT_ID,
-            'redirect_uri': config.REDIRECT_URI,
+            'client_id': self.creds['client_id'],
+            'redirect_uri': self.creds['redirect_url'],
             'response_type': 'code',
             'state': '1234567890'
         }
 
-        success_response = self.session.get(config.AUTHORIZE_URL, params=params, allow_redirects=False)
+        success_response = self.session.get(self.creds['endpoints']['authorize'], params=params, allow_redirects=False)
 
         # Confirm request was successful
         if success_response.status_code != 302:
-            raise ValueError(f"Getting an error: {success_response.text}")
+            raise ValueError(f"Getting an error: {success_response.status_code} : {success_response.text}")
 
         call_back_url = success_response.headers.get('Location')
         state = self.get_params_from_url(call_back_url)['state']
@@ -56,7 +56,7 @@ class Authenticator:
         # Confirm request was successful
         if sign_in_response.status_code != 302:
             raise ValueError(f"Failed to get authenticated " \
-                                                    f"with error {sign_in_response.status_code}")
+                                                    f"with {sign_in_response.status_code} : {sign_in_response.text}")
 
         return sign_in_response
 
@@ -68,7 +68,7 @@ class Authenticator:
 
         # Confirm request was successful
         if callback_response.status_code != 302:
-            raise ValueError(f"Callback request failed with {callback_response.text}")
+            raise ValueError(f"Callback request failed with {callback_response.status_code} : {callback_response.text}")
 
         # Return code param from location header
         return self.get_params_from_url(callback_response.headers.get('Location'))['code']

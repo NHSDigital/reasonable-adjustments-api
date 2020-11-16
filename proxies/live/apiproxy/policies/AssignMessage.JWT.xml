@@ -3,7 +3,7 @@
     <DisplayName>AssignMessage.JWT</DisplayName>
     <Add>
         <Headers>
-            <Header name="jwt">{jwt}</Header>
+            <Header name="Authorization">{spineJwt}</Header>
         </Headers>
     </Add>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>

@@ -12,8 +12,8 @@ steps:
     - bash: |
           docker run --entrypoint "pytest" -v $(pwd)/reports:/var/api_tests/reports \
             -e BASE_URL="https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/oauth2-no-smartcard" \
-            -e CLIENT_ID="$(CLIENT_ID)" \
-            -e CLIENT_SECRET="$(CLIENT_SECRET)" \
+            -e CLIENT_ID="$(RA_INT_CLIENT_ID)" \
+            -e CLIENT_SECRET="$(RA_INT_CLIENT_SECRET)" \
             -e REDIRECT_URI="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT)-ns.herokuapp.com/callback" \
             -e AUTHENTICATE_URL="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT)-ns.herokuapp.com/" \
             -e APIGEE_CLIENT_ID="969567331415.apps.national" \
@@ -26,7 +26,7 @@ steps:
             -e REASONABLE_ADJUSTMENTS_BASE_URL=https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk \
             -e REASONABLE_ADJUSTMENTS_PROXY_PATH=$(SERVICE_BASE_PATH) \
             -e REASONABLE_ADJUSTMENTS_PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
-            reasonable-adjustments-api/test-env:latest -v  --junitxml=/var/api_tests/reports/test_report.xml tests
+            reasonable-adjustments-api/test-env:latest -v -m smoke --junitxml=/var/api_tests/reports/test_report.xml tests
 
       workingDirectory: $(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)/api_tests
       displayName: 'Run Integration Tests'

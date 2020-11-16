@@ -11,30 +11,15 @@
             <Step>
                 <Name>Quota</Name>
             </Step>
-            <Step> 
-                <Name>SpikeArrest</Name>   
+            <Step>
+                <Name>SpikeArrest</Name>
             </Step>
             <Step>
               <Name>VerifyAPIKey.CustomAttributes</Name>
             </Step>
             <Step>
-              <Name>AccessEntity.CustomAttributes</Name>
-            </Step>
-            <Step>
-                <Name>KeyValueMapOperations.GetVariables</Name>
-            </Step>
-            <Step>
-                <Name>JavaScript.CreateClaimVars</Name>
-            </Step>
-            <Step>
-                <Name>GenerateJWT</Name>
-            </Step>
-            <Step>
-                <Name>AssignMessage.JWT</Name>
-            </Step>
-            <Step>
                 <Name>RaiseFault.Invalid-X-Request-Id</Name>
-                <Condition>request.header.X-Request-ID = null or request.header.X-Request-ID = ""</Condition>
+                <Condition>(request.header.X-Request-ID == null) or (not request.header.X-Request-ID ~~ "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")</Condition>
             </Step>
             <Step>
                 <Name>RaiseFault.Invalid-NHSD-Session-URID</Name>
@@ -59,7 +44,16 @@
             <Step>
               <Name>KeyValueMapOperations.GetSecureVariables</Name>
             </Step>
-          <Step>
+            <Step>
+              <Name>JavaScript.CreateClaimVars</Name>
+            </Step>
+            <Step>
+              <Name>AssignMessage.RemoveHeaders</Name>
+            </Step>
+            <Step>
+              <Name>AssignMessage.JWT</Name>
+            </Step>
+            <Step>
               <Name>AssignMessage.AddHeaders</Name>
             </Step>
         </Request>

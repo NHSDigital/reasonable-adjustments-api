@@ -1,6 +1,12 @@
 <KeyValueMapOperations mapIdentifier="ra-interactionID" async="false" continueOnError="false" enabled="true" name="KeyValueMapOperations.GetInteractionIDPutConsent">
   <DisplayName>GetInteractionID</DisplayName>
-  <Get assignTo="interactionID">
+  <Get assignTo="interactionID" index="1">
+    <Key>
+      <Parameter ref="request.verb"/>
+      <Parameter>consent</Parameter>
+    </Key>
+  </Get>
+  <Get assignTo="kvm_scope" index="2">
     <Key>
       <Parameter ref="request.verb"/>
       <Parameter>consent</Parameter>

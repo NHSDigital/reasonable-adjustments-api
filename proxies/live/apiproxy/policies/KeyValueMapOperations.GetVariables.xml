@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<KeyValueMapOperations async="false" continueOnError="false" enabled="true" name="KeyValueMapOperations.GetVariables" mapIdentifier="ra-variables-encrypted">
-    <DisplayName>KeyValueMapOperations.GetVariables</DisplayName>
-    <Get assignTo="private.jwtKey" index="1">
-        <Key>
-            <Parameter>ra-jwt-key</Parameter>
-        </Key>
-    </Get>
-</KeyValueMapOperations>

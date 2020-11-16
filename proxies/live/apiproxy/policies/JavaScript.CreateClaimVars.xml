@@ -2,5 +2,6 @@
 <Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JavaScript.CreateClaimVars">
     <DisplayName>JavaScript.CreateClaimVars</DisplayName>
     <Properties/>
-    <ResourceURL>jsc://createClaimVars.js</ResourceURL>
+  <IncludeURL>jsc://Base64DecodeEncode.min.js</IncludeURL>
+  <ResourceURL>jsc://createClaimVars.js</ResourceURL>
 </Javascript>
