@@ -45,7 +45,7 @@ extends:
       - /ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_SECRET
     apigee_deployments:
       - environment: internal-dev
-        make_spec_visible: true
+        make_spec_visible: false
         post_deploy:
           - template: templates/tests.yml
             parameters:
