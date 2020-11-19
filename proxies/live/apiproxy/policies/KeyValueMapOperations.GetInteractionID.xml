@@ -3,13 +3,13 @@
   <Get assignTo="interactionID" index="1">
     <Key>
       <Parameter ref="request.verb"/>
-      <Parameter ref="trimmedPath"/>
+      <Parameter ref="endpointName"/>
     </Key>
   </Get>
   <Get assignTo="kvm_scope" index="2">
     <Key>
       <Parameter ref="request.verb"/>
-      <Parameter ref="trimmedPath"/>
+      <Parameter ref="endpointName"/>
     </Key>
   </Get>
 </KeyValueMapOperations>

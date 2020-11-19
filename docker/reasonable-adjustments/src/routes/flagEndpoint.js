@@ -1,7 +1,7 @@
 const flagGet =  {
     method: 'GET',
-    path: '/flag',
-    handler: (request, h) => {        
+    path: '/Flag',
+    handler: (request, h) => {
         const path = 'flagGET.json'
         return h.file(path)
     }
@@ -9,7 +9,7 @@ const flagGet =  {
 
 const flagPost = {
     method: 'POST',
-    path: '/flag',
+    path: '/Flag',
     handler: (request, h) => {
         const path = 'flagPOST.json'
         return h.response(h.file(path)).code(201);
@@ -18,7 +18,7 @@ const flagPost = {
 
 const flagPut = {
     method: 'PUT',
-    path: '/flag/{flagID}',
+    path: '/Flag/{flagID}',
     handler: (request, h) => {
         const path = 'flagPUT.json'
         return h.file(path)

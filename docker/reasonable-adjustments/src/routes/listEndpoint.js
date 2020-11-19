@@ -1,7 +1,7 @@
 const listGet =  {
     method: 'GET',
-    path: '/list',
-    handler: (request, h) => {        
+    path: '/List',
+    handler: (request, h) => {
         const path = 'listGET.json'
         return h.file(path)
     }
@@ -9,7 +9,7 @@ const listGet =  {
 
 const listPost = {
     method: 'POST',
-    path: '/list',
+    path: '/List',
     handler: (request, h) => {
         const path = 'listPOST.json'
         return h.response(h.file(path)).code(201);
@@ -18,7 +18,7 @@ const listPost = {
 
 const listPut = {
     method: 'PUT',
-    path: '/list/{listID}',
+    path: '/List/{listID}',
     handler: (request, h) => {
         const path = 'listPUT.json'
         return h.file(path)

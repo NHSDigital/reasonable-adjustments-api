@@ -26,14 +26,14 @@
             </Response>
             <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
         </Flow>
-        <Flow name="consent-GET">
+        <Flow name="Consent-GET">
             <Request>
               <Step>
                 <Name>RaiseFault.InvalidQueryParams</Name>
                 <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
               </Step>
               <Step>
-                <Name>JS.AmmendPath</Name>
+                <Name>ExtractVariables.EndpointName</Name>
               </Step>
               <Step>
                 <Name>KeyValueMapOperations.GetInteractionID</Name>
@@ -42,12 +42,12 @@
                 <Name>AssignMessage.AddInteractionID</Name>
               </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/consent") and (request.verb = "GET"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/Consent") and (request.verb = "GET"))</Condition>
         </Flow>
-        <Flow name="consent-POST">
+        <Flow name="Consent-POST">
             <Request>
               <Step>
-                <Name>JS.AmmendPath</Name>
+                <Name>ExtractVariables.EndpointName</Name>
               </Step>
               <Step>
                 <Name>KeyValueMapOperations.GetInteractionID</Name>
@@ -56,18 +56,21 @@
                 <Name>AssignMessage.AddInteractionID</Name>
               </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/consent") and (request.verb = "POST"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/Consent") and (request.verb = "POST"))</Condition>
         </Flow>
-        <Flow name="consent-PUT">
+        <Flow name="Consent-PUT">
             <Request>
               <Step>
-                <Name>KeyValueMapOperations.GetInteractionIDPutConsent</Name>
+                <Name>ExtractVariables.EndpointName</Name>
+              </Step>
+              <Step>
+                <Name>KeyValueMapOperations.GetInteractionID</Name>
               </Step>
               <Step>
                 <Name>AssignMessage.AddInteractionID</Name>
               </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/consent/*") and (request.verb = "PUT"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/Consent/*") and (request.verb = "PUT"))</Condition>
         </Flow>
         <Flow name="flag-GET">
             <Request>
@@ -76,7 +79,7 @@
                 <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
               </Step>
               <Step>
-                <Name>JS.AmmendPath</Name>
+                <Name>ExtractVariables.EndpointName</Name>
               </Step>
               <Step>
                 <Name>KeyValueMapOperations.GetInteractionID</Name>
@@ -85,12 +88,12 @@
                 <Name>AssignMessage.AddInteractionID</Name>
               </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/flag") and (request.verb = "GET"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "GET"))</Condition>
         </Flow>
         <Flow name="flag-POST">
             <Request>
               <Step>
-                <Name>JS.AmmendPath</Name>
+                <Name>ExtractVariables.EndpointName</Name>
               </Step>
               <Step>
                 <Name>KeyValueMapOperations.GetInteractionID</Name>
@@ -99,7 +102,7 @@
                 <Name>AssignMessage.AddInteractionID</Name>
               </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/flag") and (request.verb = "POST"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "POST"))</Condition>
         </Flow>
         <Flow name="flag-PUT">
             <Request>
@@ -108,22 +111,7 @@
                   <Condition>(request.header.If-Match = null or request.header.If-Match = "")</Condition>
                 </Step>
                 <Step>
-                  <Name>KeyValueMapOperations.GetInteractionIDPutFlag</Name>
-                </Step>
-                <Step>
-                  <Name>AssignMessage.AddInteractionID</Name>
-                </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/flag/*") and (request.verb = "PUT"))</Condition>
-        </Flow>
-        <Flow name="list-GET">
-            <Request>
-                <Step>
-                  <Name>RaiseFault.InvalidQueryParams</Name>
-                  <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.code = null or request.queryparam.code = ""</Condition>
-                </Step>
-                <Step>
-                  <Name>JS.AmmendPath</Name>
+                  <Name>ExtractVariables.EndpointName</Name>
                 </Step>
                 <Step>
                   <Name>KeyValueMapOperations.GetInteractionID</Name>
@@ -132,12 +120,30 @@
                   <Name>AssignMessage.AddInteractionID</Name>
                 </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/list") and (request.verb = "GET"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/Flag/*") and (request.verb = "PUT"))</Condition>
         </Flow>
-        <Flow name="list-POST">
+        <Flow name="List-GET">
+            <Request>
+                <Step>
+                  <Name>RaiseFault.InvalidQueryParams</Name>
+                  <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.code = null or request.queryparam.code = ""</Condition>
+                </Step>
+                <Step>
+                  <Name>ExtractVariables.EndpointName</Name>
+                </Step>
+                <Step>
+                  <Name>KeyValueMapOperations.GetInteractionID</Name>
+                </Step>
+                <Step>
+                  <Name>AssignMessage.AddInteractionID</Name>
+                </Step>
+            </Request>
+            <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "GET"))</Condition>
+        </Flow>
+        <Flow name="List-POST">
             <Request>
               <Step>
-                <Name>JS.AmmendPath</Name>
+                <Name>ExtractVariables.EndpointName</Name>
               </Step>
               <Step>
                 <Name>KeyValueMapOperations.GetInteractionID</Name>
@@ -146,31 +152,16 @@
                 <Name>AssignMessage.AddInteractionID</Name>
               </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/list") and (request.verb = "POST"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "POST"))</Condition>
         </Flow>
-        <Flow name="list-PUT">
+        <Flow name="List-PUT">
             <Request>
                 <Step>
                   <Name>RaiseFault.Invalid-If-Match</Name>
                   <Condition>request.header.If-Match = null or request.header.If-Match = ""</Condition>
                 </Step>
                 <Step>
-                  <Name>KeyValueMapOperations.GetInteractionIDPutList</Name>
-                </Step>
-                <Step>
-                  <Name>AssignMessage.AddInteractionID</Name>
-                </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/list/*") and (request.verb = "PUT"))</Condition>
-        </Flow>
-        <Flow name="removeRarecord-POST">
-            <Request>
-                <Step>
-                  <Name>RaiseFault.InvalidQueryParams</Name>
-                  <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.removalReason = null or request.queryparam.removalReason = "" or request.queryparam.supportingComment = null or request.queryparam.supportingComment = ""</Condition>
-                </Step>
-                <Step>
-                  <Name>JS.AmmendPath</Name>
+                  <Name>ExtractVariables.EndpointName</Name>
                 </Step>
                 <Step>
                   <Name>KeyValueMapOperations.GetInteractionID</Name>
@@ -179,7 +170,25 @@
                   <Name>AssignMessage.AddInteractionID</Name>
                 </Step>
             </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/removerarecord") and (request.verb = "POST"))</Condition>
+            <Condition>((proxy.pathsuffix MatchesPath "/List/*") and (request.verb = "PUT"))</Condition>
+        </Flow>
+        <Flow name="removeRarecord-POST">
+            <Request>
+                <Step>
+                  <Name>RaiseFault.InvalidQueryParams</Name>
+                  <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.removalReason = null or request.queryparam.removalReason = "" or request.queryparam.supportingComment = null or request.queryparam.supportingComment = ""</Condition>
+                </Step>
+                <Step>
+                  <Name>ExtractVariables.EndpointName</Name>
+                </Step>
+                <Step>
+                  <Name>KeyValueMapOperations.GetInteractionID</Name>
+                </Step>
+                <Step>
+                  <Name>AssignMessage.AddInteractionID</Name>
+                </Step>
+            </Request>
+            <Condition>((proxy.pathsuffix MatchesPath "/$removerarecord") and (request.verb = "POST"))</Condition>
         </Flow>
     </Flows>
     <PostClientFlow name="PostClientFlow">
