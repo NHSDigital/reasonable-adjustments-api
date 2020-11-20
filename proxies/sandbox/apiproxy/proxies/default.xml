@@ -44,7 +44,7 @@
           <Condition>request.content = ""</Condition>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/consent/*") and (request.verb = "PUT"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/Consent/*") and (request.verb = "PUT"))</Condition>
     </Flow>
     <Flow name="flag-GET">
       <Request>
@@ -53,7 +53,7 @@
           <Condition>request.queryparam.patient = null or request.queryparam.status = null or request.queryparam.category = null</Condition>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/flag") and (request.verb = "GET"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "GET"))</Condition>
     </Flow>
     <Flow name="flag-POST">
       <Request>
@@ -62,7 +62,7 @@
           <Condition>request.content = ""</Condition>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/flag") and (request.verb = "POST"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "POST"))</Condition>
     </Flow>
     <Flow name="flag-PUT">
       <Request>
@@ -71,7 +71,7 @@
           <Condition>((request.content = "") and (request.header.If-Match = null))</Condition>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/flag/*") and (request.verb = "PUT"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/Flag/*") and (request.verb = "PUT"))</Condition>
     </Flow>
     <Flow name="list-GET">
       <Request>
@@ -80,7 +80,7 @@
           <Condition>request.queryparam.patient = null or request.queryparam.status = null or request.queryparam.code = null</Condition>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/list") and (request.verb = "GET"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "GET"))</Condition>
     </Flow>
     <Flow name="list-POST">
       <Request>
@@ -89,7 +89,7 @@
           <Condition>request.content = ""</Condition>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/list") and (request.verb = "POST"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "POST"))</Condition>
     </Flow>
     <Flow name="list-PUT">
       <Request>
@@ -98,7 +98,7 @@
           <Condition>((request.content = "") or (request.header.If-Match = null))</Condition>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/list/*") and (request.verb = "PUT"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/List/*") and (request.verb = "PUT"))</Condition>
     </Flow>
     <Flow name="removeRarecord-POST">
       <Request>
@@ -110,7 +110,7 @@
           <Name>RaiseFault.400BadRequest</Name>
           <Condition>(request.content = "")</Condition>
         </Step>
-        <Condition>((proxy.pathsuffix MatchesPath "/removerarecord") and (request.verb = "POST"))</Condition>
+        <Condition>((proxy.pathsuffix MatchesPath "/$removerarecord") and (request.verb = "POST"))</Condition>
       </Request>
     </Flow>
   </Flows>
