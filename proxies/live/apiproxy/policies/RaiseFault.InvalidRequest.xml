@@ -6,13 +6,13 @@
         <Set>
             <Payload contentType="application/json">
             {
-                "error": "{errorMessage}",
-                "error_description": "{errorDescription}",
+                "error": "{validation.errorMessage}",
+                "error_description": "{validation.errorDescription}",
                 "message_id": "{messageid}"
             }
             </Payload>
-            <StatusCode>{statusCode}</StatusCode>
-            <ReasonPhrase>{reasonPhrase}</ReasonPhrase>
+            <StatusCode>{validation.statusCode}</StatusCode>
+            <ReasonPhrase>{validation.reasonPhrase}</ReasonPhrase>
         </Set>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
