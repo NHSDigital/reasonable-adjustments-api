@@ -18,29 +18,12 @@
               <Name>VerifyAPIKey.CustomAttributes</Name>
             </Step>
             <Step>
-                <Name>RaiseFault.Invalid-X-Request-Id</Name>
-                <Condition>(request.header.X-Request-ID == null) or (not request.header.X-Request-ID ~~ "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")</Condition>
+                <Name>JavaScript.EndpointValidation</Name>
             </Step>
             <Step>
-                <Name>RaiseFault.Invalid-NHSD-Session-URID</Name>
-                <Condition>request.header.NHSD-Session-URID = null or request.header.NHSD-Session-URID = ""</Condition>
-            </Step>
-            <Step>
-                <Name>RaiseFault.Invalid-Content-Type</Name>
-                <Condition>request.verb != "GET" and request.header.content-type != "application/fhir+json"</Condition>
-            </Step>
-            <Step>
-                <Name>RaiseFault.InvalidPayload</Name>
-                <Condition>request.verb != "GET" and request.content = ""</Condition>
-            </Step>
-            <Step>
-              <Name>RaiseFault.MissingASID</Name>
-                <Condition>verifyapikey.VerifyAPIKey.CustomAttributes.asid is null</Condition>
-            </Step>
-            <Step>
-              <Name>RaiseFault.MissingODS</Name>
-              <Condition>verifyapikey.VerifyAPIKey.CustomAttributes.ods is null</Condition>
-            </Step>
+                <Name>RaiseFault.InvalidRequest</Name>
+                <Condition>isError = true</Condition>
+            </Step>            
             <Step>
               <Name>KeyValueMapOperations.GetSecureVariables</Name>
             </Step>
