@@ -49,6 +49,6 @@ ENV = {
         'proxy_name': get_env('REASONABLE_ADJUSTMENTS_PROXY_NAME'),
     },
 	'status': {
-        'status_apikey': os.environ.get('STATUS_APIKEY'),
+        'status_apikey': get_env('STATUS_APIKEY'),
     },
 }
