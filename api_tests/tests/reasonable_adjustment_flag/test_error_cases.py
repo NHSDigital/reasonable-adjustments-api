@@ -439,3 +439,20 @@ class TestErrorCaseSuite:
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
         assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+
+    @pytest.mark.errors
+    @pytest.mark.integration
+    def test_invalid_url(self): 
+        # Given
+        expected_status_code = 404
+        expected_response = {
+            'error': "Resource Not Found"
+        }
+
+        # When
+        response = requests.get(url=config.REASONABLE_ADJUSTMENTS_BASE_URL + '/' + config.REASONABLE_ADJUSTMENTS_PROXY_PATH + '/test')
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])

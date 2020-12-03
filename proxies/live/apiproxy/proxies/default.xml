@@ -210,6 +210,13 @@
             </Response>
             <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
         </Flow>
+        <Flow name="InvalidEndpoint">
+          <Request>
+              <Step>
+                  <Name>RaiseFault.404NotFound</Name>
+              </Step>
+          </Request>
+      </Flow>
     </Flows>
     <PostClientFlow name="PostClientFlow">
         <Response>
