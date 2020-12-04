@@ -23,7 +23,7 @@ class TestHappyCasesSuite:
     @pytest.mark.sandbox
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_consent_get(self):
-        # Given
+        # Given 
         expected_status_code = 200
 
         # When
