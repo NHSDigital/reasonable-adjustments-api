@@ -19,10 +19,17 @@
   <HTTPTargetConnection>
     <PreFlow name="PreFlow">
       <Request>
-        <Step>
+        <!-- <Step>
           <Name>RaiseFault.400BadRequest</Name>
           <Condition>request.header.X-Request-ID = null or request.header.NHSD-Session-URID = null</Condition>
-        </Step>
+        </Step> -->
+      <Step>
+          <Name>JavaScript.EndpointValidation</Name>
+      </Step>
+      <Step>
+          <Name>RaiseFault.InvalidRequest</Name>
+          <Condition>isError = true</Condition>
+      </Step>
       </Request>
       <Response>
         <Step>
