@@ -38,6 +38,7 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
+                'Accept': 'application/fhir+json'
             }
         )
 
@@ -66,7 +67,8 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json'
+                'content-type': 'application/json',
+                'Accept': 'application/fhir+json'
             }
         )
 
@@ -102,8 +104,9 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
-                'If-Match': etag
+                'content-type': 'application/json',
+                'If-Match': etag,
+                'Accept': 'application/fhir+json'
             }
         )
 
@@ -131,6 +134,7 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
+                'Accept': 'application/fhir+json'
             }
         )
 
@@ -158,7 +162,8 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json'
+                'content-type': 'application/json',
+                'Accept': 'application/fhir+json'
             },
             json=json.dumps({'message': 'test'})
         )
@@ -194,8 +199,9 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
+                'content-type': 'application/json',
                 'if-match': etag,
+                'Accept': 'application/fhir+json'
             },
             data=json.dumps({'message': 'test'})
         )
@@ -224,6 +230,7 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
+                'Accept': 'application/fhir+json'
             }
         )
 
@@ -251,7 +258,8 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json'
+                'content-type': 'application/json',
+                'Accept': 'application/fhir+json'
             },
             json=json.dumps({'message': 'test'})
         )
@@ -287,8 +295,9 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
+                'content-type': 'application/json',
                 'if-match': etag,
+                'Accept': 'application/fhir+json'
             },
             data=json.dumps({'message': 'test'})
         )
@@ -317,7 +326,8 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
+                'content-type': 'application/json',
+                'Accept': 'application/fhir+json'
             },
             json=json.dumps({'message': 'test'})
         )
@@ -438,6 +448,7 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
+                'Accept': 'application/fhir+json'
             }
         )
 
@@ -466,7 +477,8 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json'
+                'content-type': 'application/json',
+                'Accept': 'application/fhir+json'
             },
             data=json.dumps({'message': 'test'})
         )
@@ -496,8 +508,9 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
-                'If-Match': 'abc123'
+                'content-type': 'application/json',
+                'If-Match': 'abc123',
+                'Accept': 'application/fhir+json'
             },
             data=json.dumps({'message': 'test'})
         )
@@ -527,8 +540,9 @@ class TestHappyCasesSuite:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
-                'If-Match': 'abc123'
+                'content-type': 'application/json',
+                'If-Match': 'abc123',
+                'Accept': 'application/fhir+json'
             },
             data=json.dumps({'message': 'test'})
         )

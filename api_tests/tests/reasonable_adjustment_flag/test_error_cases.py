@@ -149,7 +149,7 @@ class TestErrorCaseSuite:
         expected_status_code = 400
         expected_response={
             "error": "invalid header",
-            "error_description": "content-type must be set to application/fhir+json"
+            "error_description": "content-type must be set to application/json"
         }
 
         # When
@@ -164,7 +164,7 @@ class TestErrorCaseSuite:
                 'Authorization': f'Bearer {self.token}',
                 'x-request-id': str(uuid.uuid4()),
                 'nhsd-session-urid': 'test',
-                'content-type': 'application/json'
+                'content-type': 'application/test'
             },
             data={
                 'message': 'test'
@@ -201,7 +201,8 @@ class TestErrorCaseSuite:
                 'Authorization': f'Bearer {self.token}',
                 'x-request-id': str(uuid.uuid4()),
                 'nhsd-session-urid': 'test',
-                'content-type': 'application/fhir+json'
+                'content-type': 'application/json',
+                'Accept': 'application/fhir+json'
             }
         )
         actual_response = json.loads(response.text)
@@ -512,3 +513,38 @@ class TestErrorCaseSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+
+    @pytest.mark.errors
+    @pytest.mark.integration
+    def test_accept_header(self):
+        # Given
+        expected_status_code = 400
+        expected_response = {
+            'error': 'invalid header',
+            'error_description': 'accept must be set to application/fhir+json',
+        }
+
+        # When
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            params={
+                'patient': '9999999998',
+                'category': 'test',
+                'status': 'test'
+            },
+            headers={
+                'Authorization': f'Bearer {self.token}',
+                'nhsd-session-urid': 'test',
+                'x-request-id': str(uuid.uuid4()),
+                'Accept': 'test'
+            }
+        )
+
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        

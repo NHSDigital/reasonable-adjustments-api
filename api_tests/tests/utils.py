@@ -16,6 +16,7 @@ class Utils:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': 'test',
                 'x-request-id': str(uuid.uuid4()),
+                'Accept': 'application/fhir+json'
             }
         )
 
@@ -30,6 +31,7 @@ class Utils:
                 'Authorization': f'Bearer {self.token}',
                 'nhsd-session-urid': str(uuid.uuid4()),
                 'x-request-id': str(uuid.uuid4()),
+                'Accept': 'application/fhir+json'
             }
         )
         time.sleep(1)

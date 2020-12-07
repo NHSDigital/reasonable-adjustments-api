@@ -7,6 +7,7 @@ var nhsdSessionURID = context.getVariable('request.header.NHSD-Session-URID')
 var contentType = context.getVariable('request.header.content-type')
 var asid = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
 var ods = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.ods')
+var accept = context.getVariable('request.header.accept')
 print(requestPayload)
 
 var regex = RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
@@ -19,8 +20,12 @@ else if (nhsdSessionURID === "" || nhsdSessionURID === null) {
     var errorObject = { error: 'invalid header', errorDescription: "nhsd-session-urid is missing or invalid", statusCode: 400, reasonPhrase: "Bad Request" } 
     var isError = true
 }
-else if (requestVerb !== "GET" && contentType !== "application/fhir+json") {
-    var errorObject = { error: 'invalid header', errorDescription: "content-type must be set to application/fhir+json", statusCode: 400, reasonPhrase: "Bad Request" } 
+else if (requestVerb !== "GET" && contentType !== "application/json") {
+    var errorObject = { error: 'invalid header', errorDescription: "content-type must be set to application/json", statusCode: 400, reasonPhrase: "Bad Request" } 
+    var isError = true
+}
+else if (accept !== "application/fhir+json") {
+    var errorObject = { error: 'invalid header', errorDescription: "accept must be set to application/fhir+json", statusCode: 400, reasonPhrase: "Bad Request" } 
     var isError = true
 }
 else if (requestVerb !== "GET" && requestPayload === "") {
