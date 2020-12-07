@@ -2,7 +2,7 @@
 <AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.AddInteractionID">
     <Add>
         <Headers>
-            <Header name="Interaction-ID">{interactionID}</Header>
+            <Header name="InteractionId">{interactionID}</Header>
         </Headers>
     </Add>
     <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>

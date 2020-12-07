@@ -1,7 +1,6 @@
 import base64
 import json
 import uuid
-import time
 
 import pytest
 import requests
@@ -119,6 +118,7 @@ class TestHappyCasesSuite:
     @pytest.mark.sandbox
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_flag_get(self):
+
         # Given
         expected_status_code = 200
 
@@ -453,7 +453,7 @@ class TestHappyCasesSuite:
         )
 
         # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+        actual_interaction_id = debug_session.get_apigee_header('InteractionId')
 
         assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
 
@@ -484,7 +484,7 @@ class TestHappyCasesSuite:
         )
 
         # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+        actual_interaction_id = debug_session.get_apigee_header('InteractionId')
 
         assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
 
@@ -516,7 +516,7 @@ class TestHappyCasesSuite:
         )
 
         # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+        actual_interaction_id = debug_session.get_apigee_header('InteractionId')
 
         assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
 
@@ -548,7 +548,7 @@ class TestHappyCasesSuite:
         )
 
         # Then
-        actual_interaction_id = debug_session.get_apigee_header('Interaction-ID')
+        actual_interaction_id = debug_session.get_apigee_header('InteractionId')
 
         assert_that(expected_interaction_id).is_equal_to(actual_interaction_id)
 
