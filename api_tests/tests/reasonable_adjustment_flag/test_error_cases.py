@@ -548,3 +548,4 @@ class TestErrorCaseSuite:
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
         assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
         
+        
