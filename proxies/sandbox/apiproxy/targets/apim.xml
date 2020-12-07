@@ -1,14 +1,14 @@
 <TargetEndpoint name="apim">
   <PreFlow name="PreFlow">
     <Request>
-      <Step>
+      <!-- <Step>
         <Name>RaiseFault.400BadRequest</Name>
         <Condition>request.header.X-Request-ID = null or request.header.NHSD-Session-URID = null</Condition>
       </Step>
       <Step>
         <Name>RaiseFault.400BadRequest</Name>
         <Condition>request.verb != "GET" and request.header.content-type != "application/fhir+json"</Condition>
-      </Step>
+      </Step> -->
     </Request>
     <Response>
       <Step>
