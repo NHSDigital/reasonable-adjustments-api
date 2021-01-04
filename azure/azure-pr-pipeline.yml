@@ -49,11 +49,15 @@ extends:
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
+        jinja_templates:
+          RA_TARGET_SERVER: spine-demographics
         post_deploy:
           - template: templates/tests.yml
             parameters:
               service_name: ${{ variables.service_name }}
       - environment: internal-dev-sandbox
+        jinja_templates:
+            RA_TARGET_SERVER: spine-demographics
         make_spec_visible: true
         proxy_path: sandbox
         post_deploy:

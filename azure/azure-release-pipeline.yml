@@ -56,17 +56,25 @@ extends:
                   service_name: ${{ variables.service_name }}
       - environment: internal-qa
         make_spec_visible: true
+        jinja_templates:
+            RA_TARGET_SERVER: spine-demographics
       - environment: internal-qa-sandbox
+        jinja_templates:
+            RA_TARGET_SERVER: spine-demographics
         make_spec_visible: true
         proxy_path: sandbox
       - environment: int
         make_spec_visible: true
+        jinja_templates:
+            RA_TARGET_SERVER: spine-demographics-int
         depends_on:
             - internal_qa
             - internal_qa_sandbox
       - environment: sandbox
         make_spec_visible: true
         proxy_path: sandbox
+        jinja_templates:
+            RA_TARGET_SERVER: spine-demographics
         depends_on:
             - internal_qa
             - internal_qa_sandbox
