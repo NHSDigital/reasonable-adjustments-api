@@ -59,7 +59,7 @@
       <LoadBalancer>
         <Server name="ig3"/>
       </LoadBalancer>
-      <Path>/STU3</Path>
+      <Path>/STU3/ra</Path>
     </HTTPTargetConnection>
     <FaultRules>
         <FaultRule name="InvalidAccessToken">
