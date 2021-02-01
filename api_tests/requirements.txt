@@ -5,3 +5,4 @@ pytest-sugar
 pyjwt
 python-dotenv
 assertpy
+mitmproxy

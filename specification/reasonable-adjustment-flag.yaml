@@ -114,6 +114,9 @@ info:
     To test updating patient details, you must set up your own test data.
 
     For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
+    
+    ### Solution Assurance 
+    Download mitmproxy script containing SA test scenarios <a href="https://github.com/NHSDigital/reasonable-adjustments-api/blob/master/specification/solution_assurance/proxyscript.py" download>here</a>
 
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
