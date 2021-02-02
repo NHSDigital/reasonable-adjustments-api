@@ -15,6 +15,16 @@
                 <Name>SpikeArrest</Name>
             </Step>
             <Step>
+                <Name>ExtractVariables.EndpointName</Name>
+            </Step>
+            <Step>
+                <Name>AssignMessage.ChangeConsentPath</Name>
+                <Condition>endpointName = "Consent"</Condition>
+            </Step>
+            <Step>
+                <Name>AssignMessage.ConsentDisablePathCopy</Name>
+            </Step>
+            <Step>
               <Name>VerifyAPIKey.CustomAttributes</Name>
             </Step>
             <Step>
