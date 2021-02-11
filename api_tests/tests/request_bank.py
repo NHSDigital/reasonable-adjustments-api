@@ -11,6 +11,8 @@ class Request(enum.Enum):
     REMOVE_RA_RECORD_POST = 'removerarecord.json'
     FLAG_PUT = 'updateFlag.json'
     FLAG_POST = 'createFlag.json'
+    LIST_POST = 'createList.json'
+    LIST_PUT = 'updateList.json'
 
 
 def get_body(request_method: enum):

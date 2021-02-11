@@ -129,6 +129,25 @@ class Utils:
         return response
 
     @staticmethod
+    def send_list_get(auth_token:str):
+        response = requests.get(
+            url=config.REASONABLE_ADJUSTMENTS_LIST,
+            params={
+                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'status': 'active',
+                'code': 'http://snomed.info/sct|1094391000000102'
+            },
+            headers={
+                'Authorization': f'Bearer {auth_token}',
+                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                'x-request-id': str(uuid.uuid4()),
+            }
+        )
+
+        time.sleep(1)
+        return get_details(response)
+
+    @staticmethod
     def send_raremoverecord_post(auth_token: str):
         response = requests.post(
             url=config.REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD,

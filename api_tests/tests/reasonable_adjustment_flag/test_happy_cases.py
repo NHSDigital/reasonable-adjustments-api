@@ -262,7 +262,6 @@ class TestHappyCasesSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
     @pytest.mark.happy_path
-    @pytest.mark.sandbox
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_list_get(self):
         # Given
@@ -272,13 +271,13 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=config.REASONABLE_ADJUSTMENTS_LIST,
             params={
-                'patient': '9999999998',
+                'patient': config.TEST_PATIENT_NHS_NUMBER,
                 'status': 'active',
                 'code': 'http://snomed.info/sct|1094391000000102'
             },
             headers={
                 'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
+                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
             }
         )
@@ -290,6 +289,9 @@ class TestHappyCasesSuite:
     @pytest.mark.sandbox
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_list_post(self):
+        # Pre-Req - Patient has consent
+        Utils.send_consent_post(self.token)
+
         # Given
         expected_status_code = 201
 
@@ -298,41 +300,48 @@ class TestHappyCasesSuite:
             url=config.REASONABLE_ADJUSTMENTS_LIST,
             headers={
                 'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
+                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json'
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json'
             },
-            json=json.dumps({'message': 'test'})
+            json=request_bank.get_body(Request.LIST_POST)
         )
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
     @pytest.mark.happy_path
-    @pytest.mark.sandbox
+    @pytest.mark.integration
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_list_put(self):
+        # Pre-Req
+        get_list_response = Utils.send_list_get(self.token)
+        list_id = get_list_response['id']
+        version_id = get_list_response['version']
+
         # Given
         expected_status_code = 200
-        etag = Utils.get_etag(self,
-                              config.REASONABLE_ADJUSTMENTS_CONSENT,
-                              params={
-                                  'patient': '9999999998',
-                                  'category': 'test',
-                                  'status': 'test',
-                              })
+        json = request_bank.get_body(Request.LIST_PUT)
+        json['id'] = list_id
+
+        # todo on sandbox the consent_id and version_id cannot be None, need a cleaner way to do this
+        if self.sandbox is True:
+            list_id = '1'
+            version_id = 'W/"1"'
 
         # When
         response = requests.put(
-            url=config.REASONABLE_ADJUSTMENTS_LIST + '/1',
+            url=config.REASONABLE_ADJUSTMENTS_LIST + list_id,
             headers={
                 'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': 'test',
+                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
-                'if-match': etag,
+                'accept': 'application/fhir+json',
+                'if-match': version_id,
             },
-            data=json.dumps({'message': 'test'})
+            data=json
         )
 
         # Then

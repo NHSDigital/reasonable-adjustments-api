@@ -49,10 +49,6 @@ extends:
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
-        post_deploy:
-          - template: templates/tests.yml
-            parameters:
-              service_name: ${{ variables.service_name }}
       - environment: internal-dev-sandbox
         make_spec_visible: true
         proxy_path: sandbox
