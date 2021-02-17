@@ -11,9 +11,11 @@
             <Enabled>true</Enabled>
         </SSLInfo>
         <LoadBalancer>
-            <Server name="ig3"/>
+            <Server name="spine-clinicals"/>
         </LoadBalancer>
         <Path>/healthcheck</Path>
     </HTTPTargetConnection>
     <Timeout>20000</Timeout>
 </ServiceCallout>
+
+
