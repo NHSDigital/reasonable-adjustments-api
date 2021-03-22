@@ -1,6 +1,6 @@
 # Api-Tests
 
-This is a collection of end-to-end test suits to verify the oauth api is working as intended.
+This is a collection of end-to-end tests to verify the reasonable adjustments api is working as intended.
 
 * `config_files/` This contains all the configuration for running the tests.
 * `scripts/` A set of methods, classes and scripts to help facilitate the test cases
@@ -144,7 +144,7 @@ When developing scripts, it can be incredibly useful to run from inside Pycharm 
 breakpoints, debug and follow the code a lot easier etc.
 
 #### Virtual env instance
-To set this up, open the project inside the IDE.
+To set this up, open the project inside the IDE
 
 1. In the setting menu, select the Project then Project interpreter sub-menu.
 
