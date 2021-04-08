@@ -16,7 +16,7 @@
       <Request>
         <Step>
           <Name>RaiseFault.400BadRequest</Name>
-          <Condition>request.header.X-Request-ID = null or request.header.NHSD-Session-URID = null</Condition>
+            <Condition>request.header.X-Request-ID = null or request.header.NHSD-Session-URID = null</Condition>
         </Step>
       </Request>
     </PreFlow>
