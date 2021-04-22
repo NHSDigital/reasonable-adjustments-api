@@ -91,9 +91,9 @@ info:
     ## Environments and testing
     | Purpose                                | Base URL                                 |
     | ---------------------------------------|------------------------------------------|
-    | Sandbox                                | `https://sandbox.service.nhs.uk/reasonable-adjustment-flag`    |
-    | Integration test **(available Jan 2021)**  | `https://int.service.nhs.uk/reasonable-adjustment-flag`        |
-    | Production **(available Mar 2021)** | `https://api.service.nhs.uk/reasonable-adjustment-flag`      |
+    | Sandbox                                | `https://sandbox.service.nhs.uk/reasonable-adjustment-flag/FHIR/STU3`    |
+    | Integration test **(available Jan 2021)**  | `https://int.service.nhs.uk/reasonable-adjustment-flag/FHIR/STU3`        |
+    | Production **(available Mar 2021)** | `https://api.service.nhs.uk/reasonable-adjustment-flag/FHIR/STU3`      |
 
 
     ### Sandbox testing
@@ -144,7 +144,7 @@ info:
     name: API Management Support
     email: api.management@nhs.net
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/reasonable-adjustment-flag'
+  - url: 'https://sandbox.api.service.nhs.uk/reasonable-adjustment-flag/FHIR/STU3'
     description: Sandbox environment.
 paths:
   /Consent:

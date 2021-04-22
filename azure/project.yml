@@ -1,6 +1,6 @@
 variables:
   service_name: reasonable-adjustment-flag
-  service_base_path: reasonable-adjustment-flag
+  service_base_path: reasonable-adjustment-flag/FHIR/STU3
   short_service_name: reasonable-adjustment
   product_display_name: Reasonable Adjustment Flag Api
   product_description: Reasonable Adjustment Flag Api
