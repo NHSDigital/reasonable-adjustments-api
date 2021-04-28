@@ -55,7 +55,7 @@ def get_refresh_token(request, get_token):
 def setup(request):
     """This function is called before each test is executed"""
 
-    # Get the name of the current test and attach it the the test instance
+    # Get the name of the current test and attach it to the test instance
     name = (request.node.name, request.node.originalname)[request.node.originalname is not None]
     setattr(request.cls, "name", name)
 

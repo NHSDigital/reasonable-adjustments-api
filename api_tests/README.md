@@ -1,6 +1,6 @@
 # Api-Tests
 
-This is a collection of end-to-end test suits to verify the oauth api is working as intended.
+This is a collection of end-to-end tests to verify the oauth api is working as intended.
 
 * `config_files/` This contains all the configuration for running the tests.
 * `scripts/` A set of methods, classes and scripts to help facilitate the test cases
@@ -177,7 +177,7 @@ navigate to Tools > Python Integrated Tools and select pytest under the Default 
 Make sure to click Apply and then OK.
 
 You should now be able to right click any function/test and run or debug from inside the IDE and
-PyCharm features like autocompletion, code inspections, and checks will be driven by this interpreter.
+PyCharm features like auto complete, code inspections, and checks will be driven by this interpreter.
 
 ## Developing New Scripts
 The test runner pytest will pick up any file which start with "test_*.py". New tests should be created
