@@ -139,6 +139,7 @@ class TestErrorCaseSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
+
     @pytest.mark.errors
     @pytest.mark.integration
     @pytest.mark.usefixtures('get_token_internal_dev')
