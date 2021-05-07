@@ -68,6 +68,7 @@
             </Step>
             <Step>
                 <Name>AssignMessage.SetContentLocation</Name>
+                <Condition>request.verb != "GET"</Condition>
             </Step>
         </Response>
     </PostFlow>

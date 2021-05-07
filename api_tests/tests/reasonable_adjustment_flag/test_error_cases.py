@@ -135,13 +135,10 @@ class TestErrorCaseSuite:
                 'nhsd-session-urid': '',
             }
         )
-        actual_response = json.loads(response.text)
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(actual_response['message_id']).is_not_empty()
-        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+
 
     @pytest.mark.errors
     @pytest.mark.integration
