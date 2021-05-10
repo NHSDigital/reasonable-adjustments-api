@@ -113,7 +113,22 @@ class TestErrorCaseSuite:
     @pytest.mark.errors
     @pytest.mark.integration
     @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_missing_nhsd_session_urid_header(self):
+    @pytest.mark.parametrize('nhsd_session_urid',
+        [
+            # Empty string
+            (''),
+
+            # Invalid nhsd-session-urid
+            ('This is not a valid nhsd-session-urid'),
+
+            # Symbols
+            ('#£$?!&%*.;@~_-'),
+
+            # Numbers
+            ('0123456789')
+        ]
+    )
+    def test_missing_nhsd_session_urid_header(self, nhsd_session_urid):
         # Given
         expected_status_code = 400
         expected_response = {
@@ -132,7 +147,7 @@ class TestErrorCaseSuite:
             headers={
                 'Authorization': f'Bearer {self.token}',
                 'x-request-id': str(uuid.uuid4()),
-                'nhsd-session-urid': '',
+                'nhsd-session-urid': nhsd_session_urid,
             }
         )
 
