@@ -58,6 +58,8 @@ class ApigeeDebugApi:
 
     def _get_transaction_data(self) -> dict:
         transaction_id = self._get_transaction_id()
+        print("Here's the magic!!!")
+        print(transaction_id)
         url = f"{APIGEE_API_URL}/environments/{APIGEE_ENVIRONMENT}/apis/{self.proxy}/revisions/{self.revision}/" \
               f"debugsessions/{self.session_name}/data/{transaction_id}"
 
@@ -70,6 +72,8 @@ class ApigeeDebugApi:
 
     def get_apigee_variable(self, name: str) -> str:
         data = self._get_transaction_data()
+        print("I'm here")
+        print(data)
         executions = [x.get('results', None) for x in data['point'] if x.get('id', "") == "Execution"]
         executions = list(filter(lambda x: x != [], executions))
 

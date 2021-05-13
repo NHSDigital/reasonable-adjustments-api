@@ -29,7 +29,9 @@ class TestProxyCasesSuite:
 
         # Then
         actual_asid = debug_session.get_apigee_variable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
+        print("Here")
         assert_that(expected_value).is_equal_to(actual_asid)
+      
 
         actual_header_value = debug_session.get_apigee_header('NHSD-ASID')
         assert_that(expected_value).is_equal_to(actual_header_value)
