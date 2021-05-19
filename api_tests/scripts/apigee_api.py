@@ -53,7 +53,8 @@ class ApigeeDebugApi:
 
         if response.status_code != 200:
             raise ValueError(f"Unable to get apigee transaction id for {self.session_name}")
-
+        print("More magic") 
+        print(url)
         return response.text.strip('[]').replace("\"", "").strip().split(', ')[0]
 
     def _get_transaction_data(self) -> dict:
