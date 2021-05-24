@@ -224,6 +224,7 @@ function, method or class. A fixture can also be scoped to run either at session
 The fixtures are defined in the conftest.py file. To learn more about fixtures please visit
 the [pytest docs](https://docs.pytest.org/en/latest/fixture.html)
 
+
 ### Examples
 Class fixture
 ```python
