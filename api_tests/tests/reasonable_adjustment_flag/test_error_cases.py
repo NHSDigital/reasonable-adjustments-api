@@ -20,8 +20,24 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 401
         expected_response = {
-            "error": "access token is invalid or expired",
-            "error_description": "access token is invalid or expired"
+            "resourceType": "OperationOutcome",
+            "issue": [
+                {
+                    "severity": "error",
+                    "code": "forbidden",
+                    "details": {
+                        "coding": [
+                            {
+                                "system": "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode",
+                                "version": "2.0.0",
+                                "code": "ACCESS_DENIED",
+                                "display": "Access Denied - Unauthorised"
+                            }
+                        ]
+                    },
+                    "diagnostics": "Access token is invalid or expired"
+                }
+            ]
         }
 
         # When
@@ -41,9 +57,9 @@ class TestErrorCaseSuite:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(actual_response['message_id']).is_not_empty()
-        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+      #  assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['resourceType']).is_equal_to_ignoring_case(actual_response['resourceType'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['code']).is_equal_to_ignoring_case(actual_response['issue'][0]['details']['coding'][0]['code'])
 
     @pytest.mark.errors
     @pytest.mark.integration
