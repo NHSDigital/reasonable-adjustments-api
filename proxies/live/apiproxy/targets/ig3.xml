@@ -96,6 +96,9 @@
             <Step>
                 <Name>AssignMessage.InvalidAccessToken</Name>
             </Step>
+            <Step>
+                <Name>AssignMessage.Errors.CatchAllMessage</Name>
+            </Step>
         </FaultRule>
         <FaultRule name="JWTGenerationError">
             <Condition>JWT.failed = true</Condition>
@@ -111,7 +114,7 @@
         </FaultRule>
         <DefaultFaultRule name="UnkownError">
             <Step>
-                <Name>AssignMessage.CatchAllErrorMessage</Name>
+                <Name>AssignMessage.Errors.CatchAllMessage</Name>
             </Step>
         </DefaultFaultRule>
     </FaultRules>

@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.InvalidAccessToken">
-    <DisplayName>AssignMessage.InvalidAccessToken</DisplayName>
-    <Set>
-        <Payload contentType="application/json">
-            {
-                "resourceType": "OperationOutcome",
-                "issue": [
-                    {
-                        "severity": "error",
-                        "code": "forbidden",
-                        "details": {
-                            "coding": [
-                                {
-                                    "system": "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode",
-                                    "version": "2.0.0",
-                                    "code": "ACCESS_DENIED",
-                                    "display": "Access Denied - Unauthorised"
-                                }
-                            ]
-                        },
-                        "diagnostics": "Access token is invalid or expired"
-                    }
-                ]
-            }   
-            </Payload>
-        <StatusCode>401</StatusCode>
-        <ReasonPhrase>Unauthorized</ReasonPhrase>
-    </Set>
+    <AssignVariable>
+        <Name>ra.error.code</Name>
+        <Value>forbidden</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.coding.code</Name>
+        <Value>ACCESS_DENIED</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.coding.display</Name>
+        <Value>Access Denied - Unauthorised</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.diagnostics</Name>
+        <Template>Access token is invalid or expired</Template>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.status_code</Name>
+        <Value>401</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.reason_phrase</Name>
+        <Value>Unauthorized</Value>
+    </AssignVariable>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
-    <AssignTo createNew="false" transport="http" type="request"/>
 </AssignMessage>
