@@ -4,10 +4,25 @@
     <Set>
         <Payload contentType="application/json">
             {
-                "error": "access token is invalid or expired",
-                "error_description": "access token is invalid or expired",
-                "message_id": "{messageid}"
-            }    
+                "resourceType": "OperationOutcome",
+                "issue": [
+                    {
+                        "severity": "error",
+                        "code": "forbidden",
+                        "details": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode",
+                                    "version": "2.0.0",
+                                    "code": "ACCESS_DENIED",
+                                    "display": "Access Denied - Unauthorised"
+                                }
+                            ]
+                        },
+                        "diagnostics": "Access token is invalid or expired"
+                    }
+                ]
+            }   
             </Payload>
         <StatusCode>401</StatusCode>
         <ReasonPhrase>Unauthorized</ReasonPhrase>
