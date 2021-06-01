@@ -219,4 +219,11 @@
       <Condition>(request.verb = "POST" or request.verb = "PUT") and request.header.Prefer != "respond-async" and request.header.x-sync-wrapped != "true"</Condition>
       <TargetEndpoint>sync-wrap</TargetEndpoint>
     </RouteRule>
+    <PreFlow>
+      <Request>
+          <Step>
+              <Name>AssignMessage.Errors.Default</Name>
+          </Step>
+      </Request>
+  </PreFlow>
 </ProxyEndpoint>
