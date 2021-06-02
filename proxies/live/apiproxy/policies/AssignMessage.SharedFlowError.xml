@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.SharedFlowError">
-    <DisplayName>AssignMessage.SharedFlowError</DisplayName>
-    <Set>
-        <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
-        {
-            "resourceType": "OperationOutcome",
-            "issue": [
-                {
-                "severity": "error",
-                "code": "%error.status.code#",
-                "details": {
-                    "coding": [
-                    {
-                        "code": "%error.status.code#",
-                        "display": "%error.reason.phrase#"
-                    }
-                    ]
-                },
-                "diagnostics": "%error.content#"
-                }
-            ]
-        }
-        </Payload>
-        <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
-        <AssignTo createNew="false" transport="https" type="request"/>
-    </Set>
+<AssignMessage name="AssignMessage.SharedFlowError">
+    <AssignVariable>
+        <Name>ra.error.code</Name>
+        <Template>{error.status.code}</Template>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.coding.code</Name>
+        <Template>{error.status.code}</Template>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.coding.display</Name>
+        <Template>{error.reason.phrase}</Template>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>ra.error.diagnostics</Name>
+        <Template>{error.content}</Template>
+    </AssignVariable>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
-    <AssignTo createNew="false" transport="http" type="request"/>
 </AssignMessage>
