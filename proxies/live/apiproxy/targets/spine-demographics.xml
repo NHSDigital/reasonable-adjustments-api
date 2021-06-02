@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TargetEndpoint name="spine-clinicals">
+<TargetEndpoint name="spine-demographics">
     <PreFlow name="PreFlow">
         <Request>
             <Step>
@@ -83,7 +83,7 @@
         <Enabled>true</Enabled>
       </SSLInfo>
       <LoadBalancer>
-        <Server name="spine-clinicals"/>
+        <Server name="spine-demographics"/>
       </LoadBalancer>
       <Path>{myPath}</Path>
     </HTTPTargetConnection>

@@ -11,7 +11,7 @@
             <Enabled>true</Enabled>
         </SSLInfo>
         <LoadBalancer>
-            <Server name="spine-clinicals"/>
+            <Server name="spine-demographics"/>
         </LoadBalancer>
         <Path>/healthcheck</Path>
     </HTTPTargetConnection>
