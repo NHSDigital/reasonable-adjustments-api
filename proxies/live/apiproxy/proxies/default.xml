@@ -1,222 +1,229 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ProxyEndpoint name="default">
-    <FaultRules>
-        <DefaultFaultRule>
-            <Step>
-                <Name>AssignMessage.CatchAllErrorMessage</Name>
-            </Step>
-        </DefaultFaultRule>
-    </FaultRules>
-    <Flows>
-        <Flow name="OptionsPreFlight">
-            <Request/>
-            <Response>
-                <Step>
-                    <Name>AssignMessage.AddCors</Name>
-                </Step>
-            </Response>
-            <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
-        </Flow>
-        <Flow name="AddPayloadToPing">
-            <Request/>
-            <Response>
-                <Step>
-                    <Name>AssignMessage.AddPayloadToPing</Name>
-                </Step>
-            </Response>
-            <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
-        </Flow>
-        <Flow name="Consent-GET">
-            <Request>
-              <Step>
-                <Name>RaiseFault.InvalidQueryParams</Name>
-                <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
-              </Step>
-              <Step>
-                <Name>ExtractVariables.EndpointName</Name>
-              </Step>
-              <Step>
-                <Name>KeyValueMapOperations.GetInteractionID</Name>
-              </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/Consent") and (request.verb = "GET"))</Condition>
-        </Flow>
-        <Flow name="Consent-POST">
-            <Request>
-              <Step>
-                <Name>ExtractVariables.EndpointName</Name>
-              </Step>
-              <Step>
-                <Name>KeyValueMapOperations.GetInteractionID</Name>
-              </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/Consent") and (request.verb = "POST"))</Condition>
-        </Flow>
-        <Flow name="Consent-PUT">
-            <Request>
-              <Step>
-                <Name>ExtractVariables.EndpointName</Name>
-              </Step>
-              <Step>
-                <Name>KeyValueMapOperations.GetInteractionID</Name>
-              </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/Consent/*") and (request.verb = "PUT"))</Condition>
-        </Flow>
-        <Flow name="flag-GET">
-            <Request>
-              <Step>
-                <Name>RaiseFault.InvalidQueryParams</Name>
-                <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
-              </Step>
-              <Step>
-                <Name>ExtractVariables.EndpointName</Name>
-              </Step>
-              <Step>
-                <Name>KeyValueMapOperations.GetInteractionID</Name>
-              </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "GET"))</Condition>
-        </Flow>
-        <Flow name="flag-POST">
-            <Request>
-              <Step>
-                <Name>ExtractVariables.EndpointName</Name>
-              </Step>
-              <Step>
-                <Name>KeyValueMapOperations.GetInteractionID</Name>
-              </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "POST"))</Condition>
-        </Flow>
-        <Flow name="flag-PUT">
-            <Request>
-                <Step>
-                  <Name>RaiseFault.Invalid-If-Match</Name>
-                  <Condition>(request.header.If-Match = null or request.header.If-Match = "")</Condition>
-                </Step>
-                <Step>
-                  <Name>ExtractVariables.EndpointName</Name>
-                </Step>
-                <Step>
-                  <Name>KeyValueMapOperations.GetInteractionID</Name>
-                </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/Flag/*") and (request.verb = "PUT"))</Condition>
-        </Flow>
-        <Flow name="List-GET">
-            <Request>
-                <Step>
-                  <Name>RaiseFault.InvalidQueryParams</Name>
-                  <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.code = null or request.queryparam.code = ""</Condition>
-                </Step>
-                <Step>
-                  <Name>ExtractVariables.EndpointName</Name>
-                </Step>
-                <Step>
-                  <Name>KeyValueMapOperations.GetInteractionID</Name>
-                </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "GET"))</Condition>
-        </Flow>
-        <Flow name="List-POST">
-            <Request>
-              <Step>
-                <Name>ExtractVariables.EndpointName</Name>
-              </Step>
-              <Step>
-                <Name>KeyValueMapOperations.GetInteractionID</Name>
-              </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "POST"))</Condition>
-        </Flow>
-        <Flow name="List-PUT">
-            <Request>
-                <Step>
-                  <Name>RaiseFault.Invalid-If-Match</Name>
-                  <Condition>request.header.If-Match = null or request.header.If-Match = ""</Condition>
-                </Step>
-                <Step>
-                  <Name>ExtractVariables.EndpointName</Name>
-                </Step>
-                <Step>
-                  <Name>KeyValueMapOperations.GetInteractionID</Name>
-                </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/List/*") and (request.verb = "PUT"))</Condition>
-        </Flow>
-        <Flow name="removeRarecord-POST">
-            <Request>
-                <Step>
-                  <Name>RaiseFault.Invalid-If-Match</Name>
-                  <Condition>(request.header.If-Match = null or request.header.If-Match = "")</Condition>
-                </Step>
-                <Step>
-                  <Name>ExtractVariables.EndpointName</Name>
-                </Step>
-                <Step>
-                  <Name>KeyValueMapOperations.GetInteractionID</Name>
-                </Step>
-            </Request>
-            <Condition>((proxy.pathsuffix MatchesPath "/$removerarecord") and (request.verb = "POST"))</Condition>
-        </Flow>
-        <Flow name="Poll">
-            <Condition>(proxy.pathsuffix MatchesPath "/_poll/*") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
-        </Flow>
-        <Flow name="StatusEndpoint">
-            <Request>
-                <Step>
-                  <Name>KeyValueMapOperations.GetSecureVariables</Name>
-                </Step>
-                <Step>
-                  <Name>RaiseFault.401Unauthorized</Name>
-                  <Condition>private.apigee.status-endpoint-api-key NotEquals request.header.apikey</Condition>
-                </Step>
-                <Step>
-                  <Name>ServiceCallout.CallSpineHealthcheck</Name>
-                </Step>
-            </Request>
-            <Response>
-                <Step>
-                  <Name>JavaScript.SetStatusResponse</Name>
-                </Step>
-            </Response>
-            <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
-        </Flow>
-        <Flow name="InvalidEndpoint">
-          <Request>
-              <Step>
-                  <Name>RaiseFault.404NotFound</Name>
-              </Step>
-          </Request>
-      </Flow>
-    </Flows>
-    <PostClientFlow name="PostClientFlow">
-        <Response>
-            <Step>
-                <Name>FlowCallout.LogToSplunk</Name>
-            </Step>
-        </Response>
-    </PostClientFlow>
-    <HTTPProxyConnection>
-        <BasePath>{{ SERVICE_BASE_PATH }}</BasePath>
-        <VirtualHost>secure</VirtualHost>
-    </HTTPProxyConnection>
-    <RouteRule name="NoRoute">
-        <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
-    </RouteRule>
-    <RouteRule name="NoRoutePing">
-        <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
-    </RouteRule>
-    <RouteRule name="NoRouteStatus">
+  <PreFlow>
+    <Request>
+      <Step>
+        <Name>AssignMessage.Errors.Default</Name>
+      </Step>
+    </Request>
+  </PreFlow>
+  <FaultRules>
+    <DefaultFaultRule>
+      <Step>
+        <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      </Step>
+    </DefaultFaultRule>
+  </FaultRules>
+  <Flows>
+    <Flow name="OptionsPreFlight">
+      <Request />
+      <Response>
+        <Step>
+          <Name>AssignMessage.AddCors</Name>
+        </Step>
+      </Response>
+      <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
+    </Flow>
+    <Flow name="AddPayloadToPing">
+      <Request />
+      <Response>
+        <Step>
+          <Name>AssignMessage.AddPayloadToPing</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+    </Flow>
+    <Flow name="Consent-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.InvalidQueryParams</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/Consent") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="Consent-POST">
+      <Request>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/Consent") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="Consent-PUT">
+      <Request>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/Consent/*") and (request.verb = "PUT"))</Condition>
+    </Flow>
+    <Flow name="flag-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.InvalidQueryParams</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="flag-POST">
+      <Request>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/Flag") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="flag-PUT">
+      <Request>
+        <Step>
+          <Name>RaiseFault.Invalid-If-Match</Name>
+          <Condition>(request.header.If-Match = null or request.header.If-Match = "")</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/Flag/*") and (request.verb = "PUT"))</Condition>
+    </Flow>
+    <Flow name="List-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.InvalidQueryParams</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.code = null or request.queryparam.code = ""</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="List-POST">
+      <Request>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/List") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="List-PUT">
+      <Request>
+        <Step>
+          <Name>RaiseFault.Invalid-If-Match</Name>
+          <Condition>request.header.If-Match = null or request.header.If-Match = ""</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/List/*") and (request.verb = "PUT"))</Condition>
+    </Flow>
+    <Flow name="removeRarecord-POST">
+      <Request>
+        <Step>
+          <Name>RaiseFault.Invalid-If-Match</Name>
+          <Condition>(request.header.If-Match = null or request.header.If-Match = "")</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/$removerarecord") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="Poll">
+      <Condition>(proxy.pathsuffix MatchesPath "/_poll/*") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+    </Flow>
+    <Flow name="StatusEndpoint">
+      <Request>
+        <Step>
+          <Name>KeyValueMapOperations.GetSecureVariables</Name>
+        </Step>
+        <Step>
+          <Name>RaiseFault.401Unauthorized</Name>
+          <Condition>private.apigee.status-endpoint-api-key NotEquals request.header.apikey</Condition>
+        </Step>
+        <Step>
+          <Name>ServiceCallout.CallSpineHealthcheck</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>JavaScript.SetStatusResponse</Name>
+        </Step>
+      </Response>
       <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
-    </RouteRule>
-    <RouteRule name="ig3">
-      <Condition>(request.verb = "GET") or request.header.Prefer = "respond-async" or request.header.x-sync-wrapped = "true"</Condition>
-        <TargetEndpoint>ig3</TargetEndpoint>
-    </RouteRule>
-    <RouteRule name="sync-wrap">
-      <Condition>(request.verb = "POST" or request.verb = "PUT") and request.header.Prefer != "respond-async" and request.header.x-sync-wrapped != "true"</Condition>
-      <TargetEndpoint>sync-wrap</TargetEndpoint>
-    </RouteRule>
+    </Flow>
+    <Flow name="InvalidEndpoint">
+      <Request>
+        <Step>
+          <Name>RaiseFault.404NotFound</Name>
+        </Step>
+      </Request>
+    </Flow>
+  </Flows>
+  <PostClientFlow name="PostClientFlow">
+    <Response>
+      <Step>
+        <Name>FlowCallout.LogToSplunk</Name>
+      </Step>
+    </Response>
+  </PostClientFlow>
+  <HTTPProxyConnection>
+    <BasePath>{{ SERVICE_BASE_PATH }}</BasePath>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+  <RouteRule name="NoRoute">
+    <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
+  </RouteRule>
+  <RouteRule name="NoRoutePing">
+    <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+  </RouteRule>
+  <RouteRule name="NoRouteStatus">
+    <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+  </RouteRule>
+  <RouteRule name="ig3">
+    <Condition>(request.verb = "GET") or request.header.Prefer = "respond-async" or request.header.x-sync-wrapped = "true"</Condition>
+    <TargetEndpoint>ig3</TargetEndpoint>
+  </RouteRule>
+  <RouteRule name="sync-wrap">
+    <Condition>(request.verb = "POST" or request.verb = "PUT") and request.header.Prefer != "respond-async" and request.header.x-sync-wrapped != "true"</Condition>
+    <TargetEndpoint>sync-wrap</TargetEndpoint>
+  </RouteRule>
 </ProxyEndpoint>

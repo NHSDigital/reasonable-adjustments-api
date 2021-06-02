@@ -109,10 +109,10 @@
                 <Name>AssignMessage.SharedFlowError</Name>
             </Step>
         </FaultRule>
-        <DefaultFaultRule name="UnkownError">
-            <Step>
-                <Name>AssignMessage.CatchAllErrorMessage</Name>
-            </Step>
-        </DefaultFaultRule>
     </FaultRules>
+    <DefaultFaultRule name="UnkownError">
+        <Step>
+            <Name>AssignMessage.Errors.CatchAllMessage</Name>
+        </Step>
+    </DefaultFaultRule>
 </TargetEndpoint>
