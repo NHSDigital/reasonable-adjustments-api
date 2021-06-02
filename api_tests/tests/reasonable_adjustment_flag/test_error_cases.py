@@ -243,8 +243,27 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 400
         expected_response = {
-            "error": "invalid header",
-            "error_description": "content-type must be set to application/fhir+json"
+            'resourceType': 'OperationOutcome', 
+            'issue': 
+            [
+                {
+                    'severity': 'error', 
+                    'code': 'request', 
+                    'details': 
+                    {
+                        'coding': 
+                        [
+                            {
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
+                                'version': '1', 
+                                'code': 'INVALID_REQUEST', 
+                                'display': 'invalid header'
+                            }
+                        ]
+                    }, 
+                    'diagnostics': 'content-type must be set to application/fhir+json'
+                }
+            ]
         }
 
         # When
@@ -261,13 +280,19 @@ class TestErrorCaseSuite:
             }
         )
         actual_response = json.loads(response.text)
-
+        
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(actual_response['message_id']).is_not_empty()
-        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
-            actual_response['error_description'])
+        # assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['resourceType']).is_equal_to_ignoring_case(actual_response['resourceType'])
+        assert_that(expected_response['issue'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['display']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['display'])
+        assert_that(expected_response['issue'][0]['diagnostics']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['diagnostics'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -276,8 +301,27 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 400
         expected_response = {
-            "error": "invalid request payload",
-            "error_description": "requires payload"
+            'resourceType': 'OperationOutcome', 
+            'issue': 
+            [
+                {
+                    'severity': 'error', 
+                    'code': 'request', 
+                    'details': 
+                    {
+                        'coding': 
+                        [
+                            {
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
+                                'version': '1', 
+                                'code': 'INVALID_REQUEST', 
+                                'display': 'invalid request payload'
+                            }
+                        ]
+                    }, 
+                'diagnostics': 'requires payload'
+                }
+            ]
         }
 
         # When
@@ -291,13 +335,20 @@ class TestErrorCaseSuite:
             }
         )
         actual_response = json.loads(response.text)
-
+        
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(actual_response['message_id']).is_not_empty()
-        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
-            actual_response['error_description'])
+        # assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['resourceType']).is_equal_to_ignoring_case(actual_response['resourceType'])
+        assert_that(expected_response['issue'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['display']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['display'])
+        assert_that(expected_response['issue'][0]['diagnostics']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['diagnostics'])
+
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -473,20 +524,45 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 500
         expected_response = {
-            'error': 'missing ODS',
-            'error_description': 'An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID',
+            'resourceType': 'OperationOutcome', 
+            'issue': 
+            [
+                {
+                    'severity': 'error', 
+                    'code': 'request', 
+                    'details': 
+                    {
+                        'coding': 
+                        [
+                            {
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
+                                'version': '1', 
+                                'code': 'INVALID_REQUEST', 
+                                'display': 'missing ODS'
+                            }
+                        ]
+                    }, 
+                    'diagnostics': 'An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
+                }
+            ]
         }
 
         # When
         response = Utils.send_request(self)
         actual_response = json.loads(response.text)
-
+       
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(actual_response['message_id']).is_not_empty()
-        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
-            actual_response['error_description'])
+        # assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['resourceType']).is_equal_to_ignoring_case(actual_response['resourceType'])
+        assert_that(expected_response['issue'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['display']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['display'])
+        assert_that(expected_response['issue'][0]['diagnostics']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['diagnostics'])
 
     @pytest.mark.asid
     @pytest.mark.errors
@@ -496,21 +572,46 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 500
         expected_response = {
-            'error': 'missing ASID',
-            'error_description': 'An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID',
+            'resourceType': 'OperationOutcome', 
+            'issue': 
+            [
+                {
+                    'severity': 'error', 
+                    'code': 'request', 
+                    'details': 
+                    {
+                        'coding': 
+                        [
+                            {
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
+                                'version': '1', 
+                                'code': 'INVALID_REQUEST', 
+                                'display': 'missing ASID'
+                            }
+                        ]
+                    }, 
+                    'diagnostics': 'An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
+                }
+            ]
         }
 
         # When
         response = Utils.send_request(self)
 
         actual_response = json.loads(response.text)
-
+        
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(actual_response['message_id']).is_not_empty()
-        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
-            actual_response['error_description'])
+        # assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['resourceType']).is_equal_to_ignoring_case(actual_response['resourceType'])
+        assert_that(expected_response['issue'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['code']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['display']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['details']['coding'][0]['display'])
+        assert_that(expected_response['issue'][0]['diagnostics']).is_equal_to_ignoring_case(
+        actual_response['issue'][0]['diagnostics'])
 
     @pytest.mark.errors
     @pytest.mark.integration
