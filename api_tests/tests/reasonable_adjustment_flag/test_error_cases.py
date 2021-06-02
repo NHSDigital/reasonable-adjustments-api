@@ -43,7 +43,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -52,8 +53,27 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 400
         expected_response = {
-            "error": "invalid header",
-            "error_description": "x-request-id is missing or invalid"
+            'resourceType': 'OperationOutcome',
+            'issue':
+            [
+                {
+                    'severity': 'error',
+                    'code': 'request',
+                    'details':
+                    {
+                        'coding':
+                        [
+                            {
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'INVALID_REQUEST',
+                                'display': 'invalid header'
+                            }
+                        ]
+                    },
+                    'diagnostics': 'x-request-id is missing or invalid'
+                }
+            ]
         }
 
         # When
@@ -70,12 +90,14 @@ class TestErrorCaseSuite:
             }
         )
         actual_response = json.loads(response.text)
-
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(actual_response['message_id']).is_not_empty()
-        assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        #assert_that(actual_response['message_id']).is_not_empty()
+        assert_that(expected_response['resourceType']).is_equal_to_ignoring_case(actual_response['resourceType'])
+        assert_that(expected_response['issue'][0]['code']).is_equal_to_ignoring_case(actual_response['issue'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['code']).is_equal_to_ignoring_case(actual_response['issue'][0]['details']['coding'][0]['code'])
+        assert_that(expected_response['issue'][0]['details']['coding'][0]['display']).is_equal_to_ignoring_case(actual_response['issue'][0]['details']['coding'][0]['display'])
+        assert_that(expected_response['issue'][0]['diagnostics']).is_equal_to_ignoring_case(actual_response['issue'][0]['diagnostics'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -108,26 +130,27 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
     @pytest.mark.usefixtures('get_token_internal_dev')
     @pytest.mark.parametrize('nhsd_session_urid',
-        [
-            # Empty string
-            (''),
+                             [
+                                 # Empty string
+                                 (''),
 
-            # Invalid nhsd-session-urid
-            ('This is not a valid nhsd-session-urid'),
+                                 # Invalid nhsd-session-urid
+                                 ('This is not a valid nhsd-session-urid'),
 
-            # Symbols
-            ('#£$?!&%*.;@~_-'),
+                                 # Symbols
+                                 ('#£$?!&%*.;@~_-'),
 
-            # Numbers
-            ('0123456789')
-        ]
-    )
+                                 # Numbers
+                                 ('0123456789')
+                             ]
+                             )
     def test_missing_nhsd_session_urid_header(self, nhsd_session_urid):
         # Given
         expected_status_code = 400
@@ -154,14 +177,13 @@ class TestErrorCaseSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
-
     @pytest.mark.errors
     @pytest.mark.integration
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_invalid_content_type(self):
         # Given
         expected_status_code = 400
-        expected_response={
+        expected_response = {
             "error": "invalid header",
             "error_description": "content-type must be set to application/fhir+json"
         }
@@ -185,7 +207,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -193,7 +216,7 @@ class TestErrorCaseSuite:
     def test_invalid_payload(self):
         # Given
         expected_status_code = 400
-        expected_response={
+        expected_response = {
             "error": "invalid request payload",
             "error_description": "requires payload"
         }
@@ -214,7 +237,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -225,7 +249,7 @@ class TestErrorCaseSuite:
     def test_get_invalid_query_params(self, url, params):
         # Given
         expected_status_code = 404
-        expected_response={
+        expected_response = {
             'error': 'invalid query parameters',
             'error_description': 'required query parameters are missing or have empty values'
         }
@@ -246,7 +270,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -254,7 +279,7 @@ class TestErrorCaseSuite:
     def test_flag_invalid_header_put(self):
         # Given
         expected_status_code = 400
-        expected_response={
+        expected_response = {
             "error": "invalid header",
             "error_description": "if-match is missing or invalid",
         }
@@ -277,7 +302,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -310,15 +336,16 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_list_invalid_header_put(self):
         # Given
-        expected_status_code=400
-        expected_response={
+        expected_status_code = 400
+        expected_response = {
             "error": "invalid header",
             "error_description": "if-match is missing or invalid"
         }
@@ -342,15 +369,16 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
     @pytest.mark.usefixtures('get_token_internal_dev')
     def test_removerarecord_invalid_header_post(self):
         # Given
-        expected_status_code=400
-        expected_response={
+        expected_status_code = 400
+        expected_response = {
             "error": "invalid header",
             "error_description": "if-match is missing or invalid"
         }
@@ -375,7 +403,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.ods
     @pytest.mark.errors
@@ -397,7 +426,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.asid
     @pytest.mark.errors
@@ -420,7 +450,8 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(actual_response['message_id']).is_not_empty()
         assert_that(expected_response['error']).is_equal_to_ignoring_case(actual_response['error'])
-        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(actual_response['error_description'])
+        assert_that(expected_response['error_description']).is_equal_to_ignoring_case(
+            actual_response['error_description'])
 
     @pytest.mark.errors
     @pytest.mark.integration
@@ -432,7 +463,8 @@ class TestErrorCaseSuite:
         }
 
         # When
-        response = requests.get(url=config.REASONABLE_ADJUSTMENTS_BASE_URL + '/' + config.REASONABLE_ADJUSTMENTS_PROXY_PATH + '/test')
+        response = requests.get(url=config.REASONABLE_ADJUSTMENTS_BASE_URL + '/' +
+                                config.REASONABLE_ADJUSTMENTS_PROXY_PATH + '/test')
         actual_response = json.loads(response.text)
 
         # Then
