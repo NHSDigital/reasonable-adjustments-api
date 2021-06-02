@@ -211,9 +211,9 @@
     <RouteRule name="NoRouteStatus">
       <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
     </RouteRule>
-    <RouteRule name="spine-clinical">
+    <RouteRule name="spine-clinicals">
       <Condition>(request.verb = "GET") or request.header.Prefer = "respond-async" or request.header.x-sync-wrapped = "true"</Condition>
-        <TargetEndpoint>spine-clinical</TargetEndpoint>
+        <TargetEndpoint>spine-clinicals</TargetEndpoint>
     </RouteRule>
     <RouteRule name="sync-wrap">
       <Condition>(request.verb = "POST" or request.verb = "PUT") and request.header.Prefer != "respond-async" and request.header.x-sync-wrapped != "true"</Condition>
