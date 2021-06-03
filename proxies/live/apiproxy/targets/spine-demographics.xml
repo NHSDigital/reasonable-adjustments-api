@@ -107,7 +107,6 @@
             </Step>
         </FaultRule>
         <FaultRule name="UserRoleSharedFlowError">
-            <!--<Condition>isSharedFlowError = true</Condition>-->
             <Condition>sharedFlow.userRoleError = true</Condition>
             <Step>
                 <Name>AssignMessage.SharedFlowError</Name>
