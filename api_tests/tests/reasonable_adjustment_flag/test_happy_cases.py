@@ -103,30 +103,6 @@ class TestHappyCasesSuite:
     @pytest.mark.integration
     @pytest.mark.sandbox
     @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_prefer_response_async(self):
-        # Given
-        expected_status_code = 202
-
-        # When
-        response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
-            json=request_bank.get_body(Request.CONSENT_POST),
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
-                'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
-                'Prefer': 'respond-async'
-            }
-        )
-
-        # Then
-        assert_that(response.status_code).is_equal_to(expected_status_code)
-
-    @pytest.mark.happy_path
-    @pytest.mark.integration
-    @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
     def test_consent_put(self):
         # Pre-Req
         Utils.send_consent_post(self.token)
@@ -389,3 +365,26 @@ class TestHappyCasesSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.sandbox
+    @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_prefer_response_async(self):
+        # Given
+        expected_status_code = 202
+
+        # When
+        response = requests.post(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            json=request_bank.get_body(Request.CONSENT_POST),
+            headers={
+                'Authorization': f'Bearer {self.token}',
+                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Prefer': 'respond-async'
+            }
+        )
+
+        # Then
+        assert_that(response.status_code).is_equal_to(expected_status_code)
