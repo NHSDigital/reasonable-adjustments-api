@@ -4,16 +4,27 @@
     <Properties/>
     <FaultResponse>
         <Set>
-            <Payload contentType="application/json">
-            {
-                "error": "invalid query parameters",
-                "error_description": "required query parameters are missing or have empty values",
-                "message_id": "{messageid}"
-            }    
-            </Payload>
+            <Headers/>
+            <Payload contentType="text/plain"/>
             <StatusCode>404</StatusCode>
-            <ReasonPhrase>Resource Not Found</ReasonPhrase>
+            <ReasonPhrase>invalid query parameters</ReasonPhrase>
         </Set>
+        <AssignVariable>
+            <Name>ra.error.code</Name>
+            <Value>query</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.coding.code</Name>
+            <Value>INVALID_REQUEST</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.coding.display</Name>
+            <Value>invalid query parameters</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.diagnostics</Name>
+            <Value>required query parameters are missing or have empty values</Value>
+        </AssignVariable>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
 </RaiseFault>

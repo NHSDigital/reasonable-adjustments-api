@@ -7,13 +7,11 @@
       </Step>
     </Request> 
   </PreFlow>
-  <FaultRules>
     <DefaultFaultRule>
       <Step>
         <Name>AssignMessage.Errors.CatchAllMessage</Name>
       </Step>
     </DefaultFaultRule>
-  </FaultRules>
   <Flows>
     <Flow name="OptionsPreFlight">
       <Request />
