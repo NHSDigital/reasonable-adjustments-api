@@ -11,7 +11,7 @@
             <Enabled>true</Enabled>
         </SSLInfo>
         <LoadBalancer>
-            <Server name="ig3"/>
+            <Server name="spine-demographics"/>
         </LoadBalancer>
         <Path>/healthcheck</Path>
     </HTTPTargetConnection>
