@@ -120,6 +120,5 @@
         <Step>
             <Name>AssignMessage.Errors.CatchAllMessage</Name>
         </Step>
-    </DefaultFaultRule>
-    
+    </DefaultFaultRule>    
 </TargetEndpoint>
