@@ -388,3 +388,4 @@ class TestHappyCasesSuite:
 
         # Then
         assert_that(response.status_code).is_equal_to(expected_status_code)
+
