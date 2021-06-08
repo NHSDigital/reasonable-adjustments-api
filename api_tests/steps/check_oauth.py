@@ -16,7 +16,7 @@ class CheckOauth:
         code = authenticator.get_code_from_provider(response)
         return code
 
-    def get_token_response(self, timeout: int = 2000000, grant_type: str = 'authorization_code', refresh_token: str = ""):
+    def get_token_response(self, timeout: int = 200000, grant_type: str = 'authorization_code', refresh_token: str = ""):
         data = {
             'client_id': self.creds['client_id'],
             'client_secret': self.creds['client_secret'],
