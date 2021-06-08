@@ -107,6 +107,7 @@ class TestHappyCasesSuite:
     def test_prefer_response_async(self):
         # Given
         expected_status_code = 202
+        expected_poll_status_code = 201
 
         # When
         response = requests.post(
@@ -120,10 +121,26 @@ class TestHappyCasesSuite:
                 'Prefer': 'respond-async'
             }
         )
+        
+        poll_url = response.headers['Content-Location']
+        loop = True
+        while loop:     
+            poll_response = requests.get(
+                url= poll_url,
+                headers={
+                    'Authorization': f'Bearer {self.token}',
+                    'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                    'x-request-id': str(uuid.uuid4()),
+                    'content-type': 'application/fhir+json'                   
+                }
+            )
+            loop = False
+            if poll_response.status_code == 202:
+                loop = True
 
         # Then
         assert_that(response.status_code).is_equal_to(expected_status_code)
-        time.sleep(1)
+        assert_that(poll_response.status_code).is_equal_to(expected_poll_status_code)
 
     @pytest.mark.happy_path
     @pytest.mark.integration
