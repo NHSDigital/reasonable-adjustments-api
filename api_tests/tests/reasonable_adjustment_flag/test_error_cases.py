@@ -776,7 +776,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'forbidden', 
+                    'code': 'not-found', 
                     'details': 
                     {
                         'coding': 
