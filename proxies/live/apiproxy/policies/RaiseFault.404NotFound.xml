@@ -11,15 +11,15 @@
         </Set>
         <AssignVariable>
             <Name>ra.error.code</Name>
-            <Value>404</Value>
+            <Value>not-found</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.code</Name>
-            <Value>Not Found</Value>
+            <Value>BAD_REQUEST</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.display</Name>
-            <Value>Resource Not Found</Value>
+            <Value>Not Found</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.diagnostics</Name>

@@ -25,7 +25,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'token', 
+                    'code': 'forbidden', 
                     'details': 
                     {
                         'coding': 
@@ -33,7 +33,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_TOKEN', 
+                                'code': 'ACCESS DENIED', 
                                 'display': 'Access token is invalid or expired'
                             }
                         ]
@@ -83,7 +83,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error',
-                    'code': 'request',
+                    'code': 'invalid',
                     'details':
                     {
                         'coding':
@@ -91,7 +91,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
                                 'version': '1',
-                                'code': 'INVALID_REQUEST',
+                                'code': 'INVALID_VALUE',
                                 'display': 'invalid header'
                             }
                         ]
@@ -141,7 +141,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error',
-                    'code': 'request',
+                    'code': 'invalid',
                     'details':
                     {
                         'coding':
@@ -149,7 +149,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
                                 'version': '1',
-                                'code': 'INVALID_REQUEST',
+                                'code': 'INVALID_VALUE',
                                 'display': 'invalid header'
                             }
                         ]
@@ -215,15 +215,17 @@ class TestErrorCaseSuite:
             'issue':
             [
                 {
-                    'severity': 'error', 'code': '400', 'details':
+                    'severity': 'error', 
+                    'code': 'invalid', 
+                    'details':
                     {
                         'coding':
                         [
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
                                 'version': '1',
-                                'code': '400',
-                                'display': 'Bad Request'
+                                'code': 'INVALID_VALUE',
+                                'display': 'nhsd-session-urid is invalid'
                             }
                         ]
                     },
@@ -273,7 +275,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'request', 
+                    'code': 'invalid', 
                     'details': 
                     {
                         'coding': 
@@ -281,7 +283,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_REQUEST', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'invalid header'
                             }
                         ]
@@ -331,7 +333,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'request', 
+                    'code': 'invalid', 
                     'details': 
                     {
                         'coding': 
@@ -339,7 +341,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_REQUEST', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'invalid request payload'
                             }
                         ]
@@ -390,7 +392,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'query', 
+                    'code': 'invalid', 
                     'details': 
                     {
                         'coding': 
@@ -398,7 +400,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_REQUEST', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'invalid query parameters'
                             }
                         ]
@@ -445,7 +447,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'header', 
+                    'code': 'invalid', 
                     'details': 
                     {
                         'coding': 
@@ -453,7 +455,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'invalid header'
                             }
                         ]
@@ -501,8 +503,8 @@ class TestErrorCaseSuite:
             'issue': 
             [
                 {
-                    'severity': 'error', 
-                    'code': 'query', 
+                    'severity': 'invalid', 
+                    'code': 'invalid', 
                     'details': 
                     {
                         'coding': 
@@ -510,7 +512,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_REQUEST', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'invalid query parameters'
                             }
                         ]
@@ -561,7 +563,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'header', 
+                    'code': 'invalid', 
                     'details': 
                     {
                         'coding': 
@@ -569,7 +571,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'invalid header'
                             }
                         ]
@@ -619,7 +621,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'header', 
+                    'code': 'invalid', 
                     'details': 
                     {
                         'coding': 
@@ -627,7 +629,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'invalid header'
                             }
                         ]
@@ -679,7 +681,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'request', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -687,7 +689,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_REQUEST', 
+                                'code': 'ASID_CHECK_FAILED', 
                                 'display': 'missing ODS'
                             }
                         ]
@@ -727,7 +729,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'request', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -735,7 +737,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_REQUEST', 
+                                'code': 'ASID_CHECK_FAILED', 
                                 'display': 'missing ASID'
                             }
                         ]
@@ -774,7 +776,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': '404', 
+                    'code': 'forbidden', 
                     'details': 
                     {
                         'coding': 
@@ -782,8 +784,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'Not Found', 
-                                'display': 'Resource Not Found'
+                                'code': 'BAD_REQUEST', 
+                                'display': 'Not Found'
                             }
                         ]
                     }, 

@@ -11,11 +11,11 @@
         </Set>
         <AssignVariable>
             <Name>ra.error.code</Name>
-            <Value>request</Value>
+            <Value>invalid</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.code</Name>
-            <Value>INVALID_REQUEST</Value>
+            <Value>INVALID_VALUE</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.display</Name>

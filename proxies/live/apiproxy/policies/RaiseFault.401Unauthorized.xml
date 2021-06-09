@@ -15,11 +15,11 @@
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.code</Name>
-            <Value>Unauthorized</Value>
+            <Value>forbidden</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.display</Name>
-            <Value>Unauthorized</Value>
+            <Value>ACCESS DENIED</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.diagnostics</Name>

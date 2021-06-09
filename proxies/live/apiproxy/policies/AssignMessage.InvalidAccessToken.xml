@@ -2,11 +2,11 @@
 <AssignMessage name="AssignMessage.InvalidAccessToken">
     <AssignVariable>
         <Name>ra.error.code</Name>
-        <Value>token</Value>
+        <Value>forbidden</Value>
     </AssignVariable>
     <AssignVariable>
         <Name>ra.error.coding.code</Name>
-        <Value>INVALID_TOKEN</Value>
+        <Value>ACCESS DENIED</Value>
     </AssignVariable>
     <AssignVariable>
         <Name>ra.error.coding.display</Name>
