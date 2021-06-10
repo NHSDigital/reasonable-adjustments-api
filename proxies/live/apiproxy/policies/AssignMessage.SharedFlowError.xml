@@ -2,11 +2,11 @@
 <AssignMessage name="AssignMessage.SharedFlowError">
     <AssignVariable>
         <Name>ra.error.code</Name>
-        <Template>{error.status.code}</Template>
+        <Value>value</Value>
     </AssignVariable>
     <AssignVariable>
         <Name>ra.error.coding.code</Name>
-        <Template>{error.status.code}</Template>
+        <Value>BAD_REQUEST</Value>
     </AssignVariable>
     <AssignVariable>
         <Name>ra.error.coding.display</Name>

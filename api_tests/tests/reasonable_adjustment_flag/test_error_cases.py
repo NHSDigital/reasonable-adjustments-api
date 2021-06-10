@@ -83,7 +83,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error',
-                    'code': 'invalid',
+                    'code': 'value',
                     'details':
                     {
                         'coding':
@@ -141,7 +141,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error',
-                    'code': 'invalid',
+                    'code': 'value',
                     'details':
                     {
                         'coding':
@@ -216,7 +216,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details':
                     {
                         'coding':
@@ -224,8 +224,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
                                 'version': '1',
-                                'code': 'INVALID_VALUE',
-                                'display': 'nhsd-session-urid is invalid'
+                                'code': 'BAD_REQUEST',
+                                'display': 'Bad Request'
                             }
                         ]
                     },
@@ -275,7 +275,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -333,7 +333,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -392,7 +392,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -447,7 +447,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -504,7 +504,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'invalid', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -563,7 +563,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -621,7 +621,7 @@ class TestErrorCaseSuite:
             [
                 {
                     'severity': 'error', 
-                    'code': 'invalid', 
+                    'code': 'value', 
                     'details': 
                     {
                         'coding': 
@@ -689,7 +689,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'ASID_CHECK_FAILED', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'missing ODS'
                             }
                         ]
@@ -737,7 +737,7 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'ASID_CHECK_FAILED', 
+                                'code': 'INVALID_VALUE', 
                                 'display': 'missing ASID'
                             }
                         ]
