@@ -10,7 +10,7 @@
     </AssignVariable>
     <AssignVariable>
         <Name>ra.error.coding.display</Name>
-        <Template>{error.reason.phrase}</Template>
+        <Value>Bad request</Value>
     </AssignVariable>
     <AssignVariable>
         <Name>ra.error.diagnostics</Name>

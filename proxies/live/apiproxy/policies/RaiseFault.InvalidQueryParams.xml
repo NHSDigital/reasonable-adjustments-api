@@ -15,11 +15,11 @@
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.code</Name>
-            <Value>INVALID_VALUE</Value>
+            <Value>BAD_REQUEST</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.display</Name>
-            <Value>invalid query parameters</Value>
+            <Value>Bad request</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.diagnostics</Name>

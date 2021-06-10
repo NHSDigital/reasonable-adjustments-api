@@ -34,7 +34,7 @@ class TestErrorCaseSuite:
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
                                 'code': 'ACCESS DENIED', 
-                                'display': 'Access token is invalid or expired'
+                                'display': 'Access has been denied to process this request'
                             }
                         ]
                     }, 
@@ -91,8 +91,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
                                 'version': '1',
-                                'code': 'INVALID_VALUE',
-                                'display': 'invalid header'
+                                'code': 'BAD_REQUEST',
+                                'display': 'Bad request'
                             }
                         ]
                     },
@@ -149,8 +149,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
                                 'version': '1',
-                                'code': 'INVALID_VALUE',
-                                'display': 'invalid header'
+                                'code': 'BAD_REQUEST',
+                                'display': 'Bad request'
                             }
                         ]
                     },
@@ -283,8 +283,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'invalid header'
+                                'code': 'BAD_REQUEST', 
+                                'display': 'Bad request'
                             }
                         ]
                     }, 
@@ -341,8 +341,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'invalid request payload'
+                                'code': 'BAD_REQUEST', 
+                                'display': 'Bad request'
                             }
                         ]
                     }, 
@@ -400,8 +400,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'invalid query parameters'
+                                'code': 'BAD_REQUEST', 
+                                'display': 'Bad request'
                             }
                         ]
                     }, 
@@ -455,8 +455,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'invalid header'
+                                'code': 'MISSING_OR_INVALID_HEADER', 
+                                'display': 'There is a required header missing or invalid'
                             }
                         ]
                     }, 
@@ -512,8 +512,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'invalid query parameters'
+                                'code': 'BAD_REQUEST', 
+                                'display': 'Bad request'
                             }
                         ]
                     }, 
@@ -571,8 +571,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'invalid header'
+                                'code': 'MISSING_OR_INVALID_HEADER', 
+                                'display': 'There is a required header missing or invalid'
                             }
                         ]
                     }, 
@@ -629,8 +629,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'invalid header'
+                                'code': 'MISSING_OR_INVALID_HEADER', 
+                                'display': 'There is a required header missing or invalid'
                             }
                         ]
                     }, 
@@ -689,8 +689,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'missing ODS'
+                                'code': 'BAD_REQUEST', 
+                                'display': 'Bad request'
                             }
                         ]
                     }, 
@@ -737,8 +737,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'INVALID_VALUE', 
-                                'display': 'missing ASID'
+                                'code': 'BAD_REQUEST', 
+                                'display': 'Bad request'
                             }
                         ]
                     }, 
@@ -785,7 +785,7 @@ class TestErrorCaseSuite:
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
                                 'code': 'BAD_REQUEST', 
-                                'display': 'Not Found'
+                                'display': 'Bad request'
                             }
                         ]
                     }, 

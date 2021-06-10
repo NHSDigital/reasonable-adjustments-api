@@ -19,7 +19,7 @@
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.display</Name>
-            <Value>Not Found</Value>
+            <Value>Bad request</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.diagnostics</Name>
