@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.InternalServerError">
+    <DisplayName>RaiseFault.InternalServerError</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <Headers/>
+            <Payload contentType="text/plain"/>
+            <StatusCode>500</StatusCode>
+            <ReasonPhrase>Server Error</ReasonPhrase>
+        </Set>
+        <AssignVariable>
+            <Name>ra.error.code</Name>
+            <Value>value</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.coding.code</Name>
+            <Value>INTERNAL_SERVER_ERROR</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.coding.display</Name>
+            <Value>Unexpected internal server error</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.diagnostics</Name>
+            <Template>{validation.errorDescription}</Template>
+        </AssignVariable>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

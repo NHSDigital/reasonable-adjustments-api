@@ -1,6 +1,7 @@
 var requestVerb = context.getVariable('request.verb')
 var requestPayload = context.getVariable('request.content')
-var isError = false
+var internalServerError = false
+var invalidResponse = false
 
 var xRequestId = context.getVariable('request.header.X-Request-ID')
 var nhsdSessionURID = context.getVariable('request.header.NHSD-Session-URID')
@@ -12,35 +13,31 @@ print(requestPayload)
 var regex = RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
 
 if (!regex.test(xRequestId) || xRequestId === null) {
-    var errorObject = { error: 'invalid header', errorDescription: "x-request-id is missing or invalid", statusCode: 400, reasonPhrase: "Bad Request" } 
-    var isError = true
+    var errorDescription = "x-request-id is missing or invalid"
+    var invalidResponse = true
 }
 else if (nhsdSessionURID === "" || nhsdSessionURID === null) {
-    var errorObject = { error: 'invalid header', errorDescription: "nhsd-session-urid is missing or invalid", statusCode: 400, reasonPhrase: "Bad Request" } 
-    var isError = true
+    var errorDescription = "nhsd-session-urid is missing or invalid"
+    var invalidResponse = true
 }
 else if (requestVerb !== "GET" && contentType !== "application/fhir+json") {
-    var errorObject = { error: 'invalid header', errorDescription: "content-type must be set to application/fhir+json", statusCode: 400, reasonPhrase: "Bad Request" } 
-    var isError = true
+    var errorDescription = "content-type must be set to application/fhir+json"
+    var invalidResponse = true
 }
 else if (requestVerb !== "GET" && requestPayload === "") {
-    var errorObject = { error: 'invalid request payload', errorDescription: "requires payload", statusCode: 400, reasonPhrase: "Bad Request" } 
-    var isError = true
+    var errorDescription = "requires payload"
+    var invalidResponse = true
 }
 else if (asid === null) {
-    var errorObject = { error: 'missing ASID', errorDescription: "An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID", statusCode: 500, reasonPhrase: "Internal Server Errort" } 
-    var isError = true
+    var errorDescription = "An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
+    var internalServerError = true
 }
 else if (ods === null) {
-    var errorObject = { error: 'missing ODS', errorDescription: "An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID", statusCode: 500, reasonPhrase: "Internal Server Error" } 
-    var isError = true
+    var errorDescription = "An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
+    var internalServerError = true
 }
 
-context.setVariable('isError', isError)
+context.setVariable('internalServerError', internalServerError)
+context.setVariable('invalidResponse', invalidResponse)
 
-if (isError) {
-    context.setVariable('validation.errorMessage', errorObject.error)
-    context.setVariable('validation.errorDescription', errorObject.errorDescription)
-    context.setVariable('validation.statusCode', errorObject.statusCode)
-    context.setVariable('validation.reasonPhrase', errorObject.reasonPhrase)    
-}
+if (internalServerError || invalidResponse) context.setVariable('validation.errorDescription', errorDescription)

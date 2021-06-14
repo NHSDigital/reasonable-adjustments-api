@@ -29,7 +29,11 @@
             </Step>
             <Step>
                 <Name>RaiseFault.InvalidRequest</Name>
-                <Condition>isError = true</Condition>
+                <Condition>invalidResponse = true</Condition>
+            </Step>
+            <Step>
+                <Name>RaiseFault.InternalServerError</Name>
+                <Condition>internalServerError = true</Condition>
             </Step>
             <Step>
               <Name>JavaScript.CreateClaimVars</Name>

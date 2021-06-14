@@ -689,8 +689,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'BAD_REQUEST', 
-                                'display': 'Bad request'
+                                'code': 'INTERNAL_SERVER_ERROR', 
+                                'display': 'Unexpected internal server error'
                             }
                         ]
                     }, 
@@ -737,8 +737,8 @@ class TestErrorCaseSuite:
                             {
                                 'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
                                 'version': '1', 
-                                'code': 'BAD_REQUEST', 
-                                'display': 'Bad request'
+                                'code': 'INTERNAL_SERVER_ERROR', 
+                                'display': 'Unexpected internal server error'
                             }
                         ]
                     }, 
