@@ -29,7 +29,11 @@
             </Step>
             <Step>
                 <Name>RaiseFault.InvalidRequest</Name>
-                <Condition>isError = true</Condition>
+                <Condition>invalidResponse = true</Condition>
+            </Step>
+            <Step>
+                <Name>RaiseFault.InternalServerError</Name>
+                <Condition>internalServerError = true</Condition>
             </Step>
             <Step>
               <Name>JavaScript.CreateClaimVars</Name>
@@ -96,6 +100,9 @@
             <Step>
                 <Name>AssignMessage.InvalidAccessToken</Name>
             </Step>
+            <Step>
+                <Name>AssignMessage.Errors.CatchAllMessage</Name>
+            </Step>
         </FaultRule>
         <FaultRule name="JWTGenerationError">
             <Condition>JWT.failed = true</Condition>
@@ -104,15 +111,18 @@
             </Step>
         </FaultRule>
         <FaultRule name="UserRoleSharedFlowError">
-            <Condition>isSharedFlowError = true</Condition>
+            <Condition>sharedFlow.userRoleError = true</Condition>
             <Step>
                 <Name>AssignMessage.SharedFlowError</Name>
             </Step>
-        </FaultRule>
-        <DefaultFaultRule name="UnkownError">
             <Step>
-                <Name>AssignMessage.CatchAllErrorMessage</Name>
+                <Name>AssignMessage.Errors.CatchAllMessage</Name>
             </Step>
-        </DefaultFaultRule>
+        </FaultRule>
     </FaultRules>
+    <DefaultFaultRule name="UnkownError">
+        <Step>
+            <Name>AssignMessage.Errors.CatchAllMessage</Name>
+        </Step>
+    </DefaultFaultRule>    
 </TargetEndpoint>

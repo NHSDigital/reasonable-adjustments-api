@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.404NotFound">
-  <FaultResponse>
-    <Set>
-      <Payload contentType="application/json">{"error": "Resource Not Found"}</Payload>
-      <StatusCode>404</StatusCode>
-      <ReasonPhrase>Resource Not Found</ReasonPhrase>
-    </Set>
-  </FaultResponse>
-  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <DisplayName>RaiseFault.404NotFound</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <Headers/>
+            <Payload contentType="text/plain"/>
+            <StatusCode>404</StatusCode>
+            <ReasonPhrase>Resource Not Found</ReasonPhrase>
+        </Set>
+        <AssignVariable>
+            <Name>ra.error.code</Name>
+            <Value>not-found</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.coding.code</Name>
+            <Value>BAD_REQUEST</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.coding.display</Name>
+            <Value>Bad request</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>ra.error.diagnostics</Name>
+            <Value>Resource Not Found</Value>
+        </AssignVariable>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
 </RaiseFault>

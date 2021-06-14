@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.InvalidQueryParams">
-    <DisplayName>RaiseFault.InvalidQueryParams</DisplayName>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.InternalServerError">
+    <DisplayName>RaiseFault.InternalServerError</DisplayName>
     <Properties/>
     <FaultResponse>
         <Set>
             <Headers/>
             <Payload contentType="text/plain"/>
-            <StatusCode>404</StatusCode>
-            <ReasonPhrase>invalid query parameters</ReasonPhrase>
+            <StatusCode>500</StatusCode>
+            <ReasonPhrase>Server Error</ReasonPhrase>
         </Set>
         <AssignVariable>
             <Name>ra.error.code</Name>
@@ -15,15 +15,15 @@
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.code</Name>
-            <Value>BAD_REQUEST</Value>
+            <Value>INTERNAL_SERVER_ERROR</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.coding.display</Name>
-            <Value>Bad request</Value>
+            <Value>Unexpected internal server error</Value>
         </AssignVariable>
         <AssignVariable>
             <Name>ra.error.diagnostics</Name>
-            <Value>required query parameters are missing or have empty values</Value>
+            <Template>{validation.errorDescription}</Template>
         </AssignVariable>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>

@@ -1,4 +1,5 @@
 import json
+import time
 import uuid
 import pytest
 import requests
@@ -99,6 +100,49 @@ class TestHappyCasesSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.sandbox
+    @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_prefer_response_async(self):
+        # Given
+        expected_status_code = 202
+        expected_poll_status_code = 201
+
+        # When
+        response = requests.post(
+            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            json=request_bank.get_body(Request.CONSENT_POST),
+            headers={
+                'Authorization': f'Bearer {self.token}',
+                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Prefer': 'respond-async'
+            }
+        )
+        
+        if not 'sandbox' in config.REASONABLE_ADJUSTMENTS_BASE_URL:
+            poll_url = response.headers['Content-Location']
+            loop = True
+            while loop:     
+                poll_response = requests.get(
+                    url= poll_url,
+                    headers={
+                        'Authorization': f'Bearer {self.token}',
+                        'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                        'x-request-id': str(uuid.uuid4()),
+                        'content-type': 'application/fhir+json'                   
+                    }
+                )
+                loop = False
+                if poll_response.status_code == 202:
+                    loop = True
+
+        # Then
+        assert_that(response.status_code).is_equal_to(expected_status_code)
+        if not 'sandbox' in config.REASONABLE_ADJUSTMENTS_BASE_URL:
+            assert_that(poll_response.status_code).is_equal_to(expected_poll_status_code)
 
     @pytest.mark.happy_path
     @pytest.mark.integration
@@ -368,26 +412,5 @@ class TestHappyCasesSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
-    @pytest.mark.happy_path
-    @pytest.mark.integration
-    @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_prefer_response_async(self):
-        # Given
-        expected_status_code = 202
+   
 
-        # When
-        response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
-            json=request_bank.get_body(Request.CONSENT_POST),
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
-                'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
-                'Prefer': 'respond-async'
-            }
-        )
-
-        # Then
-        assert_that(response.status_code).is_equal_to(expected_status_code)
