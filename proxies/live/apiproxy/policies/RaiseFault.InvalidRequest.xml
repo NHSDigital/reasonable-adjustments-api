@@ -6,8 +6,8 @@
         <Set>
             <Headers/>
             <Payload contentType="text/plain"/>
-            <StatusCode>{validation.statusCode}</StatusCode>
-            <ReasonPhrase>{validation.reasonPhrase}</ReasonPhrase>
+            <StatusCode>400</StatusCode>
+            <ReasonPhrase>Bad Request</ReasonPhrase>
         </Set>
         <AssignVariable>
             <Name>ra.error.code</Name>
