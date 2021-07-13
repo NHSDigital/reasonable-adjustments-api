@@ -18,7 +18,7 @@ info:
      - Details of impairments, which enable clinicians to understand the range of adjustments the patient may require. Note that the patient may decline to say what their impairments are.
      - Details of reasonable adjustments to services which are needed by the patient when providing their care. 
 
-    This API can only be used by relevant health and care staff providing direct care, authenticated with an NHS smartcard or equivalent.
+    This API can only be used by relevant health and care staff providing direct care, authenticated with an NHS [smartcard](https://digital.nhs.uk/services/registration-authorities-and-smartcards) or equivalent.
 
     The existance of a Flag is intended to be visible to all staff who have access to the patient record.  The contents of the Flag may only be visible to clinical staff - as determined by role-based access controls (RBAC). For more details see [Registration authorities and smartcards](https://digital.nhs.uk/services/registration-authorities-and-smartcards).
 
@@ -65,7 +65,7 @@ info:
 
 
     ## Network Access
-    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with NHS smartcards (see below) you do need an HSCN connection, although internet-facing alternatives are available.
+    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with NHS [smartcards](https://digital.nhs.uk/services/registration-authorities-and-smartcards) (see below) you do need an HSCN connection, although internet-facing alternatives are available.
 
     For more details see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
@@ -74,7 +74,7 @@ info:
 
     The end user must be:
     - a healthcare professional
-    - strongly authenticated, using either an NHS smartcard or a [modern alternative](https://digital.nhs.uk/services/nhs-care-identity-service-2/ways-to-authenticate-with-nhs-cis2) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-care-identity-service-2)
+    - strongly authenticated, using either an NHS [smartcard](https://digital.nhs.uk/services/registration-authorities-and-smartcards) or a [modern alternative](https://digital.nhs.uk/services/nhs-care-identity-service-2/ways-to-authenticate-with-nhs-cis2) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-care-identity-service-2)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
 
@@ -109,7 +109,7 @@ info:
     Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
     * is for formal integration testing
     * is stateful, so persists updates
-    * includes authorisation, with options for user-restricted access (with or without smartcard)
+    * includes authorisation, with options for user-restricted access (with or without [smartcards](https://digital.nhs.uk/services/registration-authorities-and-smartcards))
 
     To test updating patient details, you must set up your own test data.
 
