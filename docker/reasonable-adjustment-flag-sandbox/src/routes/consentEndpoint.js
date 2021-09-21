@@ -2,7 +2,7 @@ const consentGet =  {
     method: 'GET',
     path: '/Consent',
     handler: (request, h) => {
-        if (request.query["patient"] != '9692247317') {
+        if (request.query["patient"] != '9693892283') {
             const path = 'consentGETerror.json'
             return h.response(h.file(path)).code(404);
         }
