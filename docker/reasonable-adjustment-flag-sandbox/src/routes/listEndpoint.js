@@ -2,7 +2,7 @@ const listGet =  {
     method: 'GET',
     path: '/List',
     handler: (request, h) => {
-        if (request.query["patient"] != '9692247317') {
+        if (request.query["patient"] != '9693892283') {
             const path = 'listGETerror.json'
             return h.response(h.file(path)).code(404);
         }
