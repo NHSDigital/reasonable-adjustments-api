@@ -33,9 +33,6 @@ extends:
     service_name: ${{ variables.service_name }}
     service_base_path: ${{ variables.service_base_path }}
     short_service_name: ${{ variables.short_service_name }}
-    product_display_name: ${{ variables.product_display_name }}
-    product_description: ${{ variables.product_description }}
-    spec_file: ${{ variables.spec_file }}
     enable_monitoring: false
     secret_ids:
       - ptl/reasonable-adjustments/internal-dev/test_app/client_secret
@@ -48,13 +45,11 @@ extends:
       - /ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_SECRET
     apigee_deployments:
       - environment: internal-dev
-        make_spec_visible: true
         post_deploy:
           - template: templates/tests.yml
             parameters:
               service_name: ${{ variables.service_name }}
       - environment: internal-dev-sandbox
-        make_spec_visible: true
         proxy_path: sandbox
         post_deploy:
             -   template: templates/tests.yml
