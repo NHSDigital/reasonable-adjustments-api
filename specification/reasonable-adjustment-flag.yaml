@@ -118,8 +118,6 @@ info:
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
 
-    We will provide further details about how to onboard onto the API in January 2021.
-
     ## Using this API
     To check if a Reasonable Adjustment Flag exists:
      - get consent details - if they exist, the overall record exists
