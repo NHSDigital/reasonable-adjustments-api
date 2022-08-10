@@ -879,7 +879,6 @@ components:
         This is to ensure that any updates are applied against an up-to-date version of the patient resource.
       schema:
         type: string
-        pattern: "^W\/\"[0-9]+\"$"
         example: 'W/"2"'
     consentID:
       name: consentID
