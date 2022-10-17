@@ -42,8 +42,8 @@ info:
 
       - [National Record Locator (NRL) (FHIR) API](https://developer.nhs.uk/apis/nrl/) - use this API to locate and share patient records held within local health and social care systems.
 
-    ## API Status and roadmap
-     This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status) - expect further breaking changes.
+    ## API status and roadmap
+     This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#status) - expect further breaking changes.
      
      The API is currently available for sandbox testing, but not integration testing or for production use.
          
