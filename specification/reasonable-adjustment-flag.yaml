@@ -13,16 +13,16 @@ info:
      - update a Reasonable Adjustment Flag
      - remove a Reasonable Adjustment Flag
      
-    The Flag consists of three parts:
-     - Details of consent to share the Flag and how this was obtained. Consent may have been given by the patient or via a 'best interest decision' under the [Mental Capacity Act (2005)](https://www.nhs.uk/conditions/social-care-and-support-guide/making-decisions-for-someone-else/mental-capacity-act/). In some cases consent can also be obtained from a lasting power of attorney for health and welfare or a court appointed deputy.
-     - Details of impairments, which enable clinicians to understand the range of adjustments the patient may require. Note that the patient may decline to say what their impairments are.
-     - Details of reasonable adjustments to services which are needed by the patient when providing their care. 
+    The flag consists of three parts:
+     - details of consent to share the Flag and how this was obtained. Consent may have been given by the patient or via a 'best interest decision' under the [Mental Capacity Act (2005)](https://www.nhs.uk/conditions/social-care-and-support-guide/making-decisions-for-someone-else/mental-capacity-act/). In some cases consent can also be obtained from a lasting power of attorney for health and welfare or a court appointed deputy.
+     - details of impairments, which enable clinicians to understand the range of adjustments the patient may require. Note that the patient may decline to say what their impairments are.
+     - details of reasonable adjustments to services which are needed by the patient when providing their care. 
 
     This API can only be used by relevant health and care staff providing direct care, authenticated with an NHS [smartcard](https://digital.nhs.uk/services/registration-authorities-and-smartcards) or equivalent.
 
-    The existance of a Flag is intended to be visible to all staff who have access to the patient record.  The contents of the Flag may only be visible to clinical staff - as determined by role-based access controls (RBAC). For more details see [Registration authorities and smartcards](https://digital.nhs.uk/services/registration-authorities-and-smartcards).
+    The existance of a flag is intended to be visible to all staff who have access to the patient record.  The contents of the Flag may only be visible to clinical staff - as determined by role-based access controls (RBAC). For more details see [Registration authorities and smartcards](https://digital.nhs.uk/services/registration-authorities-and-smartcards).
 
-    To find out more about how the Flag works, categories and types of adjustments and the recording of impairments see [How the Reasonable Adjustment Flag works](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
+    To find out more about how the flag works, categories and types of adjustments and the recording of impairments see [How the Reasonable Adjustment Flag works](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
 
     To watch a video of a Reasonable Adjustment Flag being created in [SCRa](https://digital.nhs.uk/services/summary-care-record-application) see [Creating a Reasonable Adjustment Flag on the NHS Spine](https://www.youtube.com/watch?v=dX-IwYXXEwE). 
 
@@ -43,7 +43,7 @@ info:
       - [National Record Locator (NRL) (FHIR) API](https://developer.nhs.uk/apis/nrl/) - use this API to locate and share patient records held within local health and social care systems.
 
     ## API status and roadmap
-     This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#status) - expect further breaking changes.
+     This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses) - expect further breaking changes.
      
      The API is currently available for sandbox testing, but not integration testing or for production use.
          
