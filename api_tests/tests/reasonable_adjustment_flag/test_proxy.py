@@ -12,20 +12,21 @@ from api_tests.scripts.apigee_api import ApigeeDebugApi
 from api_tests.tests.utils import Utils
 
 
-@pytest.mark.usefixtures("setup")
+# @pytest.mark.usefixtures("setup")
 class TestProxyCasesSuite:
     """ A test suite to verify all the happy path oauth endpoints """
 
     @pytest.mark.spine_headers
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_ASID_fetch(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_ASID_fetch(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_value = '200000001390'
 
         # When
-        Utils.send_request(self)
+        Utils.send_request(token)
 
         # Then
         actual_asid = debug_session.get_apigee_variable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
@@ -36,13 +37,14 @@ class TestProxyCasesSuite:
 
     @pytest.mark.spine_headers
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_x_request_id_equals_nhsd_request_id(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_x_request_id_equals_nhsd_request_id(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
 
         # When
-        Utils.send_request(self)
+        Utils.send_request(token)
 
         # Then
         trace_id = debug_session.get_apigee_header('NHSD-Request-ID')
@@ -52,13 +54,14 @@ class TestProxyCasesSuite:
 
     @pytest.mark.spine_headers
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_outgoing_request_contains_nhsd_correlation_id_header(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_outgoing_request_contains_nhsd_correlation_id_header(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         debug_session = ApigeeDebugApi(config.REASONABLE_ADJUSTMENTS_PROXY_NAME)
 
         # When
-        Utils.send_request(self)
+        Utils.send_request(token)
 
         # Then
         apigee_message_id = debug_session.get_apigee_variable('messageid')
@@ -72,14 +75,15 @@ class TestProxyCasesSuite:
 
     @pytest.mark.ods
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_valid_ods(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_valid_ods(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         debug_session = ApigeeDebugApi(REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_ods = 'D82106'
 
         # When
-        Utils.send_request(self)
+        Utils.send_request(token)
 
         # Then
         actual_ods = debug_session.get_apigee_variable('verifyapikey.VerifyAPIKey.CustomAttributes.ods')
@@ -88,9 +92,10 @@ class TestProxyCasesSuite:
 
     @pytest.mark.jwt
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_jwt(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_jwt(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         debug_session = ApigeeDebugApi(REASONABLE_ADJUSTMENTS_PROXY_NAME)
         expected_jwt_claims = {
             'reason_for_request': 'directcare',
@@ -104,7 +109,7 @@ class TestProxyCasesSuite:
         }
 
         # When
-        Utils.send_request(self)
+        Utils.send_request(token)
 
         # Then
         # We should pull Authorization header instead but Apigee mask that value so we get spineJwt variable instead
@@ -124,8 +129,9 @@ class TestProxyCasesSuite:
         assert_that(expected_jwt_claims['aud']).is_equal_to_ignoring_case(actual_jwt_claims['aud'])
 
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_response_contains_request_id_and_correlation_id_headers(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_response_contains_request_id_and_correlation_id_headers(self, get_token_client_credentials):
+        token = get_token_client_credentials["access_token"]
         request_id = str(uuid.uuid4())
         correlation_id = str(uuid.uuid4())
 
@@ -138,7 +144,7 @@ class TestProxyCasesSuite:
                 '_from': 'json'
             },
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': request_id,
                 'x-correlation-id': correlation_id,

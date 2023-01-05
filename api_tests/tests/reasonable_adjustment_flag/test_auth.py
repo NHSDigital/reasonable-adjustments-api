@@ -6,7 +6,7 @@ from assertpy import assert_that
 from api_tests.config_files import config
 
 
-@pytest.mark.usefixtures("setup")
+# @pytest.mark.usefixtures("setup")
 class TestAuthCasesSuite:
     """ A test suite to verify all the happy path oauth endpoints """
 
@@ -14,9 +14,11 @@ class TestAuthCasesSuite:
 
     @pytest.mark.integration
     @pytest.mark.smoke
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_asid_auth(self):
+    @pytest.mark.asyncio
+    # @pytest.mark.usefixtures('get_token_client_credentials')
+    def test_asid_auth(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         expected_status_code = 200
 
         # When
@@ -28,7 +30,7 @@ class TestAuthCasesSuite:
                 'status': 'active'
             },
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'NHSD-Session-URID': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'accept': 'application/json'

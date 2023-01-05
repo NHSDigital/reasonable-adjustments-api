@@ -25,12 +25,12 @@ class Utils:
     """ A Utils class to be used for shared functionality between tests  """
 
     @staticmethod
-    def send_request(self) -> requests.Response:
+    def send_request(auth_token: str) -> requests.Response:
         response = requests.get(
             url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             params={'patient': 'test', 'category': 'test', 'status': 'test'},
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {auth_token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'x-correlation-id': str(uuid.uuid4())
@@ -40,12 +40,12 @@ class Utils:
         return response
 
     @staticmethod
-    def get_etag(self, resource_url: str, params):
+    def get_etag(auth_token: str, resource_url: str, params):
         response = requests.get(
             url=resource_url,
             params=params,
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {auth_token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
             }
@@ -68,7 +68,7 @@ class Utils:
             })
 
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        
+
         return response
 
     @staticmethod

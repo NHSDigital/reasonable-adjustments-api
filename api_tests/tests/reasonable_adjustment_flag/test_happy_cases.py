@@ -11,15 +11,16 @@ from api_tests.config_files import config
 from api_tests.tests.utils import Utils
 
 
-@pytest.mark.usefixtures("setup")
+# @pytest.mark.usefixtures("setup")
 class TestHappyCasesSuite:
     """ A test suite to verify all the happy path endpoints """
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_consent_get_without_consent(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_consent_get_without_consent(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         expected_status_code = 200
 
         # When
@@ -32,7 +33,7 @@ class TestHappyCasesSuite:
                 '_from': 'json'
             },
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'Accept': 'application/fhir+json'
@@ -47,12 +48,10 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_consent_get_with_consent(self):
-        # Pre-Req
-        Utils.send_consent_post(self.token)
-
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_consent_get_with_consent(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         expected_status_code = 200
 
         # When
@@ -65,7 +64,7 @@ class TestHappyCasesSuite:
                 '_from': 'json'
             },
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'Accept': 'application/fhir+json'
@@ -80,9 +79,10 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_consent_post(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_consent_post(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         expected_status_code = 201
 
         # When
@@ -90,7 +90,7 @@ class TestHappyCasesSuite:
             url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             json=request_bank.get_body(Request.CONSENT_POST),
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json'
@@ -103,9 +103,10 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_prefer_response_async(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_prefer_response_async(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         expected_status_code = 202
         expected_poll_status_code = 201
 
@@ -114,25 +115,25 @@ class TestHappyCasesSuite:
             url=config.REASONABLE_ADJUSTMENTS_CONSENT,
             json=request_bank.get_body(Request.CONSENT_POST),
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'Prefer': 'respond-async'
             }
         )
-        
+
         if not 'sandbox' in config.REASONABLE_ADJUSTMENTS_BASE_URL:
             poll_url = response.headers['Content-Location']
             loop = True
-            while loop:     
+            while loop:
                 poll_response = requests.get(
                     url= poll_url,
                     headers={
-                        'Authorization': f'Bearer {self.token}',
+                        'Authorization': f'Bearer {token}',
                         'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                         'x-request-id': str(uuid.uuid4()),
-                        'content-type': 'application/fhir+json'                   
+                        'content-type': 'application/fhir+json'
                     }
                 )
                 loop = False
@@ -147,16 +148,17 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_consent_put(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_consent_put(self, get_token_client_credentials):
         # Pre-Req
-        Utils.send_consent_post(self.token)
+        token = get_token_client_credentials["access_token"]
+        Utils.send_consent_post(token)
 
         # Given
         expected_status_code = 200
 
         # And
-        consent = Utils.send_consent_get(self.token)
+        consent = Utils.send_consent_get(token)
         consent_id = consent['id']
         version_id = consent['version']
 
@@ -165,7 +167,7 @@ class TestHappyCasesSuite:
             url=config.REASONABLE_ADJUSTMENTS_CONSENT + '/' + consent_id,
             json=request_bank.get_body(Request.CONSENT_PUT),
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -178,9 +180,10 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_flag_get_without_flag(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_flag_get_without_flag(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         expected_status_code = 200
 
         # When
@@ -192,7 +195,7 @@ class TestHappyCasesSuite:
                 'status': 'active'
             },
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -208,11 +211,12 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_flag_get_with_flag(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_flag_get_with_flag(self, get_token_client_credentials):
         # Pre-Req: Patient record with both a consent and flag
-        Utils.send_consent_post(self.token)
-        Utils.send_flag_post(self.token)
+        token = get_token_client_credentials["access_token"]
+        Utils.send_consent_post(token)
+        Utils.send_flag_post(token)
 
         # Given
         expected_status_code = 200
@@ -226,7 +230,7 @@ class TestHappyCasesSuite:
                 'status': 'active'
             },
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -242,10 +246,11 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_flag_post(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_flag_post(self, get_token_client_credentials):
         # Pre-Req: Patient has a consent
-        Utils.send_consent_post(self.token)
+        token = get_token_client_credentials["access_token"]
+        Utils.send_consent_post(token)
 
         # Given
         expected_status_code = 201
@@ -254,7 +259,7 @@ class TestHappyCasesSuite:
         response = requests.post(
             url=config.REASONABLE_ADJUSTMENTS_FLAG,
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -269,12 +274,13 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_flag_put(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_flag_put(self, get_token_client_credentials):
         # Pre-Req: Patient has both a consent and flag
-        Utils.send_consent_post(self.token)
-        Utils.send_flag_post(self.token)
-        get_flag_response = Utils.send_flag_get(self.token)
+        token = get_token_client_credentials["access_token"]
+        Utils.send_consent_post(token)
+        Utils.send_flag_post(token)
+        get_flag_response = Utils.send_flag_get(token)
 
         # Given
         expected_status_code = 200
@@ -285,7 +291,7 @@ class TestHappyCasesSuite:
         response = requests.put(
             url=config.REASONABLE_ADJUSTMENTS_FLAG + '/' + flag_id,
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -301,9 +307,10 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_list_get(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_list_get(self, get_token_client_credentials):
         # Given
+        token = get_token_client_credentials["access_token"]
         expected_status_code = 200
 
         # When
@@ -315,7 +322,7 @@ class TestHappyCasesSuite:
                 'code': 'http://snomed.info/sct|1094391000000102'
             },
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
             }
@@ -327,10 +334,11 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_list_post(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_list_post(self, get_token_client_credentials):
         # Pre-Req - Patient has consent
-        Utils.send_consent_post(self.token)
+        token = get_token_client_credentials["access_token"]
+        Utils.send_consent_post(token)
 
         # Given
         expected_status_code = 201
@@ -339,7 +347,7 @@ class TestHappyCasesSuite:
         response = requests.post(
             url=config.REASONABLE_ADJUSTMENTS_LIST,
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -354,12 +362,13 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_list_put(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_list_put(self, get_token_client_credentials):
         # Pre-Req
-        Utils.send_consent_post(self.token)
-        Utils.send_list_post(self.token)
-        get_list_response = Utils.send_list_get(self.token)
+        token = get_token_client_credentials["access_token"]
+        Utils.send_consent_post(token)
+        Utils.send_list_post(token)
+        get_list_response = Utils.send_list_get(token)
         list_id = get_list_response['id']
         version_id = get_list_response['version']
 
@@ -372,7 +381,7 @@ class TestHappyCasesSuite:
         response = requests.put(
             url=config.REASONABLE_ADJUSTMENTS_LIST + '/' + list_id,
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -388,10 +397,11 @@ class TestHappyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.sandbox
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_remove_ra_record_post(self):
+    # @pytest.mark.usefixtures('get_token_internal_dev')
+    def test_remove_ra_record_post(self, get_token_client_credentials):
         # Pre_Req : Patient record with a consent
-        Utils.send_consent_post(self.token)
+        token = get_token_client_credentials["access_token"]
+        Utils.send_consent_post(token)
 
         # Given
         expected_status_code = 200
@@ -400,7 +410,7 @@ class TestHappyCasesSuite:
         response = requests.post(
             url=config.REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD,
             headers={
-                'Authorization': f'Bearer {self.token}',
+                'Authorization': f'Bearer {token}',
                 'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
@@ -412,5 +422,5 @@ class TestHappyCasesSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
-   
+
 
