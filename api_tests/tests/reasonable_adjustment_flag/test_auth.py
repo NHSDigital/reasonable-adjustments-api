@@ -15,7 +15,6 @@ class TestAuthCasesSuite:
     @pytest.mark.integration
     @pytest.mark.smoke
     @pytest.mark.asyncio
-    # @pytest.mark.usefixtures('get_token_client_credentials')
     def test_asid_auth(self, get_token_client_credentials):
         # Given
         token = get_token_client_credentials["access_token"]
