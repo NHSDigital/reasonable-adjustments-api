@@ -9,7 +9,8 @@ TOKEN_URL = f"{BASE_URL}/token"
 # Apigee API details
 APIGEE_API_URL = ENV['apigee']['base_url']
 APIGEE_AUTHENTICATION = ENV['apigee']['api_authentication']
-APIGEE_ENVIRONMENT = "internal-dev"
+APIGEE_TOKEN = ENV['apigee']['access_token']
+APIGEE_ENVIRONMENT = ENV['apigee']['environment']
 APIGEE_USERNAME = ENV['apigee']['username']
 APIGEE_PASSWORD = ENV['apigee']['password']
 APIGEE_ORGANISATION = ENV['apigee']['organisation']

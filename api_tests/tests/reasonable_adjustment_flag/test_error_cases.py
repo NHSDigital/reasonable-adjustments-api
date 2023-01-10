@@ -1,16 +1,17 @@
 import pytest
 import json
 import requests
+from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI
 
 from api_tests.tests import request_bank
 from api_tests.tests.request_bank import Request
 from api_tests.tests.utils import Utils
 from api_tests.config_files import config
+from api_tests.tests.conftest import ASID_ONLY_ATTR, ODS_ONLY_ATTR
 from assertpy import assert_that
 import uuid
 
 
-@pytest.mark.usefixtures("setup")
 class TestErrorCaseSuite:
     """ A test suite to verify the correct error messages from an invalid request """
 
@@ -20,24 +21,24 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 401
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'forbidden', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'forbidden',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'ACCESS DENIED', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'ACCESS DENIED',
                                 'display': 'Access has been denied to process this request'
                             }
                         ]
-                    }, 
+                    },
                'diagnostics': 'Access token is invalid or expired'
                 }
             ]
@@ -57,7 +58,7 @@ class TestErrorCaseSuite:
             }
         )
         actual_response = json.loads(response.text)
-       
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
      #   assert_that(actual_response['message_id']).is_not_empty()
@@ -73,8 +74,14 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_missing_x_request_id_header(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_missing_x_request_id_header(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
@@ -103,16 +110,13 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             params={
                 'patient':  'test',
                 'category': 'test',
                 'status':   'test',
             },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
-            }
+            headers={**nhsd_apim_auth_headers, 'accept': 'application/fhir+json'}
         )
         actual_response = json.loads(response.text)
 
@@ -131,8 +135,14 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_invalid_x_request_id_header(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_invalid_x_request_id_header(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
@@ -161,15 +171,14 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             params={
                 'patient':  'test',
                 'category': 'test',
                 'status':   'test',
             },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+            headers={**nhsd_apim_auth_headers,
+                'accept': 'application/fhir+json',
                 'x-request-id': 'not-GUID'
             }
         )
@@ -190,7 +199,13 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
     @pytest.mark.parametrize('nhsd_session_urid',
                              [
                                  # Empty string
@@ -206,8 +221,7 @@ class TestErrorCaseSuite:
                                  ('0123456789')
                              ]
                              )
-                             
-    def test_missing_nhsd_session_urid_header(self, nhsd_session_urid):
+    def test_missing_nhsd_session_urid_header(self, nhsd_session_urid, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
@@ -215,8 +229,8 @@ class TestErrorCaseSuite:
             'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
+                    'severity': 'error',
+                    'code': 'value',
                     'details':
                     {
                         'coding':
@@ -236,21 +250,21 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             params={
                 'patient':  'test',
                 'category': 'test',
                 'status':   'test',
             },
-            headers={
-                'Authorization': f'Bearer {self.token}',
+            headers={**nhsd_apim_auth_headers,
+                'accept': 'application/fhir+json',
                 'x-request-id': str(uuid.uuid4()),
                 'nhsd-session-urid': nhsd_session_urid,
             }
         )
 
         actual_response = json.loads(response.text)
-       
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(expected_response['resourceType']).is_equal_to_ignoring_case(actual_response['resourceType'])
@@ -265,29 +279,35 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_invalid_content_type(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_invalid_content_type(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'BAD_REQUEST',
                                 'display': 'Bad request'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'content-type must be set to application/fhir+json'
                 }
             ]
@@ -295,11 +315,9 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
-            headers={
-                'Authorization': f'Bearer {self.token}',
+            url=f"{nhsd_apim_proxy_url}/Consent",
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'content-type': 'application/json'
             },
             data={
@@ -307,7 +325,7 @@ class TestErrorCaseSuite:
             }
         )
         actual_response = json.loads(response.text)
-        
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         # assert_that(actual_response['message_id']).is_not_empty()
@@ -323,29 +341,35 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_invalid_payload(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_invalid_payload(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'BAD_REQUEST',
                                 'display': 'Bad request'
                             }
                         ]
-                    }, 
+                    },
                 'diagnostics': 'requires payload'
                 }
             ]
@@ -353,16 +377,14 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
-            headers={
-                'Authorization': f'Bearer {self.token}',
+            url=f"{nhsd_apim_proxy_url}/Consent",
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
                 'content-type': 'application/fhir+json'
             }
         )
         actual_response = json.loads(response.text)
-        
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         # assert_that(actual_response['message_id']).is_not_empty()
@@ -379,32 +401,40 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    @pytest.mark.parametrize('url,params', [(config.REASONABLE_ADJUSTMENTS_CONSENT, {'patient': 'test', 'category': 'test'}),
-                                            (config.REASONABLE_ADJUSTMENTS_LIST, {'patient': 'test', 'code': 'test'}),
-                                            (config.REASONABLE_ADJUSTMENTS_FLAG, {'patient': 'test', 'category': 'test'})])
-    def test_get_invalid_query_params(self, url, params):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    @pytest.mark.parametrize('endpoint, params', [
+        ("/Consent", {'patient': 'test', 'category': 'test'}),
+        ("/List", {'patient': 'test', 'code': 'test'}),
+        ("/Flag", {'patient': 'test', 'category': 'test'})
+    ])
+    def test_get_invalid_query_params(self, endpoint, params, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 404
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'BAD_REQUEST',
                                 'display': 'Bad request'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'required query parameters are missing or have empty values'
                 }
             ]
@@ -412,11 +442,9 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.get(
-            url,
-            params,
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+            url=nhsd_apim_proxy_url + endpoint,
+            params=params,
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
             }
         )
@@ -437,29 +465,35 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_flag_invalid_header_put(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_flag_invalid_header_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'MISSING_OR_INVALID_HEADER', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'MISSING_OR_INVALID_HEADER',
                                 'display': 'There is a required header missing or invalid'
                             }
                         ]
-                    }, 
+                    },
                                 'diagnostics': 'if-match is missing or invalid'
                 }
             ]
@@ -468,9 +502,7 @@ class TestErrorCaseSuite:
         # When
         response = requests.put(
             url=config.REASONABLE_ADJUSTMENTS_FLAG + '/1',
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
             },
             data={
@@ -494,29 +526,35 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_list_invalid_query_params(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_list_invalid_query_params(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 404
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'invalid', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'invalid',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'BAD_REQUEST',
                                 'display': 'Bad request'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'required query parameters are missing or have empty values'
                 }
             ]
@@ -524,15 +562,13 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_LIST,
+            url=f"{nhsd_apim_proxy_url}/List",
             params={
-                'patient':  'test',
+                'patient': 'test',
                 'code': '',
-                'status':   'test',
+                'status': 'test',
             },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
             }
         )
@@ -553,29 +589,35 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_list_invalid_header_put(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_list_invalid_header_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'MISSING_OR_INVALID_HEADER', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'MISSING_OR_INVALID_HEADER',
                                 'display': 'There is a required header missing or invalid'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'if-match is missing or invalid'
                 }
             ]
@@ -583,10 +625,8 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.put(
-            url=config.REASONABLE_ADJUSTMENTS_LIST + '/1',
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+            url=f"{nhsd_apim_proxy_url}/List/1",
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': 'test',
                 'if-match': ''
             },
@@ -611,29 +651,35 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_removerarecord_invalid_header_post(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_removerarecord_invalid_header_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'MISSING_OR_INVALID_HEADER', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'MISSING_OR_INVALID_HEADER',
                                 'display': 'There is a required header missing or invalid'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'if-match is missing or invalid'
                 }
             ]
@@ -641,10 +687,8 @@ class TestErrorCaseSuite:
 
         # When
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD,
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+            url=f"{nhsd_apim_proxy_url}/$removerarecord",
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'If-Match': ''
@@ -671,38 +715,56 @@ class TestErrorCaseSuite:
     @pytest.mark.ods
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_missing_ods')
-    def test_missing_ods(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_missing_ods(self, test_app_with_asid_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 500
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'INTERNAL_SERVER_ERROR', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'INTERNAL_SERVER_ERROR',
                                 'display': 'Unexpected internal server error'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
                 }
             ]
         }
 
         # When
-        response = Utils.send_request(self)
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/Consent",
+            params={
+                'patient': 'test',
+                'status': 'test',
+                'category': 'test',
+            },
+            headers={**nhsd_apim_auth_headers,
+                'accept': 'application/fhir+json',
+                'x-request-id': str(uuid.uuid4()),
+            }
+        )
+        # import pdb; pdb.set_trace()
         actual_response = json.loads(response.text)
-       
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         # assert_that(actual_response['message_id']).is_not_empty()
@@ -719,39 +781,56 @@ class TestErrorCaseSuite:
     @pytest.mark.asid
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_missing_asid')
-    def test_missing_asid(self):
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_missing_asid(self, test_app_with_ods_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 500
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'value', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'value',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'INTERNAL_SERVER_ERROR', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'INTERNAL_SERVER_ERROR',
                                 'display': 'Unexpected internal server error'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
                 }
             ]
         }
 
         # When
-        response = Utils.send_request(self)
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/Consent",
+            params={
+                'patient': 'test',
+                'category': 'test',
+                'status': 'test',
+            },
+            headers={**nhsd_apim_auth_headers,
+                'accept': 'application/fhir+json',
+                'x-request-id': str(uuid.uuid4()),
+            }
+        )
 
         actual_response = json.loads(response.text)
-        
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         # assert_that(actual_response['message_id']).is_not_empty()
@@ -771,24 +850,24 @@ class TestErrorCaseSuite:
         # Given
         expected_status_code = 404
         expected_response = {
-            'resourceType': 'OperationOutcome', 
-            'issue': 
+            'resourceType': 'OperationOutcome',
+            'issue':
             [
                 {
-                    'severity': 'error', 
-                    'code': 'not-found', 
-                    'details': 
+                    'severity': 'error',
+                    'code': 'not-found',
+                    'details':
                     {
-                        'coding': 
+                        'coding':
                         [
                             {
-                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode', 
-                                'version': '1', 
-                                'code': 'BAD_REQUEST', 
+                                'system': 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode',
+                                'version': '1',
+                                'code': 'BAD_REQUEST',
                                 'display': 'Bad request'
                             }
                         ]
-                    }, 
+                    },
                     'diagnostics': 'Resource Not Found'
                 }
             ]
@@ -813,25 +892,27 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
-    @pytest.mark.usefixtures('get_token_internal_dev')
-
-    def test_duplicate_consent_record(self):
-        # Pre-Req
-        Utils.send_consent_post(self.token)
-
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_duplicate_consent_record(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 422
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 
         # When
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             json=request_bank.get_body(Request.CONSENT_POST),
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': '093895563513',
+            headers={**nhsd_apim_auth_headers,
+                # 'nhsd-session-urid': '093895563513',
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
-                'Accept': 'application/fhir+json'
+                # 'Accept': 'application/fhir+json'
             }
         )
 

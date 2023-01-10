@@ -2,6 +2,7 @@ requests
 pytest
 pytest-xdist
 pytest-sugar
+pytest-nhsd-apim
 pyjwt
 python-dotenv
 assertpy

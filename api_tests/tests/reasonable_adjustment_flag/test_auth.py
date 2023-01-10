@@ -2,11 +2,9 @@ import pytest
 import requests
 import uuid
 from assertpy import assert_that
+from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI
 
-from api_tests.config_files import config
 
-
-@pytest.mark.usefixtures("setup")
 class TestAuthCasesSuite:
     """ A test suite to verify all the happy path oauth endpoints """
 
@@ -14,25 +12,27 @@ class TestAuthCasesSuite:
 
     @pytest.mark.integration
     @pytest.mark.smoke
-    @pytest.mark.usefixtures('get_token_internal_dev')
-    def test_asid_auth(self):
-        # Given
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    def test_asid_auth(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         expected_status_code = 200
 
         # When
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             params={
                 'patient': self.existing_patient,
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
-            headers={
-                'Authorization': f'Bearer {self.token}',
-                'NHSD-Session-URID': config.TEST_NHSD_SESSION_URID,
+            headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
-                'accept': 'application/json'
-            }
+                'accept': 'application/fhir+json'}
         )
 
         # Then

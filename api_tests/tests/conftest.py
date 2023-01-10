@@ -1,78 +1,65 @@
+import json
 import pytest
-import time
-
+import asyncio
 from api_tests.config_files import config
-from api_tests.steps.check_oauth import CheckOauth
-from api_tests.tests.utils import Utils
+from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI
 
 
-def _get_parametrized_values(request):
-    for mark in request.node.own_markers:
-        if mark.name == 'parametrize':
-            # index 0 is the argument name while index 1 is the argument values,
-            # here we are only interested in the values
-            return mark.args[1]
+DEFAULT_ATTR = {
+    "attribute": [
+        {"name": "asid", "value": "200000001390"},
+        {"name": "ods", "value": "D82106"}
+    ]
+}
+ASID_ONLY_ATTR = {
+    "attribute": [
+        {"name": "asid", "value": "200000001390"}
+    ]
+}
+ODS_ONLY_ATTR = {
+    "attribute": [
+        {"name": "ods", "value": "D82106"}
+    ]
+}
 
 
-@pytest.fixture()
-def get_token_internal_dev(request):
-    if 'sandbox' in config.REASONABLE_ADJUSTMENTS_BASE_URL:
-        # auth token is not required when executing against sandbox
-        setattr(request.cls, 'token', None)
-        setattr(request.cls, 'sandbox', True)
-    else:
-        setattr(request.cls, 'sandbox', False)
-        return _get_token(request, config.INTERNAL_TESTING_INTERNAL_DEV)
+def update_test_app(test_app, attr: dict = DEFAULT_ATTR):
+    _test_app = test_app()
+    app_name = _test_app['name']
+
+    _config = ApigeeNonProdCredentials()
+    _client = ApigeeClient(config=_config)
+    _app = DeveloperAppsAPI(client=_client)
+
+    existing_attr = _app.get_app_attributes(email="apm-testing-internal-dev@nhs.net", app_name=app_name)
+    # TODO - can we avoid this check by making the app fixture use the pytest function scope in place of the
+    #  session scope used by the pytest-nhsd-apim default app?
+    # If the existing app attributes does not contain the new app attributes, add the new attributes and update the app
+    if not all(x in existing_attr['attribute'] for x in attr['attribute']):
+        body = {'attribute': existing_attr['attribute'] + attr['attribute']}
+        _app.post_app_attributes(email="apm-testing-internal-dev@nhs.net", app_name=app_name, body=body)
+
+    # Force a refresh of the app to update the attributes in the session
+    test_app(True)
 
 
-@pytest.fixture()
-def get_token_missing_ods(request):
-    return _get_token(request, config.MISSING_ODS)
+@pytest.fixture(scope="function")
+def test_app_with_attributes(nhsd_apim_test_app):
+    update_test_app(nhsd_apim_test_app)
 
 
-@pytest.fixture()
-def get_token_missing_asid(request):
-    return _get_token(request, config.MISSING_ASID)
+@pytest.fixture(scope="function")
+def test_app_with_asid_only(nhsd_apim_test_app):
+    update_test_app(nhsd_apim_test_app, ASID_ONLY_ATTR)
 
 
-def _get_token(request, creds):
-    """Get the token and assign it to the test instance"""
-    oauth_endpoints = CheckOauth(creds)
-    token = oauth_endpoints.get_token_response()
-    setattr(request.cls, 'token', token['access_token'])
-    setattr(request.cls, 'refresh', token['refresh_token'])  # This is required if you want to request a refresh token
-    return oauth_endpoints
+@pytest.fixture(scope="function")
+def test_app_with_ods_only(nhsd_apim_test_app):
+    update_test_app(nhsd_apim_test_app, ODS_ONLY_ATTR)
 
 
-def get_refresh_token(request, get_token):
-    """Get the refresh token and assign it to the test instance"""
-    # Requesting a refresh token will expire the previous access token
-    refresh_token = get_token.get_token_response(grant_type='refresh_token', refresh_token=request.cls.refresh)
-    setattr(request.cls, 'refresh_token', refresh_token['refresh_token'])
-
-
-@pytest.fixture(scope='function', autouse=True)
-def setup(request):
-    """This function is called before each test is executed"""
-
-    # Get the name of the current test and attach it the the test instance
-    name = (request.node.name, request.node.originalname)[request.node.originalname is not None]
-    setattr(request.cls, "name", name)
-
-    yield  # Handover to test
-    time.sleep(1)
-
-    # Teardown
-    # Return patient to previous state
-
-    if hasattr(request.cls, 'token'):
-        # Call this regardless whether any flags exist
-        Utils.send_raremoverecord_post(request.cls.token)
-
-    try:
-        # Close any lingering sessions
-        request.cls.test.session.close()
-    except AttributeError:
-        # Probably failed during setup
-        # so nothing to teardown
-        pass
+@pytest.fixture(scope="session")
+def event_loop(request):
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()

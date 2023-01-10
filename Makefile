@@ -3,6 +3,14 @@ SHELL=/bin/bash -euo pipefail
 # make entrypoints for this API .. currently required by the common build pipeline are,  install, lint, publish, release, check-licences
 # targets required by test steps are: sandbox, test
 
+TEST_CMD := @APIGEE_ACCESS_TOKEN= \
+		poetry run pytest -v \
+		--color=yes \
+		--api-name=reasonable-adjustment-flag \
+		--proxy-name=$(PROXY_NAME) \
+		--apigee-access-token=$(APIGEE_ACCESS_TOKEN) \
+		-s
+
 install: install-node install-python install-hooks
 
 install-python:
@@ -16,8 +24,16 @@ install-node:
 install-hooks:
 	cp scripts/pre-commit .git/hooks/pre-commit
 
+#Command to run end-to-end smoktests post-deployment to verify the environment is working
+smoketest:
+	$(TEST_CMD) \
+	--junitxml=smoketest-report.xml \
+	-m smoketest
+
 test:
-	npm run test
+# 	npm run test
+	$(TEST_CMD) \
+	--junitxml=test-report.xml \
 
 lint:
 	yarn run lint
