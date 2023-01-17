@@ -59,6 +59,10 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
     def test_consent_get_with_consent(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 200
@@ -94,6 +98,10 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
     def test_consent_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 201
@@ -120,6 +128,10 @@ class TestHappyCasesSuite:
             "level": "aal3",
             "login_form": {"username": "656005750105"},
         }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
     )
     def test_prefer_response_async(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
@@ -166,6 +178,10 @@ class TestHappyCasesSuite:
             "level": "aal3",
             "login_form": {"username": "656005750105"},
         }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
     )
     def test_consent_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req
@@ -236,6 +252,10 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
     def test_flag_get_with_flag(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req: Patient record with both a consent and flag
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -274,6 +294,10 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
     def test_flag_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req: Patient has a consent
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -304,6 +328,10 @@ class TestHappyCasesSuite:
             "level": "aal3",
             "login_form": {"username": "656005750105"},
         }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
     )
     def test_flag_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req: Patient has both a consent and flag
@@ -371,6 +399,10 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
     def test_list_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req - Patient has consent
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -401,6 +433,10 @@ class TestHappyCasesSuite:
             "level": "aal3",
             "login_form": {"username": "656005750105"},
         }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
     )
     def test_list_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req
@@ -439,6 +475,10 @@ class TestHappyCasesSuite:
             "level": "aal3",
             "login_form": {"username": "656005750105"},
         }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
     )
     def test_remove_ra_record_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre_Req : Patient record with a consent
