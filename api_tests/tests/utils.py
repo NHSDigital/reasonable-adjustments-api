@@ -25,13 +25,12 @@ class Utils:
     """ A Utils class to be used for shared functionality between tests  """
 
     @staticmethod
-    def send_request(self) -> requests.Response:
+    def send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers) -> requests.Response:
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             params={'patient': 'test', 'category': 'test', 'status': 'test'},
             headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'x-correlation-id': str(uuid.uuid4())
             }
@@ -40,13 +39,12 @@ class Utils:
         return response
 
     @staticmethod
-    def get_etag(self, resource_url: str, params):
+    def get_etag(nhsd_apim_auth_headers, resource_url: str, params):
         response = requests.get(
             url=resource_url,
             params=params,
             headers={
-                'Authorization': f'Bearer {self.token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
             }
         )
@@ -54,35 +52,34 @@ class Utils:
         return response.headers['etag']
 
     @staticmethod
-    def send_consent_post(auth_token: str):
+    def send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         expected_status_code = 201
 
+        # FIXME - getting a 400 response with missing headers
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             json=request_bank.get_body(Request.CONSENT_POST),
             headers={
-                'Authorization': f'Bearer {auth_token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json'
+                'x-correlation-id': str(uuid.uuid4()),
             })
 
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        
+
         return response
 
     @staticmethod
-    def send_consent_get(auth_token: str):
+    def send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         response = requests.get(
-            url= config.REASONABLE_ADJUSTMENTS_CONSENT,
+            url=f"{nhsd_apim_proxy_url}/Consent",
             params={
                 'patient': config.TEST_PATIENT_NHS_NUMBER,
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
             headers={
-                'Authorization': f'Bearer {auth_token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'Accept': 'application/fhir+json'
             }
@@ -91,17 +88,16 @@ class Utils:
         return get_details(response)
 
     @staticmethod
-    def send_flag_get(auth_token: str):
+    def send_flag_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_FLAG,
+            url=f"{nhsd_apim_proxy_url}/Flag",
             params={
                 'patient': config.TEST_PATIENT_NHS_NUMBER,
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
             headers={
-                'Authorization': f'Bearer {auth_token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'Accept': 'application/fhir+json'
@@ -111,12 +107,11 @@ class Utils:
         return get_details(response)
 
     @staticmethod
-    def send_flag_post(auth_token: str):
+    def send_flag_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_FLAG,
+            url=f"{nhsd_apim_proxy_url}/Flag",
             headers={
-                'Authorization': f'Bearer {auth_token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json'
             },
@@ -126,17 +121,16 @@ class Utils:
         return response
 
     @staticmethod
-    def send_list_get(auth_token:str):
+    def send_list_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_LIST,
+            url=f"{nhsd_apim_proxy_url}/List",
             params={
                 'patient': config.TEST_PATIENT_NHS_NUMBER,
                 'status': 'active',
                 'code': 'http://snomed.info/sct|1094391000000102'
             },
             headers={
-                'Authorization': f'Bearer {auth_token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'Accept': 'application/fhir+json',
@@ -146,12 +140,11 @@ class Utils:
         return get_details(response)
 
     @staticmethod
-    def send_list_post(auth_token: str):
+    def send_list_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_LIST,
+            url=f"{nhsd_apim_proxy_url}/List",
             headers={
-                'Authorization': f'Bearer {auth_token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json'
             },
@@ -161,12 +154,11 @@ class Utils:
         return response
 
     @staticmethod
-    def send_raremoverecord_post(auth_token: str):
+    def send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         response = requests.post(
-            url=config.REASONABLE_ADJUSTMENTS_REMOVE_RA_RECORD,
+            url=f"{nhsd_apim_proxy_url}/$removerarecord",
             headers={
-                'Authorization': f'Bearer {auth_token}',
-                'nhsd-session-urid': config.TEST_NHSD_SESSION_URID,
+                **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'If-Match': 'W/"1"'

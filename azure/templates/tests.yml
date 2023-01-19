@@ -16,25 +16,25 @@ steps:
 
         mkdir -p "$(pwd)/reports"
 
-        docker run --entrypoint "pytest" -v $(pwd)/reports:/var/api_tests/reports \
+        docker run \
           -e BASE_URL="https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/oauth2" \
           -e CLIENT_ID="$(client_key)" \
           -e CLIENT_SECRET="$(client_secret)" \
           -e REDIRECT_URI="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/callback" \
           -e AUTHENTICATE_URL="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/" \
-          -e API_URL="https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/hello-world/hello/user" \
           -e APIGEE_CLIENT_ID="969567331415.apps.national" \
-          -e APIGEE_API_AUTHENTICATION="$(secret.AccessToken)" \
-          -e APIGEE_API_URL="https://api.enterprise.apigee.com/v1/organizations/nhsd-nonprod" \
-          -e MISSING_ASID_CLIENT_ID=$(INTERNAL_TESTING_WITHOUT_ASID_KEY) \
-          -e MISSING_ASID_CLIENT_SECRET=$(INTERNAL_TESTING_WITHOUT_ASID_SECRET) \
-          -e MISSING_ODS_CLIENT_ID=$(INTERNAL_TESTING_WITHOUT_ODS_KEY) \
-          -e MISSING_ODS_CLIENT_SECRET=$(INTERNAL_TESTING_WITHOUT_ODS_SECRET) \
-          -e REASONABLE_ADJUSTMENTS_BASE_URL=https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk \
+          -e APIGEE_ACCESS_TOKEN="$(secret.AccessToken)" \
+          -e APIGEE_API_URL="https://api.enterprise.apigee.com/v1/o/nhsd-nonprod" \
+          -e REASONABLE_ADJUSTMENTS_BASE_URL=https://$APIGEE_ENVIRONMENT.api.service.nhs.uk \
           -e REASONABLE_ADJUSTMENTS_PROXY_PATH=$(SERVICE_BASE_PATH) \
           -e REASONABLE_ADJUSTMENTS_PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
           -e STATUS_APIKEY="$(status-endpoint-api-key)" \
-          reasonable-adjustments-api/test-env:latest  -m integration -v ${{ parameters.test_tag }} --junitxml=/var/api_tests/reports/test_report.xml tests
+          -e PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)" \
+          --entrypoint "pytest" reasonable-adjustments-api/test-env:latest \
+          --color=yes --api-name="reasonable-adjustment-flag" --proxy-name=$(FULLY_QUALIFIED_SERVICE_NAME) \
+          --apigee-access-token=$(secret.AccessToken) \
+          -v ${{ parameters.test_tag }} -m integration \
+          --junitxml=/var/api_tests/reports/test_report.xml tests
 
       workingDirectory: $(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)/api_tests
       displayName: 'Run Integration Tests'
