@@ -1,10 +1,8 @@
 import json
-import time
 import uuid
 import pytest
 import requests
 from assertpy import assert_that
-from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI
 
 from api_tests.tests import request_bank
 from api_tests.tests.request_bank import Request
@@ -25,6 +23,7 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_consent_get_without_consent(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 200
@@ -63,6 +62,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_consent_get_with_consent(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 200
@@ -102,6 +102,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_consent_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 201
@@ -133,6 +134,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_prefer_response_async(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 202
@@ -183,6 +185,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_consent_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -218,6 +221,7 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_flag_get_without_flag(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 200
@@ -256,6 +260,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_flag_get_with_flag(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req: Patient record with both a consent and flag
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -298,6 +303,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_flag_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req: Patient has a consent
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -333,6 +339,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_flag_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req: Patient has both a consent and flag
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -369,6 +376,7 @@ class TestHappyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_list_get(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 200
@@ -403,6 +411,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_list_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req - Patient has consent
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -438,6 +447,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_list_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre-Req
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
@@ -480,6 +490,7 @@ class TestHappyCasesSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_remove_ra_record_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Pre_Req : Patient record with a consent
         Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)

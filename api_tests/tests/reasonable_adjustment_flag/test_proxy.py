@@ -48,6 +48,7 @@ class TestProxyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_ASID_fetch(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         debug_session.get_debugsessions()
@@ -81,6 +82,7 @@ class TestProxyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_x_request_id_equals_nhsd_request_id(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         debug_session.post_debugsession(session="my_session")
@@ -111,6 +113,7 @@ class TestProxyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_outgoing_request_contains_nhsd_correlation_id_header(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         debug_session.post_debugsession(session="my_session")
@@ -151,6 +154,7 @@ class TestProxyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_valid_ods(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         debug_session.post_debugsession(session="my_session")
@@ -178,6 +182,7 @@ class TestProxyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_jwt(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         debug_session.post_debugsession(session="my_session")
@@ -225,6 +230,7 @@ class TestProxyCasesSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_response_contains_request_id_and_correlation_id_headers(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         request_id = str(uuid.uuid4())
@@ -257,6 +263,7 @@ class TestProxyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.smoke
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_status_get(self):
         # Given
         expected_status_code = 200
@@ -272,6 +279,7 @@ class TestProxyCasesSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
     @pytest.mark.integration
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_ping(self):
         # Given
         expected_status_code = 200

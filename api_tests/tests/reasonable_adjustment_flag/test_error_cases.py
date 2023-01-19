@@ -17,6 +17,7 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_missing_access_token(self):
         # Given
         expected_status_code = 401
@@ -81,6 +82,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_missing_x_request_id_header(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -142,6 +144,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_invalid_x_request_id_header(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -221,6 +224,7 @@ class TestErrorCaseSuite:
                                  ('0123456789')
                              ]
                              )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_missing_nhsd_session_urid_header(self, nhsd_session_urid, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -286,6 +290,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_invalid_content_type(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -348,6 +353,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_invalid_payload(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -413,6 +419,7 @@ class TestErrorCaseSuite:
         ("/List", {'patient': 'test', 'code': 'test'}),
         ("/Flag", {'patient': 'test', 'category': 'test'})
     ])
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_get_invalid_query_params(self, endpoint, params, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 404
@@ -472,6 +479,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_flag_invalid_header_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -533,6 +541,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_list_invalid_query_params(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 404
@@ -596,6 +605,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_list_invalid_header_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -658,6 +668,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "656005750105"},
         }
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_removerarecord_invalid_header_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 400
@@ -726,6 +737,7 @@ class TestErrorCaseSuite:
         "This test passes when run individually, but fails as part of a session. This is likely due to us trying"
         "to change the test app attributes per-test whilst the nhsd_apim_test_app fixture is session-scoped."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_missing_ods(self, test_app_with_asid_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 500
@@ -796,6 +808,7 @@ class TestErrorCaseSuite:
         "This test passes when run individually, but fails as part of a session. This is likely due to us trying"
         "to change the test app attributes per-test whilst the nhsd_apim_test_app fixture is session-scoped."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_missing_asid(self, test_app_with_ods_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 500
@@ -854,6 +867,7 @@ class TestErrorCaseSuite:
 
     @pytest.mark.errors
     @pytest.mark.integration
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_invalid_url(self):
         # Given
         expected_status_code = 404
@@ -911,6 +925,7 @@ class TestErrorCaseSuite:
         "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
         "needs further looking into."
     )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_duplicate_consent_record(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 422
