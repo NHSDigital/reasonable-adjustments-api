@@ -22,12 +22,12 @@ def client():
 
 @pytest.fixture()
 def debug_session(client):
-    url = f"{client.base_url}/apis/reasonable-adjustment-flag-pr-221/revisions"
+    url = f"{client.base_url}/apis/{config.REASONABLE_ADJUSTMENTS_PROXY_NAME}/revisions"
     response = requests.get(url, headers={"Authorization": f"Bearer {config.APIGEE_TOKEN}"})
     latest_revision = response.json()[-1]
 
     debug_session = DebugSessionsAPI(
-        client=client, env_name="internal-dev", api_name="reasonable-adjustment-flag-pr-221",
+        client=client, env_name="internal-dev", api_name=config.REASONABLE_ADJUSTMENTS_PROXY_NAME,
         revision_number=latest_revision
     )
 
@@ -62,7 +62,7 @@ class TestProxyCasesSuite:
         transaction_ids = debug_session.get_transaction_data(session_name="my_session")
         data = debug_session.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
         actual_asid = debug_session.get_apigee_variable_from_trace(
-            name="verifyapikey.VerifyAPIKey.CustomAttributes.asid",
+            name="app.asid",
             data=data,
         )
         assert_that(expected_value).is_equal_to(actual_asid)
