@@ -20,7 +20,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
@@ -55,7 +55,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -95,7 +95,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -127,7 +127,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -178,7 +178,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -218,7 +218,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
@@ -253,7 +253,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -296,7 +296,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -332,7 +332,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -373,7 +373,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
@@ -404,7 +404,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -440,7 +440,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
@@ -483,7 +483,7 @@ class TestHappyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
     @pytest.mark.skip(
