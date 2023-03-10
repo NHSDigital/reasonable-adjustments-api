@@ -1,7 +1,7 @@
-import json
+import time
 import pytest
 import asyncio
-from api_tests.config_files import config
+from api_tests.tests.utils import Utils
 from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI
 
 
@@ -63,3 +63,30 @@ def event_loop(request):
     loop = asyncio.new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest.fixture(scope='function', autouse=True)
+def test_teardown(request):
+    """This function is called before each test is executed"""
+
+    # Get the name of the current test and attach it the the test instance
+    name = (request.node.name, request.node.originalname)[request.node.originalname is not None]
+    setattr(request.cls, "name", name)
+
+    yield  # Handover to test
+    time.sleep(1)
+
+    # Teardown
+    # Return patient to previous state
+    print(request.node.nhsd_apim_proxy_url)
+    # if hasattr(request.cls, 'nhsd_apim_proxy_url') and hasattr(request.cls, 'nhsd_apim_auth_headers'):
+    # Call this regardless whether any flags exist
+    Utils.send_raremoverecord_post(nhsd_apim_proxy_url, request.cls.nhsd_apim_auth_headers)
+
+    try:
+        # Close any lingering sessions
+        request.cls.test.session.close()
+    except AttributeError:
+        # Probably failed during setup
+        # so nothing to teardown
+        pass

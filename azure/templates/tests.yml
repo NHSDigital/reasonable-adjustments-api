@@ -1,47 +1,31 @@
-parameters:
-    - name: service_name
-      type: string
-    - name: test_tag
-      type: string
-      default:
-
 steps:
-    - bash: |
-          docker build -t reasonable-adjustments-api/test-env:latest -f api_tests/Dockerfile .
+  - bash: |
+      make install-python
+    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+    displayName: Setup pytests
+    condition: always()
 
-      workingDirectory: $(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)
-      displayName: Setup integration tests
+  - bash: |
+      export RELEASE_RELEASEID=$(Build.BuildId)
+      export SOURCE_COMMIT_ID=$(Build.SourceVersion)
+      export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
+      export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
+      export APIGEE_ACCESS_TOKEN="$(secret.AccessToken)"
+      export PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)"
+      export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
+      
+      if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
+      then
+       poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
 
-    - bash: |
-
-        mkdir -p "$(pwd)/reports"
-
-        docker run \
-          -e BASE_URL="https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/oauth2" \
-          -e CLIENT_ID="$(client_key)" \
-          -e CLIENT_SECRET="$(client_secret)" \
-          -e REDIRECT_URI="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/callback" \
-          -e AUTHENTICATE_URL="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/" \
-          -e APIGEE_CLIENT_ID="969567331415.apps.national" \
-          -e APIGEE_ACCESS_TOKEN="$(secret.AccessToken)" \
-          -e APIGEE_API_URL="https://api.enterprise.apigee.com/v1/o/nhsd-nonprod" \
-          -e REASONABLE_ADJUSTMENTS_BASE_URL=https://$APIGEE_ENVIRONMENT.api.service.nhs.uk \
-          -e REASONABLE_ADJUSTMENTS_PROXY_PATH=$(SERVICE_BASE_PATH) \
-          -e REASONABLE_ADJUSTMENTS_PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
-          -e STATUS_APIKEY="$(status-endpoint-api-key)" \
-          -e PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)" \
-          --entrypoint "pytest" reasonable-adjustments-api/test-env:latest \
-          --color=yes --api-name="reasonable-adjustment-flag" --proxy-name=$(FULLY_QUALIFIED_SERVICE_NAME) \
-          --apigee-access-token=$(secret.AccessToken) \
-          -v ${{ parameters.test_tag }} -m integration \
-          --junitxml=/var/api_tests/reports/test_report.xml tests
-
-      workingDirectory: $(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)/api_tests
-      displayName: 'Run Integration Tests'
-
-    - task: PublishTestResults@2
-      displayName: 'Publish Integration Test Results'
-      inputs:
-          testResultsFiles: |
-              $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/reports/test_report.xml
-          failTaskOnFailedTests: true
+      else
+       poetry run pytest -v --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+      fi
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api-tests/tests/reasonable_adjustment_flag"
+    displayName: Run full test suite
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    condition: always()
+    inputs:
+      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api-tests/tests/reasonable_adjustment_flag/test-report.xml'
+      failTaskOnFailedTests: true

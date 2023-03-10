@@ -2,7 +2,7 @@ import requests
 import time
 import json
 
-from api_tests.config_files import config
+# from api_tests.config_files import config
 from assertpy import assert_that
 import uuid
 
@@ -52,10 +52,9 @@ class Utils:
         return response.headers['etag']
 
     @staticmethod
-    def send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         expected_status_code = 201
 
-        # FIXME - getting a 400 response with missing headers
         response = requests.post(
             url=f"{nhsd_apim_proxy_url}/Consent",
             json=request_bank.get_body(Request.CONSENT_POST),
@@ -63,6 +62,7 @@ class Utils:
                 **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'x-correlation-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json'
             })
 
         assert_that(expected_status_code).is_equal_to(response.status_code)

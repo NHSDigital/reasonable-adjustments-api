@@ -31,7 +31,6 @@ smoketest:
 	-m smoketest
 
 test:
-# 	npm run test
 	$(TEST_CMD) \
 	--junitxml=test-report.xml \
 
