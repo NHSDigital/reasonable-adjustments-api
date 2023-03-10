@@ -21,11 +21,11 @@ steps:
       else
        poetry run pytest -v --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api-tests/tests/reasonable_adjustment_flag"
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/tests/reasonable_adjustment_flag"
     displayName: Run full test suite
   - task: PublishTestResults@2
     displayName: 'Publish test results'
     condition: always()
     inputs:
-      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api-tests/tests/reasonable_adjustment_flag/test-report.xml'
+      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/tests/reasonable_adjustment_flag/test-report.xml'
       failTaskOnFailedTests: true
