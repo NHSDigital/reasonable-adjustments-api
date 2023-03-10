@@ -74,7 +74,7 @@ class Utils:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
-                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'patient': '9693892283',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -92,7 +92,7 @@ class Utils:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Flag",
             params={
-                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'patient': '9693892283',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -125,7 +125,7 @@ class Utils:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/List",
             params={
-                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'patient': '9693892283',
                 'status': 'active',
                 'code': 'http://snomed.info/sct|1094391000000102'
             },
