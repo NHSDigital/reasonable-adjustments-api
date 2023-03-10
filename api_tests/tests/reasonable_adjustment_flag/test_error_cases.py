@@ -166,7 +166,7 @@ class TestErrorCaseSuite:
             "login_form": {"username": "ra-test-user"},
         }
     )
-    def test_invalid_content_type(self, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_invalid_content_type(self, nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         # Given
         expected_status_code = 400
         expected_diagnostic = 'content-type must be set to application/fhir+json'
@@ -257,9 +257,9 @@ class TestErrorCaseSuite:
             "login_form": {"username": "ra-test-user"},
         }
     )
-    def test_flag_invalid_header_put(self, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_flag_invalid_header_put(self, nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         # Pre-Req: Patient has both a consent and flag
-        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, )
         Utils.send_flag_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
         get_flag_response = Utils.send_flag_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 
@@ -327,9 +327,9 @@ class TestErrorCaseSuite:
             "login_form": {"username": "ra-test-user"},
         }
     )
-    def test_list_invalid_header_put(self, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_list_invalid_header_put(self, nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         # Pre-Req
-        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
         Utils.send_list_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
         get_list_response = Utils.send_list_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
         list_id = get_list_response['id']
