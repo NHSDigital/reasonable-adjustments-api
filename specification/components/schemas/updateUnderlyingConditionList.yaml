@@ -1,0 +1,144 @@
+type: object
+properties:
+    resourceType:
+        type: string
+        example: "UnderlyingConditionList"
+    id:
+        type: string
+        example: "2acb0536-0a8f-48c9-8a2f-6ee82860f186"
+    meta:
+        type: object
+        properties:
+            versionId:
+                type: string
+                example: "aa755bd6-2be9-4971-972a-6724879c5cb1"
+            lastUpdated:
+                type: string
+                example: "2018-07-24T10:01:00+00:00"
+            profile:
+                type: array
+                items:
+                    type: string
+                    example: "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1"
+    contained:
+        type: array
+        items:
+            type: object
+            properties:
+                resourceType:
+                    type: string
+                    example: "Provenance"
+                id:
+                    type: string
+                    example: "43124f67-b09d-453d-b889-a5e2e8780b9e"
+                meta:
+                    type: object
+                    properties:
+                        profile:
+                            type: array
+                            items:
+                                type: string
+                                example: "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1"
+                target:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            reference:
+                                type: string
+                                example: "UnderlyingConditionList/2acb0536-0a8f-48c9-8a2f-6ee82860f186"
+                recorded:
+                    type: string
+                    example: "2018-07-24T10:05:33+00:00"
+                agent:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            role:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        coding:
+                                            type: array
+                                            items:
+                                                type: object
+                                                properties:
+                                                    system:
+                                                        type: string
+                                                        example: "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                                                    code:
+                                                        type: string
+                                                        example: "R1974"
+                                                    display:
+                                                        type: string
+                                                        example: "Community Learning Disabilities Nurse"
+                            whoReference:
+                                type: object
+                                properties:
+                                    reference:
+                                        type: string
+                                        example: "https://sds.spineservices.nhs.uk/STU3/Practitioner/4tr6ee6a9"
+                                    display: 
+                                        type: string
+                                        example: "Nurse N"
+                            onBehalfOfResource:
+                                type: object
+                                properties:
+                                    reference:
+                                        type: string
+                                        example: "https://directory.spineservices.nhs.uk/STU3/Organization/a3e5i7"
+                                    display:
+                                        type: string
+                                        example: "Some Hospital Learning Disability Support Department"
+    extension:
+        type: array
+        items:
+            anyOf:
+                - $ref: "provenanceExtension.yaml"
+                - $ref: "removalReasonExtension.yaml"
+                - $ref: "adjustmentCategoryExtension.yaml"
+    status:
+        type: string
+        example: "inactive"
+    category:
+        type: object
+        properties:
+            coding:
+                type: array
+                items:
+                    type: object
+                    properties:
+                        system:
+                            type: string
+                            example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1"
+                        code:
+                            type: string
+                            example: "reasonable adjustment UnderlyingConditionList"
+                        display:
+                            type: string
+                            example: "Reasonable Adjustment Underlying Condition List"
+    code:
+        type: object
+        properties:
+            coding:
+                type: array
+                items:
+                    type: object
+                    properties:
+                        system:
+                            type: string
+                            example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1"
+                        code:
+                            type: string
+                            example: "requiresinformationineasyread"
+                        display:
+                            type: string
+                            example: "Requires information in Easyread"
+    subject:
+        type: object
+        properties:
+            reference:
+                type: string
+                example: "demographics.spineservices.nhs.uk/STU3/Patient/999999998"

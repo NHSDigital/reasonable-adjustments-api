@@ -1,0 +1,169 @@
+{
+  "resourceType": "Bundle",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/bundle"
+    ]
+  },
+  "link": [
+    {
+      "url": "https://internet_mps/STU3/UnderlyingConditionList?patient=9693892283&category=https%3A%2F%2Ffhir.nhs.uk%2FSTU3%2FCodeSystem%2FRARecord-FlagCategory-1%7CNRAF&status=active",
+      "relation": "self"
+    }
+  ],
+  "entry": [
+    {
+      "resource": {
+        "category": {
+          "coding": [
+            {
+              "code": "NRAF",
+              "display": "National Reasonable Adjustments Underlying Condition List",
+              "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1"
+            }
+          ]
+        },
+        "status": "active",
+        "code": {
+          "coding": [
+            {
+              "code": "945951000000108",
+              "display": "Requires visual alert",
+              "system": "https://snomed.info/sct"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-Provenance-1",
+            "extension": [
+              {
+                "url": "Created",
+                "valueReference": {
+                  "reference": "#0719ef10-346e-4378-8bf3-d878e0defbd8"
+                }
+              }
+            ]
+          },
+          {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-AdjustmentCategory-1",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "003",
+                  "display": "Accessible Information - requires specific contact method",
+                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1"
+                }
+              ]
+            }
+          },
+          {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-Provenance-1",
+            "extension": [
+              {
+                "url": "Created",
+                "valueReference": {
+                  "reference": "#0719ef10-346e-4378-8bf3-d878e0defbd8"
+                }
+              }
+            ]
+          }
+        ],
+        "resourceType": "UnderlyingConditionList",
+        "contained": [
+          {
+            "target": [
+              {
+                "reference": "UnderlyingConditionList/9693892283.a54f7fe6-fb35-4fef-a2dc-7a9df9ee7441"
+              }
+            ],
+            "resourceType": "Provenance",
+            "recorded": "2021-02-25T10:37:47+00:00",
+            "agent": [
+              {
+                "onBehalfOfReference": {
+                  "display": "WEST POTTERGATE HLTH CTR (D82106)",
+                  "reference": "https://directory.spineservices.nhs.uk/STU3/Organization/D82106"
+                },
+                "whoReference": {
+                  "display": "Healthchecks,Morning",
+                  "reference": "https://sds.spineservices.nhs.uk/STU3/Practitioner/093895563513"
+                },
+                "role": [
+                  {
+                    "coding": [
+                      {
+                        "code": "R0050",
+                        "display": "Consultant",
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "meta": {
+              "profile": [
+                "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1"
+              ]
+            },
+            "id": "0719ef10-346e-4378-8bf3-d878e0defbd8"
+          },
+          {
+            "target": [
+              {
+                "reference": "UnderlyingConditionList/9693892283.a54f7fe6-fb35-4fef-a2dc-7a9df9ee7441"
+              }
+            ],
+            "resourceType": "Provenance",
+            "recorded": "2021-02-25T10:37:47+00:00",
+            "agent": [
+              {
+                "onBehalfOfReference": {
+                  "display": "WEST POTTERGATE HLTH CTR (D82106)",
+                  "reference": "https://directory.spineservices.nhs.uk/STU3/Organization/D82106"
+                },
+                "whoReference": {
+                  "display": "Healthchecks,Morning",
+                  "reference": "https://sds.spineservices.nhs.uk/STU3/Practitioner/093895563513"
+                },
+                "role": [
+                  {
+                    "coding": [
+                      {
+                        "code": "R0050",
+                        "display": "Consultant",
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "meta": {
+              "profile": [
+                "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1"
+              ]
+            },
+            "id": "0719ef10-346e-4378-8bf3-d878e0defbd8"
+          }
+        ],
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1"
+          ],
+          "versionId": "1",
+          "lastUpdated": "2021-02-25T10:37:47+00:00"
+        },
+        "id": "9693892283.a54f7fe6-fb35-4fef-a2dc-7a9df9ee7441",
+        "subject": {
+          "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/9693892283"
+        }
+      },
+      "fullUrl": "https://clinicals.spineservices.nhs.uk/STU3/UnderlyingConditionList/9693892283.a54f7fe6-fb35-4fef-a2dc-7a9df9ee7441"
+    }
+  ],
+  "total": 1,
+  "type": "searchset",
+  "id": "a469d5f5-fb54-4087-90e5-20e260a1606b"
+}

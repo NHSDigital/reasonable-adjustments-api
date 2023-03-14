@@ -1,0 +1,168 @@
+{
+  "resourceType": "UnderlyingConditionList",
+  "id": "2acb0536-0a8f-48c9-8a2f-6ee82860f186",
+  "meta": {
+    "versionId": "b0c4bd5f-6133-4ac4-af48-82570ad15007",
+    "lastUpdated": "2018-07-25T11:00:00+00:00",
+    "profile": [
+      "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1"
+    ]
+  },
+  "contained": [
+    {
+      "resourceType": "Provenance",
+      "id": "43124f67-b09d-453d-b889-a5e2e8780b9e",
+      "meta": {
+        "profile": [
+          "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1"
+        ]
+      },
+      "target": [
+        {
+          "reference": "UnderlyingConditionList/2acb0536-0a8f-48c9-8a2f-6ee82860f186"
+        }
+      ],
+      "recorded": "2018-07-24T10:05:33+00:00",
+      "agent": [
+        {
+          "role": [
+            {
+              "coding": [
+                {
+                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "code": "R1974",
+                  "display": "Community Learning Disabilities Nurse"
+                }
+              ]
+            }
+          ],
+          "whoReference": {
+            "reference": "https://sds.spineservices.nhs.uk/STU3/Practitioner/4tr6ee6a9",
+            "display": "Nurse N"
+          },
+          "onBehalfOfReference": {
+            "reference": "https://directory.spineservices.nhs.uk/STU3/Organization/a3e5i7",
+            "display": "Some Hospital Learning Disability Support Department"
+          }
+        }
+      ]
+    },
+    {
+      "resourceType": "Provenance",
+      "id": "07c0c8fa-4654-42f7-8d6c-e4b4e714cffd",
+      "meta": {
+        "profile": [
+          "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1"
+        ]
+      },
+      "target": [
+        {
+          "reference": "UnderlyingConditionList/2acb0536-0a8f-48c9-8a2f-6ee82860f186"
+        }
+      ],
+      "recorded": "2018-07-25T11:00:00+00:00",
+      "agent": [
+        {
+          "role": [
+            {
+              "coding": [
+                {
+                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "code": "R0260",
+                  "display": "General Medical Practitioner"
+                }
+              ]
+            }
+          ],
+          "whoReference": {
+            "reference": "https://sds.spineservices.nhs.uk/STU3/Practitioner/2ee4tr6a9",
+            "display": "Dr.D"
+          },
+          "onBehalfOfReference": {
+            "reference": "https://directory.spineservices.nhs.uk/STU3/Organization/a3e5i7",
+            "display": "Some GP Clinic"
+          }
+        }
+      ]
+    }
+  ],
+  "extension": [
+    {
+      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-Provenance-1",
+      "extension": [
+        {
+          "url": "created",
+          "valueReference": {
+            "reference": "#43124f67-b09d-453d-b889-a5e2e8780b9e"
+          }
+        },
+        {
+          "url": "updated",
+          "valueReference": {
+            "reference": "#07c0c8fa-4654-42f7-8d6c-e4b4e714cffd"
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-RemovalReason-1",
+      "extension": [
+        {
+          "url": "removalReason",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1",
+                "code": "Error",
+                "display": "The Reasonable Adjustment Underlying Condition List was created in error"
+              }
+            ]
+          }
+        },
+        {
+          "url": "supportingComment",
+          "valueString": "Requires Large Print rather than Easy Read"
+        }
+      ]
+    },
+    {
+      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-AdjustmentCategory-1",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1",
+            "code": "comms",
+            "display": "Communication"
+          }
+        ]
+      }
+    }
+  ],
+  "status": "inactive",
+  "category": {
+    "coding": [
+      {
+        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1",
+        "code": "reasonable adjustments UnderlyingConditionList",
+        "display": "Reasonable Adjustments Underlying Condition List"
+      }
+    ]
+  },
+  "code": {
+    "coding": [
+      {
+        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1",
+        "code": "requiresinformationineasyread",
+        "display": "Requires information in Easyread"
+      }
+    ]
+  },
+  "patient": {
+    "identifier": [
+    {
+      "system": "https://fhir.nhs.uk/Id/nhs-number",
+      "value": "999999998"
+    }
+  ]
+  }
+}
