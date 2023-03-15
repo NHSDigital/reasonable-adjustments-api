@@ -773,7 +773,7 @@ paths:
         Use this endpoint to add underlying condition against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine).
 
 
-      operationId: postFlag
+      operationId: postUnderlyingCondition
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
@@ -838,7 +838,7 @@ paths:
       description: |-
         ## Overview
         Use this endpoint to view underlying conditions against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine). 
-      operationId: readFlag
+      operationId: readUnderlyingCondition
       parameters:
         - $ref: '#/components/parameters/patient'
         - $ref: '#/components/parameters/status'
@@ -898,7 +898,7 @@ paths:
       description: |-
         ## Overview
         Use this endpoint to update Underlying Condition List against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine). 
-      operationId: updateFlag
+      operationId: updateUnderlyingCondition
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
