@@ -18,7 +18,7 @@ install-python:
 
 install-node:
 	npm install -g yarn
-	npm install
+	npm install --legacy-peer-deps
 	cd docker/reasonable-adjustment-flag-sandbox && npm install && cd ../../tests && npm install
 
 install-hooks:
@@ -74,7 +74,7 @@ build-proxy:
 	scripts/build_proxy.sh
 
 #Files to loop over in release
-_dist_include="poetry.lock poetry.toml pyproject.toml Makefile build/. api_tests"
+_dist_include="poetry.lock poetry.toml pyproject.toml Makefile build/. api_tests specification"
 
 #Create /dist/ sub-directory and copy files into directory
 release: clean publish build-proxy
