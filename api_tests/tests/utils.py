@@ -154,7 +154,7 @@ class Utils:
         return response
 
     @staticmethod
-    def send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         response = requests.post(
             url=f"{nhsd_apim_proxy_url}/$removerarecord",
             headers={

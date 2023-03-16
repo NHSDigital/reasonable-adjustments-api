@@ -43,7 +43,7 @@ def update_test_app(test_app, attr: dict = DEFAULT_ATTR):
     test_app(True)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="class")
 def test_app_with_attributes(nhsd_apim_test_app):
     update_test_app(nhsd_apim_test_app)
 
@@ -66,7 +66,7 @@ def event_loop(request):
 
 
 @pytest.fixture(scope='function', autouse=True)
-def test_teardown(request):
+def test_teardown(request, nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
     """This function is called before each test is executed"""
 
     # Get the name of the current test and attach it the the test instance
@@ -78,10 +78,8 @@ def test_teardown(request):
 
     # Teardown
     # Return patient to previous state
-    print(request.node.nhsd_apim_proxy_url)
-    # if hasattr(request.cls, 'nhsd_apim_proxy_url') and hasattr(request.cls, 'nhsd_apim_auth_headers'):
     # Call this regardless whether any flags exist
-    Utils.send_raremoverecord_post(nhsd_apim_proxy_url, request.cls.nhsd_apim_auth_headers)
+    Utils.send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
     try:
         # Close any lingering sessions
