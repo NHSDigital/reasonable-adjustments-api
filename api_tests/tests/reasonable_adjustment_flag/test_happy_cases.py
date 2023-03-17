@@ -336,7 +336,7 @@ class TestHappyCasesSuite:
                 'x-request-id': str(uuid.uuid4()),
             }
         )
-        print(response.content)
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 

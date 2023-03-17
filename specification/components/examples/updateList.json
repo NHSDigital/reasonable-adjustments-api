@@ -1,8 +1,7 @@
 {
   "resourceType": "List",
-  "id": "9693892283.3d368fbe-e621-4c0b-be74-9a59b4f0e467",
   "meta": {
-    "versionId": "f2fef5e5-c38a-408c-a9bc-2d49923928f8",
+    "versionId": "71502f39-cede-4c73-9545-57406beabebe",
     "profile": [
       "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1"
     ]
@@ -11,15 +10,14 @@
     {
       "resourceType": "Condition",
       "meta": {
-        "versionId": "1",
-        "lastUpdated": "2018-07-23T11:00:00+00:00",
+        "versionId": "dbdfb9a6-6f75-42e4-9bd8-63c6f83cfceb",
         "profile": [
           "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-Condition-1"
         ]
       },
       "note": [
         {
-          "text": "Some notes"
+          "text": "Updated notes"
         }
       ],
       "extension": [
@@ -51,53 +49,58 @@
         "coding": [
           {
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ConditionCode-1",
-            "code": "03",
-            "display": "Impairment related to dementia (Equality Act 2010)"
+            "code": "01",
+            "display": "Impairment related to autism (Equality Act 2010)"
           }
         ]
       },
       "subject": {
-        "reference": "demographics.spineservices.nhs.uk/STU3/Patient/9693892283"
+        "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/9693892283"
       },
       "id": "dbdfb9a6-6f75-42e4-9bd8-63c6f83cfceb"
     },
     {
-      "resourceType": "Provenance",
       "id": "8ce7de6b-1307-432d-8e96-ae6a613ca3e4",
+      "resourceType": "Provenance",
       "meta": {
         "profile": [
           "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Provenance-1"
         ]
       },
+      "activity": {
+        "system": "http://hl7.org/fhir/v3/DataOperation",
+        "code": "CREATE",
+        "display": "create"
+      },
+      "agent": [
+        {
+          "whoReference": {
+            "display": "Healthchecks,Morning",
+            "reference": "https://sds.spineservices.nhs.uk/STU3/Practitioner/093895563513"
+          },
+          "onBehalfOfReference": {
+            "reference": "https://directory.spineservices.nhs.uk/STU3/Organization/D82106",
+            "display": "WEST POTTERGATE HLTH CTR (D82106)"
+          },
+          "role": [
+            {
+              "coding": [
+                {
+                  "display": "Consultant",
+                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "code": "R0050"
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "target": [
         {
           "reference": "Condition/dbdfb9a6-6f75-42e4-9bd8-63c6f83cfceb"
         }
       ],
-      "recorded": "2018-07-23T11:00:00+00:00",
-      "agent": [
-        {
-          "role": [
-            {
-              "coding": [
-                {
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
-                  "code": "R0050",
-                  "display": "Consultant"
-                }
-              ]
-            }
-          ],
-          "whoReference": {
-            "reference": "https://sds.spineservices.nhs.uk/STU3/Practitioner/093895563513",
-            "display": "Healthchecks,Morning"
-          },
-          "onBehalfOfReference": {
-            "reference": "https://directory.spineservices.nhs.uk/STU3/Organization/D82106",
-            "display": "WEST POTTERGATE HLTH CTR (D82106)"
-          }
-        }
-      ]
+      "recorded": "2021-02-25T10:39:10+00:00"
     }
   ],
   "status": "current",
@@ -113,20 +116,20 @@
     ]
   },
   "subject": {
-    "reference": "demographics.spineservices.nhs.uk/STU3/Patient/9693892283"
+    "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/9693892283"
   },
   "date": "2018-07-23T11:00:00+00:00",
   "entry": [
     {
       "deleted": false,
-      "date": "2018-07-23T11:00:00+00:00",
+      "date": "2021-02-25T10:39:10+00:00",
       "item": {
         "reference": "#dbdfb9a6-6f75-42e4-9bd8-63c6f83cfceb"
       }
     },
     {
       "deleted": false,
-      "date": "2018-07-23T11:00:00+00:00",
+      "date": "2021-02-25T10:39:10+00:00",
       "item": {
         "reference": "#8ce7de6b-1307-432d-8e96-ae6a613ca3e4"
       }
