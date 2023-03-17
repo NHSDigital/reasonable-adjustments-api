@@ -8,7 +8,7 @@ from assertpy import assert_that
 from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI, DebugSessionsAPI
 from api_tests.tests.utils import Utils
 
-
+@pytest.mark.usefixtures("test_teardown")
 class TestProxyCasesSuite:
     """ A test suite to verify all the happy path oauth endpoints """
 
@@ -28,7 +28,7 @@ class TestProxyCasesSuite:
         expected_value = '200000001390'
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -62,7 +62,7 @@ class TestProxyCasesSuite:
         trace.post_debugsession(session="my_session")
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -94,7 +94,7 @@ class TestProxyCasesSuite:
         trace.post_debugsession(session="my_session")
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -137,7 +137,7 @@ class TestProxyCasesSuite:
         expected_ods = 'D82106'
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -168,14 +168,14 @@ class TestProxyCasesSuite:
             'scope': 'user/Consent.read',
             'requesting_organization': 'https://fhir.nhs.uk/Id/ods-organization-code|D82106',
             'requesting_system': 'https://fhir.nhs.uk/Id/accredited-system|200000001390',
-            'requesting_user': f'https://fhir.nhs.uk/Id/sds-role-profile-id|555254242103',
-            'sub': f'https://fhir.nhs.uk/Id/sds-role-profile-id|555254242103',
+            'requesting_user': f'https://fhir.nhs.uk/Id/sds-role-profile-id|093895563513',
+            'sub': f'https://fhir.nhs.uk/Id/sds-role-profile-id|093895563513',
             'iss': 'http://api.service.nhs.uk',
-            'aud': f'/{nhsd_apim_proxy_url}/Consent'
+            'aud': f'{nhsd_apim_proxy_url}/Consent'
         }
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -185,7 +185,7 @@ class TestProxyCasesSuite:
             name="spineJwt",
             data=data,
         )
-
+        print(actual_jwt)
         # We manually decode jwt because, jwt library requires all three segments but we only have two (no signature).
         jwt_segments = actual_jwt.split('.')
         actual_jwt_claims = json.loads(base64.b64decode(jwt_segments[1]))

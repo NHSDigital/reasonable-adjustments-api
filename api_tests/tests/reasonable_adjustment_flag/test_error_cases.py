@@ -10,7 +10,7 @@ from api_tests.tests.conftest import ASID_ONLY_ATTR, ODS_ONLY_ATTR
 from assertpy import assert_that
 import uuid
 
-
+@pytest.mark.usefixtures("test_teardown")
 class TestErrorCaseSuite:
     """ A test suite to verify the correct error messages from an invalid request """
 

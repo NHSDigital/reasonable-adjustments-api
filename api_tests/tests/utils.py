@@ -25,20 +25,6 @@ class Utils:
     """ A Utils class to be used for shared functionality between tests  """
 
     @staticmethod
-    def send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers) -> requests.Response:
-        response = requests.get(
-            url=f"{nhsd_apim_proxy_url}/Consent",
-            params={'patient': 'test', 'category': 'test', 'status': 'test'},
-            headers={
-                **nhsd_apim_auth_headers,
-                'x-request-id': str(uuid.uuid4()),
-                'x-correlation-id': str(uuid.uuid4())
-            }
-        )
-
-        return response
-
-    @staticmethod
     def get_etag(nhsd_apim_auth_headers, resource_url: str, params):
         response = requests.get(
             url=resource_url,
