@@ -276,7 +276,6 @@ class TestErrorCaseSuite:
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'Accept': 'application/fhir+json',
-                'If-match': version_id,
             },
             json=request_bank.get_body(Request.FLAG_PUT)
         )
