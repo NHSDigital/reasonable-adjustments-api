@@ -259,7 +259,7 @@ class TestErrorCaseSuite:
     )
     def test_flag_invalid_header_put(self, nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         # Pre-Req: Patient has both a consent and flag
-        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, )
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
         Utils.send_flag_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
         get_flag_response = Utils.send_flag_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
 

@@ -37,6 +37,9 @@ class TestProxyCasesSuite:
             name="app.asid",
             data=data,
         )
+
+        trace.delete_debugsession_by_name(session_name="my_session")
+
         assert_that(expected_value).is_equal_to(actual_asid)
 
         actual_header_value = trace.get_apigee_variable_from_trace(
@@ -72,6 +75,8 @@ class TestProxyCasesSuite:
             name="message.header.X-Request-ID",
             data=data,
         )
+
+        trace.delete_debugsession_by_name(session_name="my_session")
 
         assert_that(trace_id).is_equal_to(x_request_id)
 
@@ -113,6 +118,8 @@ class TestProxyCasesSuite:
 
         expected_correlation_id_header = x_request_id_header + '.' + x_correlation_id_header + '.' + apigee_message_id
 
+        trace.delete_debugsession_by_name(session_name="my_session")
+
         assert_that(expected_correlation_id_header).is_equal_to(nhsd_correlation_id_header)
 
     @pytest.mark.ods
@@ -139,6 +146,8 @@ class TestProxyCasesSuite:
             name="verifyapikey.VerifyAPIKey.CustomAttributes.ods",
             data=data,
         )
+
+        trace.delete_debugsession_by_name(session_name="my_session")
 
         assert_that(expected_ods).is_equal_to(actual_ods)
 
@@ -180,6 +189,8 @@ class TestProxyCasesSuite:
         # We manually decode jwt because, jwt library requires all three segments but we only have two (no signature).
         jwt_segments = actual_jwt.split('.')
         actual_jwt_claims = json.loads(base64.b64decode(jwt_segments[1]))
+
+        trace.delete_debugsession_by_name(session_name="my_session")
 
         assert_that(expected_jwt_claims['reason_for_request']).is_equal_to_ignoring_case(actual_jwt_claims['reason_for_request'])
         assert_that(expected_jwt_claims['scope']).is_equal_to_ignoring_case(actual_jwt_claims['scope'])
