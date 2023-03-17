@@ -267,7 +267,6 @@ class TestErrorCaseSuite:
         expected_status_code = 400
         expected_diagnostic = 'if-match is missing or invalid'
         flag_id = get_flag_response['id']
-        version_id = get_flag_response['version']
 
         # When
         response = requests.put(

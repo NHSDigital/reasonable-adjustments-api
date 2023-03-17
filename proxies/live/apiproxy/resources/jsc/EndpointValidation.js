@@ -6,9 +6,9 @@ var invalidResponse = false
 var xRequestId = context.getVariable('request.header.X-Request-ID')
 var nhsdSessionURID = context.getVariable('request.header.NHSD-Session-URID')
 var contentType = context.getVariable('request.header.content-type')
-// var asid = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
-// var ods = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.ods')
-print(requestPayload)
+var asid = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
+var ods = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.ods')
+
 
 var regex = RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
 
