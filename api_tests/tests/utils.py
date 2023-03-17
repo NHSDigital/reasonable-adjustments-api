@@ -56,7 +56,7 @@ class Utils:
         return response
 
     @staticmethod
-    def send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
@@ -71,7 +71,7 @@ class Utils:
             }
         )
 
-        return get_details(response)
+        return response
 
     @staticmethod
     def send_flag_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):

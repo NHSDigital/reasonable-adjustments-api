@@ -10,7 +10,7 @@ from api_tests.tests.conftest import ASID_ONLY_ATTR, ODS_ONLY_ATTR
 from assertpy import assert_that
 import uuid
 
-@pytest.mark.usefixtures("test_teardown")
+
 class TestErrorCaseSuite:
     """ A test suite to verify the correct error messages from an invalid request """
 
@@ -280,6 +280,9 @@ class TestErrorCaseSuite:
         )
         actual_response = json.loads(response.text)
 
+        # Teardown
+        Utils.send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(expected_diagnostic).is_equal_to_ignoring_case(actual_response['issue'][0]['diagnostics'])
@@ -349,6 +352,9 @@ class TestErrorCaseSuite:
         )
         actual_response = json.loads(response.text)
 
+        # Teardown
+        Utils.send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
+
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(expected_diagnostic).is_equal_to_ignoring_case(actual_response['issue'][0]['diagnostics'])
@@ -386,6 +392,7 @@ class TestErrorCaseSuite:
     @pytest.mark.ods
     @pytest.mark.errors
     @pytest.mark.integration
+    @pytest.mark.debug
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -399,19 +406,7 @@ class TestErrorCaseSuite:
         expected_diagnostic = 'An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
 
         # When
-        response = requests.get(
-            url=f"{nhsd_apim_proxy_url}/Consent",
-            params={
-                'patient': 'test',
-                'status': 'test',
-                'category': 'test',
-            },
-            headers={**nhsd_apim_auth_headers,
-                'accept': 'application/fhir+json',
-                'x-request-id': str(uuid.uuid4()),
-            }
-        )
-        # import pdb; pdb.set_trace()
+        response = Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_asid_only)
         actual_response = json.loads(response.text)
 
         # Then
@@ -421,6 +416,7 @@ class TestErrorCaseSuite:
     @pytest.mark.asid
     @pytest.mark.errors
     @pytest.mark.integration
+    @pytest.mark.debug
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -434,19 +430,7 @@ class TestErrorCaseSuite:
         expected_diagnostic = 'An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
 
         # When
-        response = requests.get(
-            url=f"{nhsd_apim_proxy_url}/Consent",
-            params={
-                'patient': 'test',
-                'category': 'test',
-                'status': 'test',
-            },
-            headers={**nhsd_apim_auth_headers,
-                'accept': 'application/fhir+json',
-                'x-request-id': str(uuid.uuid4()),
-            }
-        )
-
+        response = Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_ods_only)
         actual_response = json.loads(response.text)
 
         # Then
@@ -501,6 +485,9 @@ class TestErrorCaseSuite:
         )
 
         response_body = json.loads(response.text)
+
+        # Teardown
+        Utils.send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)

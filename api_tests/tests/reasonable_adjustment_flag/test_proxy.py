@@ -28,7 +28,7 @@ class TestProxyCasesSuite:
         expected_value = '200000001390'
 
         # When
-        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -62,7 +62,7 @@ class TestProxyCasesSuite:
         trace.post_debugsession(session="my_session")
 
         # When
-        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -94,7 +94,7 @@ class TestProxyCasesSuite:
         trace.post_debugsession(session="my_session")
 
         # When
-        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -137,7 +137,7 @@ class TestProxyCasesSuite:
         expected_ods = 'D82106'
 
         # When
-        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")
@@ -175,7 +175,7 @@ class TestProxyCasesSuite:
         }
 
         # When
-        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
         transaction_ids = trace.get_transaction_data(session_name="my_session")

@@ -36,7 +36,7 @@ def update_test_app(test_app, attr: dict = DEFAULT_ATTR):
     #  session scope used by the pytest-nhsd-apim default app?
     # If the existing app attributes does not contain the new app attributes, add the new attributes and update the app
     if not all(x in existing_attr['attribute'] for x in attr['attribute']):
-        body = {'attribute': existing_attr['attribute'] + attr['attribute']}
+        body = {'attribute': attr['attribute']}
         _app.post_app_attributes(email="apm-testing-internal-dev@nhs.net", app_name=app_name, body=body)
 
     # Force a refresh of the app to update the attributes in the session
@@ -48,12 +48,12 @@ def test_app_with_attributes(nhsd_apim_test_app):
     update_test_app(nhsd_apim_test_app)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def test_app_with_asid_only(nhsd_apim_test_app):
     update_test_app(nhsd_apim_test_app, ASID_ONLY_ATTR)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def test_app_with_ods_only(nhsd_apim_test_app):
     update_test_app(nhsd_apim_test_app, ODS_ONLY_ATTR)
 
@@ -65,7 +65,7 @@ def event_loop(request):
     loop.close()
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='function')
 def test_teardown(request, nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
     """This function is called before each test is executed"""
 
