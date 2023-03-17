@@ -395,10 +395,6 @@ class TestErrorCaseSuite:
             "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skip(
-        "This test passes when run individually, but fails as part of a session. This is likely due to us trying"
-        "to change the test app attributes per-test whilst the nhsd_apim_test_app fixture is session-scoped."
-    )
     def test_missing_ods(self, test_app_with_asid_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         expected_status_code = 500
@@ -433,10 +429,6 @@ class TestErrorCaseSuite:
             "level": "aal3",
             "login_form": {"username": "ra-test-user"},
         }
-    )
-    @pytest.mark.skip(
-        "This test passes when run individually, but fails as part of a session. This is likely due to us trying"
-        "to change the test app attributes per-test whilst the nhsd_apim_test_app fixture is session-scoped."
     )
     def test_missing_asid(self, test_app_with_ods_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
