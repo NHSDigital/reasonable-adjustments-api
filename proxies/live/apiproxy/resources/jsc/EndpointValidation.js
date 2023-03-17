@@ -28,14 +28,14 @@ else if (requestVerb !== "GET" && requestPayload === "") {
     var errorDescription = "requires payload"
     var invalidResponse = true
 }
-// else if (asid === null) {
-//     var errorDescription = "An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
-//     var internalServerError = true
-// }
-// else if (ods === null) {
-//     var errorDescription = "An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
-//     var internalServerError = true
-// }
+else if (asid === null) {
+    var errorDescription = "An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
+    var internalServerError = true
+}
+else if (ods === null) {
+    var errorDescription = "An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
+    var internalServerError = true
+}
 
 context.setVariable('internalServerError', internalServerError)
 context.setVariable('invalidResponse', invalidResponse)
