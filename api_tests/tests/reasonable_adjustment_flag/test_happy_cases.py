@@ -325,41 +325,6 @@ class TestHappyCasesSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
-    @pytest.mark.happy_path
-    @pytest.mark.integration
-    @pytest.mark.sandbox
-    @pytest.mark.nhsd_apim_authorization(
-        {
-            "access": "healthcare_worker",
-            "level": "aal3",
-            "login_form": {"username": "656005750105"},
-        }
-    )
-    @pytest.mark.skip(
-        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
-        "needs further looking into."
-    )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_underlyingcondition_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
-        # Pre-Req: Patient has a consent
-        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
-
-        # Given
-        expected_status_code = 201
-
-        # When
-        response = requests.post(
-            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
-            headers={**nhsd_apim_auth_headers,
-                'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
-                'Accept': 'application/fhir+json',
-            },
-            json=request_bank.get_body(Request.UnderlyingConditionList_POST),
-        )
-
-        # Then
-        assert_that(expected_status_code).is_equal_to(response.status_code)
 
     @pytest.mark.happy_path
     @pytest.mark.integration
@@ -401,6 +366,162 @@ class TestHappyCasesSuite:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
+    def test_underlyingconditionlist_get_without_underlyingcondition(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Given
+        expected_status_code = 200
+
+        # When
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
+            params={
+                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
+                'status': 'active'
+            },
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json'
+            }
+        )
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        result_dict = json.loads(response.text)
+        assert_that(result_dict['total']).is_equal_to(0)  # Validate patient record does not contain a consent flag
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.sandbox
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
+    def test_underlyingconditionlist_get_with_underlyingcondition(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Pre-Req: Patient record with both a consent and flag
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_underlyingconditionlist_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+
+        # Given
+        expected_status_code = 200
+
+        # When
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
+            params={
+                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
+                'status': 'active'
+            },
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json'
+            }
+        )
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        result_dict = json.loads(response.text)
+        assert_that(result_dict['total']).is_equal_to(1)  # Validate patient record contains a /UnderlyingCondition
+
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.sandbox
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
+    def test_underlyingconditionlist_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Pre-Req: Patient has a consent
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+
+        # Given
+        expected_status_code = 201
+
+        # When
+        response = requests.post(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json',
+            },
+            json=request_bank.get_body(Request.UnderlyingConditionList_POST),
+        )
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.sandbox
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "656005750105"},
+        }
+    )
+    @pytest.mark.skip(
+        "Skipped due to backend returning invalid/missing header error response for POST requests to /Consent, "
+        "needs further looking into."
+    )
+    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
+    def test_underlyingconditionlist_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Pre-Req: Patient has both a consent and underlyingCondition
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_underlyingconditionlist_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        get_underlyingconditionlist_response = Utils.send_underlyingconditionlist_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+
+        # Given
+        expected_status_code = 200
+        underlyingcondition_id = get_underlyingconditionlist_response['id']
+        version_id = get_underlyingconditionlist_response['version']
+
+        # When
+        response = requests.put(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList/{underlyingcondition_id}",
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json',
+                'If-match': version_id,
+            },
+            json=request_bank.get_body(Request.UnderlyingConditionList_PUT)
+        )
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+
 
     @pytest.mark.happy_path
     @pytest.mark.integration
