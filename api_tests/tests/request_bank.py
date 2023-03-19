@@ -11,6 +11,7 @@ class Request(enum.Enum):
     REMOVE_RA_RECORD_POST = 'removerarecord.json'
     FLAG_PUT = 'updateFlag.json'
     FLAG_POST = 'createFlag.json'
+    UnderlyingConditionList_POST = 'createUnderlyingConditionList.json'
     LIST_POST = 'createList.json'
     LIST_PUT = 'updateList.json'
 
