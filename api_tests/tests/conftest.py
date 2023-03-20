@@ -1,7 +1,13 @@
 import time
 import pytest
 import asyncio
+import requests
 from api_tests.tests.utils import Utils
+from .configuration import config
+from pytest_nhsd_apim.identity_service import (
+    AuthorizationCodeConfig,
+    AuthorizationCodeAuthenticator
+)
 from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI
 
 
@@ -21,6 +27,48 @@ ODS_ONLY_ATTR = {
         {"name": "ods", "value": "D82106"}
     ]
 }
+
+ENVIRONMENT = config.ENVIRONMENT
+
+MISSING_ASID_APP = {
+    "CLIENT_ID": config.MISSING_ASID_CLIENT_ID,
+    "CLIENT_SECRET": config.MISSING_ASID_CLIENT_SECRET
+}
+
+MISSING_ODS_APP = {
+    "CLIENT_ID": config.MISSING_ODS_CLIENT_ID,
+    "CLIENT_SECRET": config.MISSING_ODS_CLIENT_SECRET
+}
+
+
+def test_authorization_code_authenticator(_test_app_credentials, apigee_environment):
+    # 1. Set your app config
+    config = AuthorizationCodeConfig(
+        environment=apigee_environment,
+        identity_service_base_url=f"https://{apigee_environment}.api.service.nhs.uk/oauth2-mock",
+        callback_url="https://example.com/callback",
+        client_id=_test_app_credentials["CLIENT_ID"],
+        client_secret=_test_app_credentials["CLIENT_SECRET"],
+        scope="nhs-cis2",
+        login_form={"username": "ra-test-user"},
+    )
+
+    # 2. Pass the config to the Authenticator
+    authenticator = AuthorizationCodeAuthenticator(config=config)
+
+    # 3. Get your token
+    token_response = authenticator.get_token()
+    assert "access_token" in token_response
+    token = token_response["access_token"]
+
+    return token
+    # 4. Use the token and confirm is valid
+    # headers = {"Authorization": f"Bearer {token}"}
+    # resp = requests.get(
+    #     f"https://{apigee_environment}.api.service.nhs.uk/mock-jwks/test-auth/nhs-cis2/aal3",
+    #     headers=headers,
+    # )
+    # assert resp.status_code == 200
 
 
 def update_test_app(test_app, attr: dict = DEFAULT_ATTR):
@@ -49,13 +97,13 @@ def test_app_with_attributes(nhsd_apim_test_app):
 
 
 @pytest.fixture(scope="function")
-def test_app_with_asid_only(nhsd_apim_test_app):
-    update_test_app(nhsd_apim_test_app, ASID_ONLY_ATTR)
+def test_app_without_asid_token():
+    return test_authorization_code_authenticator(MISSING_ASID_APP, ENVIRONMENT)
 
 
 @pytest.fixture(scope="function")
-def test_app_with_ods_only(nhsd_apim_test_app):
-    update_test_app(nhsd_apim_test_app, ODS_ONLY_ATTR)
+def test_app_without_ods_token():
+    return test_authorization_code_authenticator(MISSING_ODS_APP, ENVIRONMENT)
 
 
 @pytest.fixture(scope="session")

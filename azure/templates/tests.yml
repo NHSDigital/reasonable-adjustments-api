@@ -5,6 +5,22 @@ steps:
     displayName: Setup pytests
     condition: always()
 
+  - template: "azure/components/aws-assume-role.yml@common"
+    parameters:
+      role: "auto-ops"
+      profile: "apm_ptl"
+
+  - template: "azure/components/get-aws-secrets-and-ssm-params.yml@common"
+    parameters:
+        secret_ids:
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_KEY
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_SECRET
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_KEY
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_SECRET
+            - ptl/monitoring/status-endpoint-api-key
+        config_ids: []
+        secret_file_ids: []
+
   - bash: |
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
@@ -13,13 +29,17 @@ steps:
       export APIGEE_ACCESS_TOKEN="$(secret.AccessToken)"
       export PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)"
       export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
+      export INTERNAL_TESTING_WITHOUT_ASID_KEY="$(INTERNAL_TESTING_WITHOUT_ASID_KEY)"
+      export INTERNAL_TESTING_WITHOUT_ASID_SECRET="$(INTERNAL_TESTING_WITHOUT_ASID_SECRET)"
+      export INTERNAL_TESTING_WITHOUT_ODS_KEY="$(INTERNAL_TESTING_WITHOUT_ODS_KEY)"
+      export INTERNAL_TESTING_WITHOUT_ODS_SECRET="$(INTERNAL_TESTING_WITHOUT_ODS_SECRET)"
       
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
-       poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+       poetry run pytest -v -m "sandbox" --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
 
       else
-       poetry run pytest -v --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+       poetry run pytest -v --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME --missing-ods-app-key=$INTERNAL_TESTING_WITHOUT_ODS_KEY --missing-ods-app-secret=$INTERNAL_TESTING_WITHOUT_ODS_SECRET --missing-asid-app-key=$INTERNAL_TESTING_WITHOUT_ASID_KEY --missing-asid-app-secret=$INTERNAL_TESTING_WITHOUT_ASID_SECRET -o junit_logging=all --junitxml=test-report.xml
       fi
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/tests/reasonable_adjustment_flag"
     displayName: Run full test suite

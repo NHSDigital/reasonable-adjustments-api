@@ -33,17 +33,6 @@ extends:
     service_base_path: ${{ variables.service_base_path }}
     enable_monitoring: true
     enable_status_monitoring: true
-    secret_ids:
-        - ptl/reasonable-adjustments/internal-dev/test_app/client_secret
-        - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_KEY
-        - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_SECRET
-        - ptl/monitoring/status-endpoint-api-key
-    config_ids:
-        - /ptl/reasonable-adjustments/internal-dev/test_app/client_key
-        - /ptl/azure-devops/env-int/test-app/ra-testing/RA_INT_CLIENT_ID
-        - /ptl/azure-devops/env-int/test-app/ra-testing/RA_INT_CLIENT_SECRET
-        - /ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_KEY
-        - /ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_SECRET
     apigee_deployments:
       - environment: internal-dev
         post_deploy:
