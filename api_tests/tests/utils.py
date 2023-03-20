@@ -71,7 +71,7 @@ class Utils:
             }
         )
 
-        return response
+        return get_details(response)
 
     @staticmethod
     def send_flag_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):

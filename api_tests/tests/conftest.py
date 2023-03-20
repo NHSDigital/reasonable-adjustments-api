@@ -48,12 +48,12 @@ def test_app_with_attributes(nhsd_apim_test_app):
     update_test_app(nhsd_apim_test_app)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def test_app_with_asid_only(nhsd_apim_test_app):
     update_test_app(nhsd_apim_test_app, ASID_ONLY_ATTR)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def test_app_with_ods_only(nhsd_apim_test_app):
     update_test_app(nhsd_apim_test_app, ODS_ONLY_ATTR)
 
