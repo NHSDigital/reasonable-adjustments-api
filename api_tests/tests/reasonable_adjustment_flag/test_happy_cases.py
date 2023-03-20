@@ -154,7 +154,8 @@ class TestHappyCasesSuite:
         expected_status_code = 200
 
         # And
-        consent = Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
+        response = Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
+        consent = json.loads(response)
         consent_id = consent['id']
         version_id = consent['version']
 

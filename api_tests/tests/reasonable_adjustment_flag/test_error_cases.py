@@ -413,30 +413,6 @@ class TestErrorCaseSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(expected_diagnostic).is_equal_to_ignoring_case(actual_response['issue'][0]['diagnostics'])
 
-    @pytest.mark.asid
-    @pytest.mark.errors
-    @pytest.mark.integration
-    @pytest.mark.debug
-    @pytest.mark.nhsd_apim_authorization(
-        {
-            "access": "healthcare_worker",
-            "level": "aal3",
-            "login_form": {"username": "ra-test-user"},
-        }
-    )
-    def test_missing_asid(self, test_app_with_ods_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
-        # Given
-        expected_status_code = 500
-        expected_diagnostic = 'An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
-
-        # When
-        response = Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_ods_only)
-        actual_response = json.loads(response.text)
-
-        # Then
-        assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(expected_diagnostic).is_equal_to_ignoring_case(actual_response['issue'][0]['diagnostics'])
-
     @pytest.mark.errors
     @pytest.mark.integration
     def test_invalid_url(self, nhsd_apim_proxy_url):
@@ -492,3 +468,27 @@ class TestErrorCaseSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(expected_diagnostic).is_equal_to(response_body['issue'][0]['diagnostics'])
+
+    @pytest.mark.asid
+    @pytest.mark.errors
+    @pytest.mark.integration
+    @pytest.mark.debug
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "ra-test-user"},
+        }
+    )
+    def test_missing_asid(self, test_app_with_ods_only, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Given
+        expected_status_code = 500
+        expected_diagnostic = 'An internal server error occurred. Missing ASID. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID'
+
+        # When
+        response = Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_ods_only)
+        actual_response = json.loads(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(expected_diagnostic).is_equal_to_ignoring_case(actual_response['issue'][0]['diagnostics'])
