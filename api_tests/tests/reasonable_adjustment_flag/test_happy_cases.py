@@ -48,7 +48,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -83,7 +82,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -110,7 +108,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -138,7 +135,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -207,7 +203,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -245,7 +240,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -276,7 +270,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -312,7 +305,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -342,7 +334,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -374,7 +365,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -412,7 +402,6 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    @pytest.mark.sandbox
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
