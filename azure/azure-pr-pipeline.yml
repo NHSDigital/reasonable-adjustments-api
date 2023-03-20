@@ -40,5 +40,3 @@ extends:
           - template: templates/tests.yml
       - environment: internal-dev-sandbox
         proxy_path: sandbox
-        post_deploy:
-            -   template: templates/tests.yml
