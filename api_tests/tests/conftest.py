@@ -62,13 +62,6 @@ def test_authorization_code_authenticator(_test_app_credentials, apigee_environm
     token = token_response["access_token"]
 
     return token
-    # 4. Use the token and confirm is valid
-    # headers = {"Authorization": f"Bearer {token}"}
-    # resp = requests.get(
-    #     f"https://{apigee_environment}.api.service.nhs.uk/mock-jwks/test-auth/nhs-cis2/aal3",
-    #     headers=headers,
-    # )
-    # assert resp.status_code == 200
 
 
 def update_test_app(test_app, attr: dict = DEFAULT_ATTR):
