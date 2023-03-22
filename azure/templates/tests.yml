@@ -1,47 +1,46 @@
-parameters:
-    - name: service_name
-      type: string
-    - name: test_tag
-      type: string
-      default:
-
 steps:
-    - bash: |
-          docker build -t reasonable-adjustments-api/test-env:latest -f api_tests/Dockerfile .
+  - bash: |
+      make install-python
+    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+    displayName: Setup pytests
+    condition: always()
 
-      workingDirectory: $(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)
-      displayName: Setup integration tests
+  - template: "azure/components/aws-assume-role.yml@common"
+    parameters:
+      role: "auto-ops"
+      profile: "apm_ptl"
 
-    - bash: |
+  - template: "azure/components/get-aws-secrets-and-ssm-params.yml@common"
+    parameters:
+        secret_ids:
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_KEY
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ASID_SECRET
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_KEY
+            - ptl/app-credentials/internal-dev/INTERNAL_TESTING_WITHOUT_ODS_SECRET
+            - ptl/monitoring/status-endpoint-api-key
+        config_ids: []
+        secret_file_ids: []
 
-        mkdir -p "$(pwd)/reports"
+  - bash: |
+      export RELEASE_RELEASEID=$(Build.BuildId)
+      export SOURCE_COMMIT_ID=$(Build.SourceVersion)
+      export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
+      export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
+      export APIGEE_ACCESS_TOKEN="$(secret.AccessToken)"
+      export PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)"
+      export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
+      export INTERNAL_TESTING_WITHOUT_ASID_KEY="$(INTERNAL_TESTING_WITHOUT_ASID_KEY)"
+      export INTERNAL_TESTING_WITHOUT_ASID_SECRET="$(INTERNAL_TESTING_WITHOUT_ASID_SECRET)"
+      export INTERNAL_TESTING_WITHOUT_ODS_KEY="$(INTERNAL_TESTING_WITHOUT_ODS_KEY)"
+      export INTERNAL_TESTING_WITHOUT_ODS_SECRET="$(INTERNAL_TESTING_WITHOUT_ODS_SECRET)"
+       
+      poetry run pytest -v --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
 
-        docker run \
-          -e BASE_URL="https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/oauth2" \
-          -e CLIENT_ID="$(client_key)" \
-          -e CLIENT_SECRET="$(client_secret)" \
-          -e REDIRECT_URI="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/callback" \
-          -e AUTHENTICATE_URL="https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com/" \
-          -e APIGEE_CLIENT_ID="969567331415.apps.national" \
-          -e APIGEE_ACCESS_TOKEN="$(secret.AccessToken)" \
-          -e APIGEE_API_URL="https://api.enterprise.apigee.com/v1/o/nhsd-nonprod" \
-          -e REASONABLE_ADJUSTMENTS_BASE_URL=https://$APIGEE_ENVIRONMENT.api.service.nhs.uk \
-          -e REASONABLE_ADJUSTMENTS_PROXY_PATH=$(SERVICE_BASE_PATH) \
-          -e REASONABLE_ADJUSTMENTS_PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
-          -e STATUS_APIKEY="$(status-endpoint-api-key)" \
-          -e PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)" \
-          --entrypoint "pytest" reasonable-adjustments-api/test-env:latest \
-          --color=yes --api-name="reasonable-adjustment-flag" --proxy-name=$(FULLY_QUALIFIED_SERVICE_NAME) \
-          --apigee-access-token=$(secret.AccessToken) \
-          -v ${{ parameters.test_tag }} -m integration \
-          --junitxml=/var/api_tests/reports/test_report.xml tests
-
-      workingDirectory: $(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)/api_tests
-      displayName: 'Run Integration Tests'
-
-    - task: PublishTestResults@2
-      displayName: 'Publish Integration Test Results'
-      inputs:
-          testResultsFiles: |
-              $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/reports/test_report.xml
-          failTaskOnFailedTests: true
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/tests/reasonable_adjustment_flag"
+    displayName: Run full test suite
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    condition: always()
+    inputs:
+      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/tests/reasonable_adjustment_flag/test-report.xml'
+      failTaskOnFailedTests: true

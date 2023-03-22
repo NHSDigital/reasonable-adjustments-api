@@ -159,6 +159,13 @@
         <Condition>((proxy.pathsuffix MatchesPath "/$removerarecord") and (request.verb = "POST"))</Condition>
       </Request>
     </Flow>
+    <Flow name="InvalidEndpoint">
+      <Request>
+        <Step>
+          <Name>RaiseFault.404NotFound</Name>
+        </Step>
+      </Request>
+    </Flow>
   </Flows>
 
   <HTTPProxyConnection>
