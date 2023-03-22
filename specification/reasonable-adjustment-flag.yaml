@@ -1017,7 +1017,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/createThresholdCode.json
+                    $ref: components/examples/createThresholdCodeResponse.json
         '400':
           description: Invalid parameters.
           content:
