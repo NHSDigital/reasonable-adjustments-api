@@ -1,0 +1,17 @@
+{
+	"resourceType": "OperationOutcome",
+	"meta": {
+		"profile": ["https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1"]
+	},
+	"issue": [{
+		"severity": "error",
+		"code": "not-found",
+		"details": {
+			"coding": [{
+				"system": "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1",
+				"code": "PATIENT_NOT_FOUND",
+				"display": "Patient not found"
+			}]
+		}
+	}]
+}
