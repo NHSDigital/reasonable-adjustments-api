@@ -6,36 +6,9 @@ import pytest
 import requests
 from assertpy import assert_that
 from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI, DebugSessionsAPI
-
-from api_tests.config_files import config
-from api_tests.config_files.config import REASONABLE_ADJUSTMENTS_PROXY_NAME, REASONABLE_ADJUSTMENTS_PROXY_PATH
-from api_tests.scripts.apigee_api import ApigeeDebugApi
 from api_tests.tests.utils import Utils
 
-
-@pytest.fixture()
-def client():
-    _config = ApigeeNonProdCredentials()
-
-    return ApigeeClient(config=_config)
-
-
-@pytest.fixture()
-def debug_session(client):
-    url = f"{client.base_url}/apis/{config.REASONABLE_ADJUSTMENTS_PROXY_NAME}/revisions"
-    response = requests.get(url, headers={"Authorization": f"Bearer {config.APIGEE_TOKEN}"})
-    latest_revision = response.json()[-1]
-
-    debug_session = DebugSessionsAPI(
-        client=client, env_name="internal-dev", api_name=config.REASONABLE_ADJUSTMENTS_PROXY_NAME,
-        revision_number=latest_revision
-    )
-
-    yield debug_session
-
-    debug_session.delete_debugsession_by_name(session_name="my_session")
-
-
+@pytest.mark.usefixtures("test_teardown")
 class TestProxyCasesSuite:
     """ A test suite to verify all the happy path oauth endpoints """
 
@@ -45,29 +18,31 @@ class TestProxyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_ASID_fetch(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_ASID_fetch(self, test_app_with_attributes, trace, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
-        debug_session.get_debugsessions()
-        debug_session.post_debugsession(session="my_session")
+        trace.get_debugsessions()
+        trace.post_debugsession(session="my_session")
         expected_value = '200000001390'
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
-        transaction_ids = debug_session.get_transaction_data(session_name="my_session")
-        data = debug_session.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
-        actual_asid = debug_session.get_apigee_variable_from_trace(
+        transaction_ids = trace.get_transaction_data(session_name="my_session")
+        data = trace.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
+        actual_asid = trace.get_apigee_variable_from_trace(
             name="app.asid",
             data=data,
         )
+
+        trace.delete_debugsession_by_name(session_name="my_session")
+
         assert_that(expected_value).is_equal_to(actual_asid)
 
-        actual_header_value = debug_session.get_apigee_variable_from_trace(
+        actual_header_value = trace.get_apigee_variable_from_trace(
             name="message.header.NHSD-ASID",
             data=data,
         )
@@ -79,28 +54,29 @@ class TestProxyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_x_request_id_equals_nhsd_request_id(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_x_request_id_equals_nhsd_request_id(self, test_app_with_attributes, trace, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
-        debug_session.post_debugsession(session="my_session")
+        trace.post_debugsession(session="my_session")
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
-        transaction_ids = debug_session.get_transaction_data(session_name="my_session")
-        data = debug_session.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
-        trace_id = debug_session.get_apigee_variable_from_trace(
+        transaction_ids = trace.get_transaction_data(session_name="my_session")
+        data = trace.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
+        trace_id = trace.get_apigee_variable_from_trace(
             name="message.header.NHSD-Request-ID",
             data=data,
         )
-        x_request_id = debug_session.get_apigee_variable_from_trace(
+        x_request_id = trace.get_apigee_variable_from_trace(
             name="message.header.X-Request-ID",
             data=data,
         )
+
+        trace.delete_debugsession_by_name(session_name="my_session")
 
         assert_that(trace_id).is_equal_to(x_request_id)
 
@@ -110,38 +86,39 @@ class TestProxyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_outgoing_request_contains_nhsd_correlation_id_header(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_outgoing_request_contains_nhsd_correlation_id_header(self, test_app_with_attributes, trace, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
-        debug_session.post_debugsession(session="my_session")
+        trace.post_debugsession(session="my_session")
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
-        transaction_ids = debug_session.get_transaction_data(session_name="my_session")
-        data = debug_session.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
-        apigee_message_id = debug_session.get_apigee_variable_from_trace(
+        transaction_ids = trace.get_transaction_data(session_name="my_session")
+        data = trace.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
+        apigee_message_id = trace.get_apigee_variable_from_trace(
             name="messageid",
             data=data,
         )
-        x_correlation_id_header = debug_session.get_apigee_variable_from_trace(
+        x_correlation_id_header = trace.get_apigee_variable_from_trace(
             name="message.header.X-Correlation-ID",
             data=data,
         )
-        x_request_id_header = debug_session.get_apigee_variable_from_trace(
+        x_request_id_header = trace.get_apigee_variable_from_trace(
             name="message.header.X-Request-ID",
             data=data,
         )
-        nhsd_correlation_id_header = debug_session.get_apigee_variable_from_trace(
+        nhsd_correlation_id_header = trace.get_apigee_variable_from_trace(
             name="message.header.NHSD-Correlation-ID",
             data=data,
         )
 
         expected_correlation_id_header = x_request_id_header + '.' + x_correlation_id_header + '.' + apigee_message_id
+
+        trace.delete_debugsession_by_name(session_name="my_session")
 
         assert_that(expected_correlation_id_header).is_equal_to(nhsd_correlation_id_header)
 
@@ -151,25 +128,26 @@ class TestProxyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_valid_ods(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_valid_ods(self, test_app_with_attributes, trace, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
-        debug_session.post_debugsession(session="my_session")
+        trace.post_debugsession(session="my_session")
         expected_ods = 'D82106'
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
-        transaction_ids = debug_session.get_transaction_data(session_name="my_session")
-        data = debug_session.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
-        actual_ods = debug_session.get_apigee_variable_from_trace(
+        transaction_ids = trace.get_transaction_data(session_name="my_session")
+        data = trace.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
+        actual_ods = trace.get_apigee_variable_from_trace(
             name="verifyapikey.VerifyAPIKey.CustomAttributes.ods",
             data=data,
         )
+
+        trace.delete_debugsession_by_name(session_name="my_session")
 
         assert_that(expected_ods).is_equal_to(actual_ods)
 
@@ -179,39 +157,40 @@ class TestProxyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_jwt(self, test_app_with_attributes, debug_session, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_jwt(self, test_app_with_attributes, trace, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
-        debug_session.post_debugsession(session="my_session")
+        trace.post_debugsession(session="my_session")
         expected_jwt_claims = {
             'reason_for_request': 'directcare',
             'scope': 'user/Consent.read',
             'requesting_organization': 'https://fhir.nhs.uk/Id/ods-organization-code|D82106',
             'requesting_system': 'https://fhir.nhs.uk/Id/accredited-system|200000001390',
-            'requesting_user': f'https://fhir.nhs.uk/Id/sds-role-profile-id|555254242103',
-            'sub': f'https://fhir.nhs.uk/Id/sds-role-profile-id|555254242103',
+            'requesting_user': f'https://fhir.nhs.uk/Id/sds-role-profile-id|093895563513',
+            'sub': f'https://fhir.nhs.uk/Id/sds-role-profile-id|093895563513',
             'iss': 'http://api.service.nhs.uk',
-            'aud': f'/{REASONABLE_ADJUSTMENTS_PROXY_PATH}/Consent'
+            'aud': f'{nhsd_apim_proxy_url}/Consent'
         }
 
         # When
-        Utils.send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        Utils.send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
 
         # Then
-        transaction_ids = debug_session.get_transaction_data(session_name="my_session")
-        data = debug_session.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
+        transaction_ids = trace.get_transaction_data(session_name="my_session")
+        data = trace.get_transaction_data_by_id(session_name="my_session", transaction_id=transaction_ids[0])
         # We should pull Authorization header instead but Apigee mask that value, so we get spineJwt variable instead
-        actual_jwt = debug_session.get_apigee_variable_from_trace(
+        actual_jwt = trace.get_apigee_variable_from_trace(
             name="spineJwt",
             data=data,
         )
-
+        print(actual_jwt)
         # We manually decode jwt because, jwt library requires all three segments but we only have two (no signature).
         jwt_segments = actual_jwt.split('.')
         actual_jwt_claims = json.loads(base64.b64decode(jwt_segments[1]))
+
+        trace.delete_debugsession_by_name(session_name="my_session")
 
         assert_that(expected_jwt_claims['reason_for_request']).is_equal_to_ignoring_case(actual_jwt_claims['reason_for_request'])
         assert_that(expected_jwt_claims['scope']).is_equal_to_ignoring_case(actual_jwt_claims['scope'])
@@ -227,10 +206,9 @@ class TestProxyCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_response_contains_request_id_and_correlation_id_headers(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         request_id = str(uuid.uuid4())
@@ -240,7 +218,7 @@ class TestProxyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
-                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'patient': '9693892283',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active',
                 '_from': 'json'
@@ -263,31 +241,25 @@ class TestProxyCasesSuite:
     @pytest.mark.happy_path
     @pytest.mark.integration
     @pytest.mark.smoke
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_status_get(self):
+    def test_status_get(self, nhsd_apim_proxy_url, status_endpoint_auth_headers):
         # Given
         expected_status_code = 200
         # When
         response = requests.get(
-            url=config.REASONABLE_ADJUSTMENTS_STATUS,
-            headers={
-                'apikey': config.STATUS_APIKEY
-            }
+            f"{nhsd_apim_proxy_url}/_status",
+            headers=status_endpoint_auth_headers
         )
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
     @pytest.mark.integration
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
-    def test_ping(self):
+    def test_ping(self, nhsd_apim_proxy_url):
         # Given
         expected_status_code = 200
-        expected_content_type = 'application/json'
 
         # When
-        response = requests.get(url=config.REASONABLE_ADJUSTMENTS_PING)
+        response = requests.get(f"{nhsd_apim_proxy_url}/_ping")
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(expected_content_type).is_equal_to(response.headers['content-type'])

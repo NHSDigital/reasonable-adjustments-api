@@ -2,7 +2,7 @@ import requests
 import time
 import json
 
-from api_tests.config_files import config
+# from api_tests.config_files import config
 from assertpy import assert_that
 import uuid
 
@@ -25,20 +25,6 @@ class Utils:
     """ A Utils class to be used for shared functionality between tests  """
 
     @staticmethod
-    def send_request(nhsd_apim_proxy_url, nhsd_apim_auth_headers) -> requests.Response:
-        response = requests.get(
-            url=f"{nhsd_apim_proxy_url}/Consent",
-            params={'patient': 'test', 'category': 'test', 'status': 'test'},
-            headers={
-                **nhsd_apim_auth_headers,
-                'x-request-id': str(uuid.uuid4()),
-                'x-correlation-id': str(uuid.uuid4())
-            }
-        )
-
-        return response
-
-    @staticmethod
     def get_etag(nhsd_apim_auth_headers, resource_url: str, params):
         response = requests.get(
             url=resource_url,
@@ -52,10 +38,9 @@ class Utils:
         return response.headers['etag']
 
     @staticmethod
-    def send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         expected_status_code = 201
 
-        # FIXME - getting a 400 response with missing headers
         response = requests.post(
             url=f"{nhsd_apim_proxy_url}/Consent",
             json=request_bank.get_body(Request.CONSENT_POST),
@@ -63,6 +48,7 @@ class Utils:
                 **nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'x-correlation-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json'
             })
 
         assert_that(expected_status_code).is_equal_to(response.status_code)
@@ -70,11 +56,11 @@ class Utils:
         return response
 
     @staticmethod
-    def send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def send_consent_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
-                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'patient': '9693892283',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -92,7 +78,7 @@ class Utils:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Flag",
             params={
-                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'patient': '9693892283',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -125,7 +111,7 @@ class Utils:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/List",
             params={
-                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'patient': '9693892283',
                 'status': 'active',
                 'code': 'http://snomed.info/sct|1094391000000102'
             },
@@ -154,7 +140,7 @@ class Utils:
         return response
 
     @staticmethod
-    def send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def send_raremoverecord_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes):
         response = requests.post(
             url=f"{nhsd_apim_proxy_url}/$removerarecord",
             headers={

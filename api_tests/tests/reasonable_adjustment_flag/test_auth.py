@@ -2,7 +2,6 @@ import pytest
 import requests
 import uuid
 from assertpy import assert_that
-from api_tests.config_files import config
 
 
 class TestAuthCasesSuite:
@@ -16,10 +15,9 @@ class TestAuthCasesSuite:
         {
             "access": "healthcare_worker",
             "level": "aal3",
-            "login_form": {"username": "656005750105"},
+            "login_form": {"username": "ra-test-user"},
         }
     )
-    @pytest.mark.skipif("sandbox" in config.REASONABLE_ADJUSTMENTS_PROXY_NAME, reason="Missing jwks for sandbox env.")
     def test_asid_auth(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         expected_status_code = 200
 

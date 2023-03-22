@@ -18,7 +18,7 @@ install-python:
 
 install-node:
 	npm install -g yarn
-	npm install
+	npm install --legacy-peer-deps
 	cd docker/reasonable-adjustment-flag-sandbox && npm install && cd ../../tests && npm install
 
 install-hooks:
@@ -31,7 +31,6 @@ smoketest:
 	-m smoketest
 
 test:
-# 	npm run test
 	$(TEST_CMD) \
 	--junitxml=test-report.xml \
 
@@ -74,17 +73,16 @@ format:
 build-proxy:
 	scripts/build_proxy.sh
 
+#Files to loop over in release
+_dist_include="poetry.lock poetry.toml pyproject.toml Makefile build/. api_tests specification"
+
+#Create /dist/ sub-directory and copy files into directory
 release: clean publish build-proxy
 	mkdir -p dist
-	tar -zcvf dist/package.tar.gz build
-	for env in internal-dev-sandbox internal-qa-sandbox sandbox; do \
-		cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-$$env.yml; \
-	done
-
-	cp -r build/. dist
-	cp -r api_tests dist
-	cp -r tests dist
-	cp -r specification dist
+	for f in $(_dist_include); do cp -r $$f dist; done
+	cp ecs-proxies-deploy.yml dist/ecs-deploy-sandbox.yml
+	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-qa-sandbox.yml
+	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-dev-sandbox.yml
 
 sandbox: update-examples
 	cd docker/reasonable-adjustment-flag-sandbox && npm run start
