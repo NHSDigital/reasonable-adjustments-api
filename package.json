@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "OAS (Swagger v3) API Definition for Reasonable Adjustment Flag API",
   "scripts": {
-    "lint": "node_modules/.bin/speccy lint -s openapi-tags -s operation-tags specification/reasonable-adjustment-flag.yaml --skip default-and-example-are-redundant --skip openapi-tags-alphabetical",
+    "lint": "node_modules/.bin/speccy lint openapi-tags operation-tags specification/reasonable-adjustment-flag.yaml default-and-example-are-redundant openapi-tags-alphabetical",
     "test": "npm run --prefix tests test:sandbox",
     "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/reasonable-adjustment-flag.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py > build/reasonable-adjustment-flag.json",
     "serve": "node_modules/.bin/speccy serve build/reasonable-adjustment-flag.json",
