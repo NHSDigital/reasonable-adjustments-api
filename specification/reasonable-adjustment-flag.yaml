@@ -383,6 +383,8 @@ paths:
         required: true
         content:
           application/fhir+json:
+            schema:
+              type: object
             examples:
               Successful:
                 summary: A successful request.
@@ -498,6 +500,8 @@ paths:
         required: true
         content:
           application/fhir+json:
+            schema:
+              type: object
             examples:
               success:
                 value:
