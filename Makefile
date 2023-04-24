@@ -39,6 +39,8 @@ lint:
 	poetry run flake8 **/*.py
 
 publish:
+	rm -rf build
+	mkdir -p build
 	npm run publish 2> /dev/null
 
 serve: update-examples
