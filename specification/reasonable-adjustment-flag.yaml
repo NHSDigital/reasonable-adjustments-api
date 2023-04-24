@@ -220,7 +220,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/createConsentResponse.json      
+                    $ref: components/examples/createConsentResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -273,7 +273,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/readConsentResponse.json   
+                    $ref: components/examples/readConsentResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -387,7 +387,7 @@ paths:
               Successful:
                 summary: A successful request.
                 value:
-                  $ref: components/examples/createList.json  
+                  $ref: components/examples/createList.json
       responses:
         '201':
           description: Successful response.
@@ -408,7 +408,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/createListResponse.json    
+                    $ref: components/examples/createListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -461,7 +461,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/readListResponse.json 
+                    $ref: components/examples/readListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -818,7 +818,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/removerarecordResponse.json 
+                    $ref: components/examples/removerarecordResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -909,7 +909,7 @@ components:
         This is to ensure that any updates are applied against an up-to-date version of the patient resource.
       schema:
         type: string
-        pattern: "^W\/\"[0-9]+\"$"
+        pattern: "^W/\"[0-9]+\"$"
         example: 'W/"2"'
     consentID:
       name: consentID
@@ -978,7 +978,7 @@ components:
         If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) guidance.
       
         This field is optional.
-        
+
       schema:
         type: string
         pattern: '^[0-9]+$'
