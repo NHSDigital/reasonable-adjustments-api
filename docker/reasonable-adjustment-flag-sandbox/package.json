@@ -11,8 +11,8 @@
   "homepage": "https://github.com/NHSDigital/reasonable-adjustments-api",
   "main": "app.js",
   "dependencies": {
-    "apimocker": "^1.1.4",
     "@hapi/hapi": "18.4.1",
+    "apimocker": "^0.4.9",
     "inert": "^5.1.3"
   },
   "devDependencies": {
