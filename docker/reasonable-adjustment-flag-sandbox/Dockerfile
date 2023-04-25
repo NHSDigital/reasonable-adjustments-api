@@ -1,15 +1,12 @@
-FROM node:19.3.0-alpine3.16
+FROM node:20.0.0-alpine3.16
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --only=production
+RUN npm install
 
 COPY src ./src
-RUN chmod -R a+x /app
-
-USER nobody
 
 EXPOSE 9000
-CMD ["npm", "start"]
+ENTRYPOINT ["npm", "start"]
