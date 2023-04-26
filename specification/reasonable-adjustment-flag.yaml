@@ -24,7 +24,9 @@ info:
 
     To find out more about how the flag works, categories and types of adjustments and the recording of impairments see [How the Reasonable Adjustment Flag works](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
 
-    To watch a video of a Reasonable Adjustment Flag being created in [SCRa](https://digital.nhs.uk/services/summary-care-record-application) see [Creating a Reasonable Adjustment Flag on the NHS Spine](https://www.youtube.com/watch?v=dX-IwYXXEwE). 
+    To watch a video of a Reasonable Adjustment Flag being created in [SCRa](https://digital.nhs.uk/services/summary-care-record-application) see [Creating a Reasonable Adjustment Flag on the NHS Spine](https://www.youtube.com/watch?v=dX-IwYXXEwE).
+    
+    A healthcare worker must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
 
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -117,14 +119,27 @@ info:
 
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
-
-    This API uses our online digital onboarding process.
     
     As part of this process, you need to demonstrate that you can manage risks and that your software conforms technically with the requirements for this API.
     
     Information on this page might impact the design of your software. For details, see [Onboarding support information](https://digital.nhs.uk/developer/api-catalogue/reasonable-adjustment-flag-fhir/onboarding-support-information).
     
-    To get started, see [digital onboarding](https://digital.nhs.uk/developer/guides-and-documentation/digital-onboarding).
+    To understand how our online digital onboarding process works, see [digital onboarding](https://digital.nhs.uk/developer/guides-and-documentation/digital-onboarding).
+    
+    <div class="nhsd-m-emphasis-box nhsd-m-emphasis-box--emphasis nhsd-!t-margin-bottom-6" aria-label="Highlighted Information">
+        <div class="nhsd-a-box nhsd-a-box--border-blue">
+            <div class="nhsd-m-emphasis-box__image-box">
+                <figure class="nhsd-a-image">
+                    <picture class="nhsd-a-image__picture">
+                        <img src="http://digital.nhs.uk/binaries/content/gallery/icons/play-circle.svg?colour=231f20" alt="" style="object-fit:fill">
+                    </picture>
+                </figure>
+            </div>
+            <div class="nhsd-m-emphasis-box__content-box">
+                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">To get started, sign in or create a <a href="http://onboarding.prod.api.platform.nhs.uk/">developer account</a>, then select 'product onboarding'.</p></div>            
+            </div>
+        </div>
+    </div> 
     
     ## Errors
     We use standard HTTP status codes to show whether an API request succeeded or not. They are usually in the range:
@@ -207,7 +222,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/createConsentResponse.json      
+                    $ref: components/examples/createConsentResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -260,7 +275,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/readConsentResponse.json   
+                    $ref: components/examples/readConsentResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -370,11 +385,13 @@ paths:
         required: true
         content:
           application/fhir+json:
+            schema:
+              type: object
             examples:
               Successful:
                 summary: A successful request.
                 value:
-                  $ref: components/examples/createList.json  
+                  $ref: components/examples/createList.json
       responses:
         '201':
           description: Successful response.
@@ -395,7 +412,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/createListResponse.json    
+                    $ref: components/examples/createListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -448,7 +465,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/readListResponse.json 
+                    $ref: components/examples/readListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -485,6 +502,8 @@ paths:
         required: true
         content:
           application/fhir+json:
+            schema:
+              type: object
             examples:
               success:
                 value:
@@ -1139,7 +1158,7 @@ paths:
                 Successful:
                   summary: The response from a successful request.
                   value:
-                    $ref: components/examples/removerarecordResponse.json 
+                    $ref: components/examples/removerarecordResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -1230,7 +1249,7 @@ components:
         This is to ensure that any updates are applied against an up-to-date version of the patient resource.
       schema:
         type: string
-        pattern: "^W\/\"[0-9]+\"$"
+        pattern: "^W/\"[0-9]+\"$"
         example: 'W/"2"'
     consentID:
       name: consentID
@@ -1307,7 +1326,7 @@ components:
         If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) guidance.
       
         This field is optional.
-        
+
       schema:
         type: string
         pattern: '^[0-9]+$'
