@@ -24,7 +24,9 @@ info:
 
     To find out more about how the flag works, categories and types of adjustments and the recording of impairments see [How the Reasonable Adjustment Flag works](https://digital.nhs.uk/services/reasonable-adjustment-flag#how-the-reasonable-adjustment-flag-works).
 
-    To watch a video of a Reasonable Adjustment Flag being created in [SCRa](https://digital.nhs.uk/services/summary-care-record-application) see [Creating a Reasonable Adjustment Flag on the NHS Spine](https://www.youtube.com/watch?v=dX-IwYXXEwE). 
+    To watch a video of a Reasonable Adjustment Flag being created in [SCRa](https://digital.nhs.uk/services/summary-care-record-application) see [Creating a Reasonable Adjustment Flag on the NHS Spine](https://www.youtube.com/watch?v=dX-IwYXXEwE).
+    
+    A healthcare worker must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
 
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
