@@ -1034,14 +1034,8 @@ components:
       $ref: components/schemas/createConsent.yaml
     createFlag:
       $ref: components/schemas/createFlag.yaml
-    createList:
-      $ref: components/schemas/createList.yaml
     errorCode:
       $ref: https://raw.githubusercontent.com/NHSDigital/oas-shared-fragments/master/spine-core/errors/errorCode.yaml
-    flagRemovalReason:
-      $ref: components/schemas/flagRemovalReason.yaml
-    flagSupportingComment:
-      $ref: components/schemas/flagSupportingComment.yaml
     nhsNumber:
       $ref: components/schemas/nhsNumber.yaml
     operationOutcome:
@@ -1058,5 +1052,3 @@ components:
       $ref: components/schemas/supportingComment.yaml
     updateFlag:
       $ref: components/schemas/updateFlag.yaml
-    updateList:
-      $ref: components/schemas/updateList.yaml
