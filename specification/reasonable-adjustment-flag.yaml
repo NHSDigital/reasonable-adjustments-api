@@ -1384,10 +1384,6 @@ components:
       $ref: components/schemas/createList.yaml
     errorCode:
       $ref: https://raw.githubusercontent.com/NHSDigital/oas-shared-fragments/master/spine-core/errors/errorCode.yaml
-    flagRemovalReason:
-      $ref: components/schemas/flagRemovalReason.yaml
-    flagSupportingComment:
-      $ref: components/schemas/flagSupportingComment.yaml
     nhsNumber:
       $ref: components/schemas/nhsNumber.yaml
     operationOutcome:
