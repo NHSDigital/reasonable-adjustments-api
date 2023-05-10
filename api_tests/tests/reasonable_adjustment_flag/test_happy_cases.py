@@ -429,37 +429,3 @@ class TestHappyCasesSuite:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-
-    @pytest.mark.happy_path
-    @pytest.mark.integration
-    @pytest.mark.debug
-    @pytest.mark.nhsd_apim_authorization(
-        {
-            "access": "healthcare_worker",
-            "level": "aal3",
-            "login_form": {"username": "ra-test-user"},
-        }
-    )
-    def test_thresholdcode_get(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
-        # Given
-        expected_status_code = 200
-
-        # When
-        response = requests.get(
-            url=f"{nhsd_apim_proxy_url}/ThresholdCode",
-            params={
-                'patient': '9693892283',
-                'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
-                'status': 'active'
-            },
-            headers={**nhsd_apim_auth_headers,
-                'x-request-id': str(uuid.uuid4()),
-                'content-type': 'application/fhir+json',
-                'Accept': 'application/fhir+json'
-            }
-        )
-
-        print(response.text)
-
-        # Then
-        assert_that(expected_status_code).is_equal_to(response.status_code)
