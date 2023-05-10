@@ -135,21 +135,6 @@
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList") and (request.verb = "POST"))</Condition>
     </Flow>
-    <Flow name="UnderlyingConditionList-PUT">
-      <Request>
-        <Step>
-          <Name>RaiseFault.Invalid-If-Match</Name>
-          <Condition>(request.header.If-Match = null or request.header.If-Match = "")</Condition>
-        </Step>
-        <Step>
-          <Name>ExtractVariables.EndpointName</Name>
-        </Step>
-        <Step>
-          <Name>KeyValueMapOperations.GetInteractionID</Name>
-        </Step>
-      </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList/*") and (request.verb = "PUT"))</Condition>
-    </Flow>
     <Flow name="ThresholdCode-GET">
       <Request>
         <Step>
@@ -164,17 +149,6 @@
         </Step>
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/ThresholdCode") and (request.verb = "GET"))</Condition>
-    </Flow>
-    <Flow name="ThresholdCode-POST">
-      <Request>
-        <Step>
-          <Name>ExtractVariables.EndpointName</Name>
-        </Step>
-        <Step>
-          <Name>KeyValueMapOperations.GetInteractionID</Name>
-        </Step>
-      </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/ThresholdCode") and (request.verb = "POST"))</Condition>
     </Flow>
     <Flow name="List-GET">
       <Request>

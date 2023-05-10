@@ -27,17 +27,4 @@ const underlyingConditionListPost = {
     }
 };
 
-const underlyingConditionListPut = {
-    method: 'PUT',
-    path: '/UnderlyingCondition/{UnderlyingConditionListID}',
-    handler: (request, h) => {
-        const path = 'underlyingConditionListPUT.json'
-        return h.file(path)
-        .header('content-type', 'application/fhir+json')
-        .header('Date', 'Thur, 25 Jul 2018 11:00:00 GMT')
-        .header('Last-Modified', '2018-07-24T10:01:00+00:00')
-        .header('Etag', 'W/"aa755bd6-2be9-4971-972a-6724879c5cb1”');
-    }
-};
-
-module.exports = [underlyingConditionListGet, underlyingConditionListPost, underlyingConditionListPut]
+module.exports = [underlyingConditionListGet, underlyingConditionListPost]

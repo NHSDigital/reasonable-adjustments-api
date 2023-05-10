@@ -96,15 +96,6 @@
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList") and (request.verb = "POST"))</Condition>
     </Flow>
-    <Flow name="UnderlyingConditionList-PUT">
-      <Request>
-        <Step>
-          <Name>RaiseFault.400BadRequest</Name>
-          <Condition>((request.content = "") and (request.header.If-Match = null))</Condition>
-        </Step>
-      </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList/*") and (request.verb = "PUT"))</Condition>
-    </Flow>
     <Flow name="ThresholdCode-GET">
       <Request>
         <Step>
@@ -113,15 +104,6 @@
         </Step>
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/ThresholdCode") and (request.verb = "GET"))</Condition>
-    </Flow>
-    <Flow name="ThresholdCode-POST">
-      <Request>
-        <Step>
-          <Name>RaiseFault.400BadRequest</Name>
-          <Condition>request.content = ""</Condition>
-        </Step>
-      </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/ThresholdCode") and (request.verb = "POST"))</Condition>
     </Flow>
     <Flow name="list-GET">
       <Request>

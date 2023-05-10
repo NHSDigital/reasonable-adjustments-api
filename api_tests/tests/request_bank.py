@@ -12,7 +12,6 @@ class Request(enum.Enum):
     FLAG_PUT = 'updateFlag.json'
     FLAG_POST = 'createFlag.json'
     UnderlyingConditionList_POST = 'createUnderlyingConditionList.json'
-    UnderlyingConditionList_PUT = 'updateUnderlyingConditionList.json'
     LIST_POST = 'createList.json'
     LIST_PUT = 'updateList.json'
 
