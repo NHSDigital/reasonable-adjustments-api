@@ -429,3 +429,102 @@ class TestHappyCasesSuite:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "ra-test-user"},
+        }
+    )
+    def test_thresholdcode_get(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Given
+        expected_status_code = 200
+
+        # When
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/ThresholdCode",
+            params={
+                'patient': '9693892283',
+                'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
+                'status': 'active'
+            },
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json'
+            }
+        )
+
+        print(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "ra-test-user"},
+        }
+    )
+    def test_underlyingCondition_get(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Given
+        expected_status_code = 200
+
+        # When
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
+            params={
+                'patient': '9693892283',
+                'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
+                'status': 'active'
+            },
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json'
+            }
+        )
+
+        print(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "ra-test-user"},
+        }
+    )
+    def test_underlyingCondition_post(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Pre-Req: Patient has a consent
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
+
+        # Given
+        expected_status_code = 201
+
+        # When
+        response = requests.post(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json',
+            },
+            json=request_bank.get_body(Request.UnderlyingConditionList_POST),
+        )
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)

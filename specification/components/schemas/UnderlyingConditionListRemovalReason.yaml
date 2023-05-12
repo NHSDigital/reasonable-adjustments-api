@@ -1,0 +1,22 @@
+type: object
+properties:
+    url:
+        type: string
+        example: "removalReason"
+    valueCodeableConcept:
+        type: object
+        properties:
+            coding:
+                type: array
+                items:
+                    type: object
+                    properties:
+                        system:
+                            type: string
+                            example: "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1"
+                        code:
+                            type: string
+                            example: "Error"
+                        display:
+                            type: string
+                            example: "The Reasonable Adjustment Underlying Condition List was created in error"

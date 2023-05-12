@@ -784,6 +784,193 @@ paths:
         4XX:
           description: "Outcome of an operation that does not result in a resource or bundle being returned (e.g. error, async/batch submission).\nThere are a number of possible error codes that can be returned along with a more detailed description in the `display` field.\nThere are general outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| ACCESS_DENIED              | 401           | Used when the user does not have permission for a particular request. e.g. when their ASID does not have the correct interactions attached to it. \t|\n| UNABLE_TO_CALL_SERVICE     | 408           | For a synchronous request, the downstream domain processing has not completed within the configured timeout period. |\n| UNSUPPORTED_SERVICE        | 400           | The service the user requested is an endpoint that does not exist - so is unsupported. e.g. /Patient/9999999999/Pets |\n| RESOURCE_NOT_FOUND         | 404           | The resource was not found. |\n| INVALID_RESOURCE_ID        | 400           | The resource ID was not valid. For example a NHS number is presented which is not a valid NHS number. |\n| INVALIDATED_RESOURCE       | 404           | The resource has been invalidated so could not be returned. |\n\nUpdate outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| PRECONDITION_FAILED        | 412           | Request missing basic requirements such as If-Match header (or invalid headers). |\n| RESOURCE_VERSION_MISMATCH  | 409           | The resource version has changed since your last read, so the update has been rejected. |\n| FORBIDDEN_UPDATE           | 403           | The user is not permitted to update certain resources or elements - a detailed description will be added to the display. For example - updating a sensitive patient or adding a formal death notification is only permitted from certain systems. |\n| VALIDATION_ERROR           | 400           | This it the \"default\" error thrown when no others are applicable. |\n| INVALID_UPDATE             | 400           | The update was invalid - a detailed description will be added to the display. |\n| MISSING_VALUE              | 400           | There was a missing value in the request. For example - a name update that is missing the surname. The missing value will be presented in the display.\t|\n| INVALID_VALUE              | 400           | There was an invalid value in the request. For example - a name update where the surname is too long. The invalid value and field will be presented in the display. |\n| UNSUPPORTED_VALUE          | 400           | There was an unsupported value in the request. The value may be valid in the schema - however it could be a legacy value that we do not allow to be set anymore. For example - setting the death notification status to 'removed'. The invalid value and field will be presented in the display. |\n| TOO_FEW_VALUES_SUBMITTED   | 400           | The field in question has a minimum number of items and the user sent too few. |\n| TOO_MANY_VALUES_SUBMITTED  | 400           | The field in question has a maximum number of items and the user sent too many. |\n| ADDITIONAL_PROPERTIES      | 400           | The user sent additional properties within the dictionary. For example sending a patient patch and attempting to add 'pets', which is not an allowed field within the patient resource. |\n\nPolling outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| POLLING_ID_NOT_FOUND       | 404           | When polling the ID was not found - or it was not applicable such as a non polling ID.\t|\n| POLLING_MESSAGE_FAILURE    | 422           | When polling an ID, a message was found to be in a failed state, so there is nothing else to be done and should be considered a failure. |\n"
 
+  /UnderlyingConditionList:
+    post:
+      summary: Add Underlying Condition
+      description: |-
+        ## Overview
+        Use this endpoint to add underlying condition against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine).
+
+
+      operationId: postUnderlyingCondition
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+      requestBody:
+        description: Add Underlying Condition
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              $ref: components/schemas/createUnderlyingConditionList.yaml
+            examples:
+              success:
+                value:
+                  $ref: components/examples/createUnderlyingConditionList.json
+      responses:
+        '201':
+          description: Successful response.
+          headers:
+            ETag:
+              $ref: components/schemas/ETag.yaml
+            Date:
+              $ref: components/schemas/Date.yaml
+            Last-Modified:
+              $ref: components/schemas/Last-Modified.yaml
+            Location:
+              $ref: components/schemas/Location.yaml
+            Content-Type:
+              $ref: components/schemas/Content-Type.yaml
+          content:
+            application/json:
+              examples:
+                Successful:
+                  summary: The response from a successful request.
+                  value:
+                    $ref: components/examples/createUnderlyingConditionListResponse.json
+        '400':
+          description: Invalid parameters.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: https://raw.githubusercontent.com/NHSDigital/oas-shared-fragments/master/spine-core/errors/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: 'https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1'
+                              code: INVALID_NHS_NUMBER
+                              display: Invalid NHS number
+        4XX:
+          description: "Outcome of an operation that does not result in a resource or bundle being returned (e.g. error, async/batch submission).\nThere are a number of possible error codes that can be returned along with a more detailed description in the `display` field.\nThere are general outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| ACCESS_DENIED              | 401           | Used when the user does not have permission for a particular request. e.g. when their ASID does not have the correct interactions attached to it. \t|\n| UNABLE_TO_CALL_SERVICE     | 408           | For a synchronous request, the downstream domain processing has not completed within the configured timeout period. |\n| UNSUPPORTED_SERVICE        | 400           | The service the user requested is an endpoint that does not exist - so is unsupported. e.g. /Patient/9999999999/Pets |\n| RESOURCE_NOT_FOUND         | 404           | The resource was not found. |\n| INVALID_RESOURCE_ID        | 400           | The resource ID was not valid. For example a NHS number is presented which is not a valid NHS number. |\n| INVALIDATED_RESOURCE       | 404           | The resource has been invalidated so could not be returned. |\n\nUpdate outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| PRECONDITION_FAILED        | 412           | Request missing basic requirements such as If-Match header (or invalid headers). |\n| RESOURCE_VERSION_MISMATCH  | 409           | The resource version has changed since your last read, so the update has been rejected. |\n| FORBIDDEN_UPDATE           | 403           | The user is not permitted to update certain resources or elements - a detailed description will be added to the display. For example - updating a sensitive patient or adding a formal death notification is only permitted from certain systems. |\n| VALIDATION_ERROR           | 400           | This it the \"default\" error thrown when no others are applicable. |\n| INVALID_UPDATE             | 400           | The update was invalid - a detailed description will be added to the display. |\n| MISSING_VALUE              | 400           | There was a missing value in the request. For example - a name update that is missing the surname. The missing value will be presented in the display.\t|\n| INVALID_VALUE              | 400           | There was an invalid value in the request. For example - a name update where the surname is too long. The invalid value and field will be presented in the display. |\n| UNSUPPORTED_VALUE          | 400           | There was an unsupported value in the request. The value may be valid in the schema - however it could be a legacy value that we do not allow to be set anymore. For example - setting the death notification status to 'removed'. The invalid value and field will be presented in the display. |\n| TOO_FEW_VALUES_SUBMITTED   | 400           | The field in question has a minimum number of items and the user sent too few. |\n| TOO_MANY_VALUES_SUBMITTED  | 400           | The field in question has a maximum number of items and the user sent too many. |\n| ADDITIONAL_PROPERTIES      | 400           | The user sent additional properties within the dictionary. For example sending a patient patch and attempting to add 'pets', which is not an allowed field within the patient resource. |\n\nPolling outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| POLLING_ID_NOT_FOUND       | 404           | When polling the ID was not found - or it was not applicable such as a non polling ID.\t|\n| POLLING_MESSAGE_FAILURE    | 422           | When polling an ID, a message was found to be in a failed state, so there is nothing else to be done and should be considered a failure. |\n                  \n"
+
+    get:
+      summary: Get underlying condition
+      description: |-
+        ## Overview
+        Use this endpoint to view underlying conditions against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine). 
+      operationId: readUnderlyingCondition
+      parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+      responses:
+        '200':
+          description: Successful response.
+          headers:
+            Date:
+              $ref: components/schemas/Date.yaml
+            Content-Type:
+              $ref: components/schemas/Content-Type.yaml
+          content:
+            application/json:
+              examples:
+                0 UnderlyingConditionList:
+                  summary: The response from a successful request (0 UnderlyingConditionList).
+                  value:
+                    $ref: components/examples/readZeroUnderlyingConditionListResponse.json
+                1 UnderlyingConditionList:
+                  summary: The response from a successful request (1 UnderlyingConditionList).
+                  value:
+                    $ref: components/examples/readOneUnderlyingConditionListResponse.json
+                2 UnderlyingConditionList:
+                  summary: The response from a successful request (2 UnderlyingConditionList).
+                  value:
+                    $ref: components/examples/readTwoUnderlyingConditionListResponse.json
+        '400':
+          description: Invalid parameters.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: https://raw.githubusercontent.com/NHSDigital/oas-shared-fragments/master/spine-core/errors/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: 'https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1'
+                              code: INVALID_NHS_NUMBER
+                              display: Invalid NHS number
+        4XX:
+          description: "Outcome of an operation that does not result in a resource or bundle being returned (e.g. error, async/batch submission).\nThere are a number of possible error codes that can be returned along with a more detailed description in the `display` field.\nThere are general outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| ACCESS_DENIED              | 401           | Used when the user does not have permission for a particular request. e.g. when their ASID does not have the correct interactions attached to it. \t|\n| UNABLE_TO_CALL_SERVICE     | 408           | For a synchronous request, the downstream domain processing has not completed within the configured timeout period. |\n| UNSUPPORTED_SERVICE        | 400           | The service the user requested is an endpoint that does not exist - so is unsupported. e.g. /Patient/9999999999/Pets |\n| RESOURCE_NOT_FOUND         | 404           | The resource was not found. |\n| INVALID_RESOURCE_ID        | 400           | The resource ID was not valid. For example a NHS number is presented which is not a valid NHS number. |\n| INVALIDATED_RESOURCE       | 404           | The resource has been invalidated so could not be returned. |\n\nUpdate outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| PRECONDITION_FAILED        | 412           | Request missing basic requirements such as If-Match header (or invalid headers). |\n| RESOURCE_VERSION_MISMATCH  | 409           | The resource version has changed since your last read, so the update has been rejected. |\n| FORBIDDEN_UPDATE           | 403           | The user is not permitted to update certain resources or elements - a detailed description will be added to the display. For example - updating a sensitive patient or adding a formal death notification is only permitted from certain systems. |\n| VALIDATION_ERROR           | 400           | This it the \"default\" error thrown when no others are applicable. |\n| INVALID_UPDATE             | 400           | The update was invalid - a detailed description will be added to the display. |\n| MISSING_VALUE              | 400           | There was a missing value in the request. For example - a name update that is missing the surname. The missing value will be presented in the display.\t|\n| INVALID_VALUE              | 400           | There was an invalid value in the request. For example - a name update where the surname is too long. The invalid value and field will be presented in the display. |\n| UNSUPPORTED_VALUE          | 400           | There was an unsupported value in the request. The value may be valid in the schema - however it could be a legacy value that we do not allow to be set anymore. For example - setting the death notification status to 'removed'. The invalid value and field will be presented in the display. |\n| TOO_FEW_VALUES_SUBMITTED   | 400           | The field in question has a minimum number of items and the user sent too few. |\n| TOO_MANY_VALUES_SUBMITTED  | 400           | The field in question has a maximum number of items and the user sent too many. |\n| ADDITIONAL_PROPERTIES      | 400           | The user sent additional properties within the dictionary. For example sending a patient patch and attempting to add 'pets', which is not an allowed field within the patient resource. |\n\nPolling outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| POLLING_ID_NOT_FOUND       | 404           | When polling the ID was not found - or it was not applicable such as a non polling ID.\t|\n| POLLING_MESSAGE_FAILURE    | 422           | When polling an ID, a message was found to be in a failed state, so there is nothing else to be done and should be considered a failure. |\n"
+
+  /ThresholdCode:
+    get:
+      summary: Get ThresholdCode
+      description: |-
+        ## Overview
+        Use this endpoint to view ThresholdCode  against the patient record on the [NHS Spine](https://digital.nhs.uk/services/spine). 
+      operationId: readThresholdCode
+      parameters:
+        - $ref: '#/components/parameters/patient'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+      responses:
+        '200':
+          description: Successful response.
+          headers:
+            Date:
+              $ref: components/schemas/Date.yaml
+            Content-Type:
+              $ref: components/schemas/Content-Type.yaml
+          content:
+            application/json:
+              examples:
+                0 ThresholdCode:
+                  summary: The response from a successful request (0 ThresholdCode).
+                  value:
+                    $ref: components/examples/readZeroThresholdCodeResponse.json
+                1 ThresholdCode:
+                  summary: The response from a successful request (1 ThresholdCode).
+                  value:
+                    $ref: components/examples/readOneThresholdCodeResponse.json
+                2 ThresholdCode:
+                  summary: The response from a successful request (2 ThresholdCode).
+                  value:
+                    $ref: components/examples/readTwoThresholdCodeResponse.json
+        '400':
+          description: Invalid parameters.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: https://raw.githubusercontent.com/NHSDigital/oas-shared-fragments/master/spine-core/errors/operationOutcome.yaml
+              examples:
+                invalid-nhsNumber:
+                  summary: Invalid NHS number for patient supplied.
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        code: value
+                        details:
+                          coding:
+                            - system: 'https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1'
+                              code: INVALID_NHS_NUMBER
+                              display: Invalid NHS number
+        4XX:
+          description: "Outcome of an operation that does not result in a resource or bundle being returned (e.g. error, async/batch submission).\nThere are a number of possible error codes that can be returned along with a more detailed description in the `display` field.\nThere are general outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| ACCESS_DENIED              | 401           | Used when the user does not have permission for a particular request. e.g. when their ASID does not have the correct interactions attached to it. \t|\n| UNABLE_TO_CALL_SERVICE     | 408           | For a synchronous request, the downstream domain processing has not completed within the configured timeout period. |\n| UNSUPPORTED_SERVICE        | 400           | The service the user requested is an endpoint that does not exist - so is unsupported. e.g. /Patient/9999999999/Pets |\n| RESOURCE_NOT_FOUND         | 404           | The resource was not found. |\n| INVALID_RESOURCE_ID        | 400           | The resource ID was not valid. For example a NHS number is presented which is not a valid NHS number. |\n| INVALIDATED_RESOURCE       | 404           | The resource has been invalidated so could not be returned. |\n\nUpdate outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| PRECONDITION_FAILED        | 412           | Request missing basic requirements such as If-Match header (or invalid headers). |\n| RESOURCE_VERSION_MISMATCH  | 409           | The resource version has changed since your last read, so the update has been rejected. |\n| FORBIDDEN_UPDATE           | 403           | The user is not permitted to update certain resources or elements - a detailed description will be added to the display. For example - updating a sensitive patient or adding a formal death notification is only permitted from certain systems. |\n| VALIDATION_ERROR           | 400           | This it the \"default\" error thrown when no others are applicable. |\n| INVALID_UPDATE             | 400           | The update was invalid - a detailed description will be added to the display. |\n| MISSING_VALUE              | 400           | There was a missing value in the request. For example - a name update that is missing the surname. The missing value will be presented in the display.\t|\n| INVALID_VALUE              | 400           | There was an invalid value in the request. For example - a name update where the surname is too long. The invalid value and field will be presented in the display. |\n| UNSUPPORTED_VALUE          | 400           | There was an unsupported value in the request. The value may be valid in the schema - however it could be a legacy value that we do not allow to be set anymore. For example - setting the death notification status to 'removed'. The invalid value and field will be presented in the display. |\n| TOO_FEW_VALUES_SUBMITTED   | 400           | The field in question has a minimum number of items and the user sent too few. |\n| TOO_MANY_VALUES_SUBMITTED  | 400           | The field in question has a maximum number of items and the user sent too many. |\n| ADDITIONAL_PROPERTIES      | 400           | The user sent additional properties within the dictionary. For example sending a patient patch and attempting to add 'pets', which is not an allowed field within the patient resource. |\n\nPolling outcomes:\n\n| Code                       | Response Code | Description                                   |\n| -------------------------- | ------------- | --------------------------------------------- |\n| POLLING_ID_NOT_FOUND       | 404           | When polling the ID was not found - or it was not applicable such as a non polling ID.\t|\n| POLLING_MESSAGE_FAILURE    | 422           | When polling an ID, a message was found to be in a failed state, so there is nothing else to be done and should be considered a failure. |\n"
+
   /$removerarecord:
     post:
       summary: Remove Reasonable Adjustment Flag record
@@ -1034,6 +1221,10 @@ components:
       $ref: components/schemas/createConsent.yaml
     createFlag:
       $ref: components/schemas/createFlag.yaml
+    createUnderlyingConditionList:
+      $ref: components/schemas/createUnderlyingConditionList.yaml
+    createList:
+      $ref: components/schemas/createList.yaml
     errorCode:
       $ref: https://raw.githubusercontent.com/NHSDigital/oas-shared-fragments/master/spine-core/errors/errorCode.yaml
     nhsNumber:
@@ -1052,3 +1243,5 @@ components:
       $ref: components/schemas/supportingComment.yaml
     updateFlag:
       $ref: components/schemas/updateFlag.yaml
+    updateList:
+      $ref: components/schemas/updateList.yaml

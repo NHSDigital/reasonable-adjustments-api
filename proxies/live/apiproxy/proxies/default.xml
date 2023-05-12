@@ -109,6 +109,47 @@
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/Flag/*") and (request.verb = "PUT"))</Condition>
     </Flow>
+    <Flow name="UnderlyingConditionList-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.InvalidQueryParams</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="UnderlyingConditionList-POST">
+      <Request>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="ThresholdCode-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.InvalidQueryParams</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
+        </Step>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/ThresholdCode") and (request.verb = "GET"))</Condition>
+    </Flow>
     <Flow name="List-GET">
       <Request>
         <Step>
