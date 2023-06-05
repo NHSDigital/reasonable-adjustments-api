@@ -496,3 +496,28 @@ class TestErrorCaseSuite:
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
         assert_that(expected_diagnostic).is_equal_to_ignoring_case(actual_response['issue'][0]['diagnostics'])
+
+    @pytest.mark.errors
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "ra-test-user"},
+        }
+    )
+    def test_demo_header(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Given
+        expected_status_code = 400
+
+        # When
+        response = requests.post(
+            url=f"{nhsd_apim_proxy_url}/Consent",
+            json=request_bank.get_body(Request.CONSENT_POST),
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json'
+            }
+        )
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
