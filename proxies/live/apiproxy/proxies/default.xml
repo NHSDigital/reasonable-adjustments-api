@@ -5,7 +5,7 @@
       <Step>
         <Name>AssignMessage.Errors.Default</Name>
       </Step>
-    </Request> 
+    </Request>
   </PreFlow>
     <DefaultFaultRule>
       <Step>
@@ -50,6 +50,10 @@
       <Request>
         <Step>
           <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>RaiseFault.TestHeader</Name>
+          <Condition>request.header.demo = null</Condition>
         </Step>
         <Step>
           <Name>KeyValueMapOperations.GetInteractionID</Name>
