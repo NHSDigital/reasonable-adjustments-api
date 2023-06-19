@@ -19,8 +19,8 @@ APIGEE_ENVIRONMENTS:
   - name: prod
     approval_type: manual
     display_name_suffix: Production
-    quota: 21000
-    ratelimit: 42000pm # 540 requests per second
+    quota: '21000'
+    ratelimit: '42000pm' # 540 requests per second
 
 ACCESS_MODES:
   - name: user-restricted
