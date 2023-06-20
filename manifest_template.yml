@@ -16,6 +16,11 @@ APIGEE_ENVIRONMENTS:
   - name: int
     ratelimit: '20ps'
     display_name_suffix: Integration Testing
+  - name: prod
+    approval_type: manual
+    display_name_suffix: Production
+    quota: '21000'
+    ratelimit: '42000pm' # 540 requests per second
 
 ACCESS_MODES:
   - name: user-restricted
