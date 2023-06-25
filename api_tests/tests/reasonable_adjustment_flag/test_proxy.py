@@ -254,6 +254,7 @@ class TestProxyCasesSuite:
         assert_that(expected_status_code).is_equal_to(response.status_code)
 
     @pytest.mark.integration
+    @pytest.mark.smoke
     def test_ping(self, nhsd_apim_proxy_url):
         # Given
         expected_status_code = 200
