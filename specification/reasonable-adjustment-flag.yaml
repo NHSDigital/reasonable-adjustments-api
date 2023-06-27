@@ -187,7 +187,6 @@ paths:
         For full details of the request payload for this endpoint, see [RARecord-Consent-1](https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Consent-1).
       operationId: postConsent
       parameters:
-        - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
