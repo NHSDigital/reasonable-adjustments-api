@@ -49,6 +49,10 @@
     <Flow name="Consent-POST">
       <Request>
         <Step>
+          <Name>RaiseFault.DemoHeader</Name>
+          <Condition>request.header.demo = null</Condition>
+        </Step>
+        <Step>
           <Name>ExtractVariables.EndpointName</Name>
         </Step>
         <Step>
