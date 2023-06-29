@@ -43,6 +43,7 @@ def test_wait_for_ping(proxy_url):
 
 @pytest.mark.integration
 @pytest.mark.smoke
+@pytest.mark.happy_path
 def test_status(proxy_url):
     resp = requests.get(
         f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")}
@@ -51,7 +52,8 @@ def test_status(proxy_url):
     # Make some additional assertions about your status response here!
 
 
-@pytest.mark.smoketest
+@pytest.mark.integration
+@pytest.mark.smoke
 def test_wait_for_status(proxy_url):
     retries = 0
     resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")})

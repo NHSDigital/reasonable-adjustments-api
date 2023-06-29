@@ -238,18 +238,3 @@ class TestProxyCasesSuite:
         assert_that(response.headers).contains_key('x-correlation-id')
         assert_that(correlation_id).is_equal_to(response.headers['x-correlation-id'])
 
-    @pytest.mark.happy_path
-    @pytest.mark.integration
-    @pytest.mark.smoke
-    def test_status_get(self, nhsd_apim_proxy_url, status_endpoint_auth_headers):
-        # Given
-        expected_status_code = 200
-        # When
-        response = requests.get(
-            f"{nhsd_apim_proxy_url}/_status",
-            headers=status_endpoint_auth_headers
-        )
-
-        # Then
-        assert_that(expected_status_code).is_equal_to(response.status_code)
-
