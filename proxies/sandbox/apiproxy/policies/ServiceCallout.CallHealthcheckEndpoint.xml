@@ -7,7 +7,7 @@
     </Request>
     <Response>healthcheckResponse</Response>
     <HTTPTargetConnection>
-        {% raw %}{{ HOSTED_TARGET_HEALTHCHECK }}{% endraw %}
+        {% raw %}{{ HOSTED_TARGET_CONNECTION }}{% endraw %}
     </HTTPTargetConnection>
     <Timeout>20000</Timeout>
 </ServiceCallout>
