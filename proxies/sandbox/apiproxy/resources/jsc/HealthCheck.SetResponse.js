@@ -18,7 +18,6 @@ const healthcheck_status = (healthcheck_status_code/100 === 2) ? "pass" : "fail"
 const timeout = (healthcheck_status_code === null && healthcheck_failed) ? "true" : "false";
 
 const final_status = (healthcheck_status !== "pass") ? "fail" : "pass";
-{% raw %}
 const resp = {
     "status" : final_status,
     "version" : "{{ DEPLOYED_VERSION }}" ,
@@ -35,7 +34,6 @@ const resp = {
         }
     }
 };
-{% endraw %}
 context.setVariable("status.response", JSON.stringify(resp));
 context.setVariable("response.content", JSON.stringify(resp));
 context.setVariable("response.header.Content-Type", "application/json");
