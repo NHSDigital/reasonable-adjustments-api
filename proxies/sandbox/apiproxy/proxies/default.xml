@@ -9,10 +9,23 @@
       </Response>
       <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
     </Flow>
-    <Flow name="statusEndpoint">
-      <Request/>
-      <Response/>
-      <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+    <Flow name="StatusEndpoint">
+      <Request>
+        <Step>
+          <Condition>request.header.apikey = null or private.common.status-endpoint-api-key != request.header.apikey</Condition>
+          <Name>RaiseFault.401Unauthorized</Name>
+        </Step>
+        <Step>
+          <Name>ServiceCallout.CallHealthcheckEndpoint</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>javascript.SetStatusResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))
+      </Condition>
     </Flow>
     <Flow name="AddPayloadToPing">
       <Description/>
@@ -147,24 +160,6 @@
           <Name>RaiseFault.404NotFound</Name>
         </Step>
       </Request>
-    </Flow>
-    <Flow name="StatusEndpoint">
-      <Request>
-        <Step>
-          <Condition>request.header.apikey = null or private.common.status-endpoint-api-key != request.header.apikey</Condition>
-          <Name>RaiseFault.401Unauthorized</Name>
-        </Step>
-        <Step>
-          <Name>ServiceCallout.CallHealthcheckEndpoint</Name>
-        </Step>
-      </Request>
-      <Response>
-        <Step>
-          <Name>javascript.SetStatusResponse</Name>
-        </Step>
-      </Response>
-      <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))
-      </Condition>
     </Flow>
   </Flows>
 
