@@ -148,6 +148,24 @@
         </Step>
       </Request>
     </Flow>
+    <Flow name="StatusEndpoint">
+      <Request>
+        <Step>
+          <Condition>request.header.apikey = null or private.common.status-endpoint-api-key != request.header.apikey</Condition>
+          <Name>RaiseFault.401Unauthorized</Name>
+        </Step>
+        <Step>
+          <Name>ServiceCallout.CallHealthcheckEndpoint</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>javascript.SetStatusResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))
+      </Condition>
+    </Flow>
   </Flows>
 
   <HTTPProxyConnection>
@@ -160,9 +178,8 @@
    <RouteRule name="NoRoutePing">
     <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
   </RouteRule>
-  <RouteRule name="status">
+  <RouteRule name="NoRouteStatus">
     <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
-    <TargetEndpoint>status</TargetEndpoint>
   </RouteRule>
   <RouteRule name="apim">
     <TargetEndpoint>apim</TargetEndpoint>
