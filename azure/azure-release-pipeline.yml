@@ -31,6 +31,8 @@ extends:
     service_name: ${{ variables.service_name }}
     short_service_name: ${{ variables.short_service_name }}
     service_base_path: ${{ variables.service_base_path }}
+    prod_producer_approval: true
+    prod_requires_approval: true
     enable_monitoring: true
     enable_status_monitoring: true
     apigee_deployments:
@@ -59,3 +61,13 @@ extends:
         depends_on:
             - internal_qa
             - internal_qa_sandbox
+      - environment: prod
+        proxy_path: live
+        depends_on:              # which environments to depend on before deploying
+            - int
+            - sandbox
+        post_deploy:
+            - template: templates/tests.yml
+              parameters:
+                  service_name: ${{ variables.service_name }}
+        
