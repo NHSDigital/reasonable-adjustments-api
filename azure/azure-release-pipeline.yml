@@ -69,5 +69,6 @@ extends:
         post_deploy:
             - template: templates/tests.yml
               parameters:
+                  environment: 'prod'
                   service_name: ${{ variables.service_name }}
         
