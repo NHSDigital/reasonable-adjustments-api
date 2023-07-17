@@ -49,8 +49,8 @@ apigee:
 {% for env in APIGEE_ENVIRONMENTS %}
 {% set portal_visibility = env.portal_visibility | default('true') %}
 {% set approval_type = env.approval_type | default('auto') %}
-    - name: {{ env.name }}
-      products:
+  - name: {{ env.name }}
+    products:
 {% for mode in ACCESS_MODES %}
         - name: reasonable-adjustment-flag-{{ env.name }}{{ mode.nameSuffix }}
           approvalType: {{ approval_type }}
@@ -77,10 +77,10 @@ apigee:
           quotaInterval: '1'
           quotaTimeUnit: minute
 {% endfor %}
-      specs:
+    specs:
         - name: reasonable-adjustment-flag-{{ env.name }}
           path: reasonable-adjustment-flag.json
-      api_catalog:
+    api_catalog:
 {% for mode in ACCESS_MODES %}
         - edgeAPIProductName: reasonable-adjustment-flag-{{ env.name }}{{ mode.nameSuffix }}
           anonAllowed: true
