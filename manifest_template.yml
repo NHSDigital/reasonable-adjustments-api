@@ -48,46 +48,46 @@ apigee:
   environments:
 {% for env in APIGEE_ENVIRONMENTS %}
 {% set portal_visibility = env.portal_visibility | default('true') %}
+    - name: {{ env.name }}
+      products:
 {% set approval_type = env.approval_type | default('auto') %}
-  - name: {{ env.name }}
-    products:
 {% for mode in ACCESS_MODES %}
-        - name: reasonable-adjustment-flag-{{ env.name }}{{ mode.nameSuffix }}
-          approvalType: {{ approval_type }}
-          attributes:
-            - name: access
-              value: public
-            - name: ratelimit
-              value: {{ env.ratelimit | default('5ps') }}
-          description: {{ mode.description }}
-          displayName: Reasonable Adjustment Flag Api - {{ mode.displayName }} ({{ env.display_name_suffix }})
-          environments: [ {{ env.name }} ]
-          proxies:
-            - reasonable-adjustment-flag-{{ env.name }}
-            - identity-service-{{ env.name }}
+      - name: reasonable-adjustment-flag-{{ env.name }}{{ mode.nameSuffix }}
+        approvalType: {{ approval_type }}
+        attributes:
+          - name: access
+            value: public
+          - name: ratelimit
+            value: {{ env.ratelimit | default('5ps') }}
+        description: {{ mode.description }}
+        displayName: Reasonable Adjustment Flag Api - {{ mode.displayName }} ({{ env.display_name_suffix }})
+        environments: [ {{ env.name }} ]
+        proxies:
+          - reasonable-adjustment-flag-{{ env.name }}
+          - identity-service-{{ env.name }}
 {% if env.name == 'int' %}
-            - identity-service-{{ env.name }}-no-smartcard
-            - identity-service-mock-{{ env.name }}
+          - identity-service-{{ env.name }}-no-smartcard
+          - identity-service-mock-{{ env.name }}
 {% endif %}
 {% if env.name == 'internal-dev' or env.name == 'internal-qa' %}
-            - identity-service-mock-{{ env.name }}
+          - identity-service-mock-{{ env.name }}
 {% endif %}
-          scopes: {{ mode.scopes }}
-          quota: {{ env.quota | default('300') }}
-          quotaInterval: '1'
-          quotaTimeUnit: minute
+        scopes: {{ mode.scopes }}
+        quota: {{ env.quota | default('300') }}
+        quotaInterval: '1'
+        quotaTimeUnit: minute
 {% endfor %}
-    specs:
-        - name: reasonable-adjustment-flag-{{ env.name }}
-          path: reasonable-adjustment-flag.json
-    api_catalog:
+      specs:
+      - name: reasonable-adjustment-flag-{{ env.name }}
+        path: reasonable-adjustment-flag.json
+      api_catalog:
 {% for mode in ACCESS_MODES %}
-        - edgeAPIProductName: reasonable-adjustment-flag-{{ env.name }}{{ mode.nameSuffix }}
-          anonAllowed: true
-          description: Reasonable Adjustment Flag Api - {{ mode.displayName|lower  }} access mode - {{ env.display_name_suffix|lower }} environment
-          requireCallbackUrl: {{ mode.requireCallbackUrl }}
-          title: Reasonable Adjustment Flag Api - {{ mode.displayName }} ({{ env.display_name_suffix }})
-          visibility: {{ portal_visibility }}
-          specId: reasonable-adjustment-flag-{{ env.name }}
+      - edgeAPIProductName: reasonable-adjustment-flag-{{ env.name }}{{ mode.nameSuffix }}
+        anonAllowed: true
+        description: Reasonable Adjustment Flag Api - {{ mode.displayName|lower  }} access mode - {{ env.display_name_suffix|lower }} environment
+        requireCallbackUrl: {{ mode.requireCallbackUrl }}
+        title: Reasonable Adjustment Flag Api - {{ mode.displayName }} ({{ env.display_name_suffix }})
+        visibility: {{ portal_visibility }}
+        specId: reasonable-adjustment-flag-{{ env.name }}
 {% endfor %}
 {% endfor %}
