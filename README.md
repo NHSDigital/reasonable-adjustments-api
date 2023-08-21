@@ -52,7 +52,7 @@ There are `make` commands that alias some of this functionality:
  * `serve` -- Serves a preview of the specification in human-readable format
 
 ### Testing
-Each API and team is unique. We encourage you to use a `test/` folder in the root of the project, and use whatever testing frameworks or apps your team feels comfortable with. It is important that the URL your test points to be configurable. We have included some stubs in the Makefile for running tests.
+Each API and team is unique. We encourage you to use a `api_test/` folder in the root of the project, and use whatever testing frameworks or apps your team feels comfortable with. It is important that the URL your test points to be configurable. We have included some stubs in the Makefile for running tests.
 
 ### VS Code Plugins
 
@@ -146,9 +146,9 @@ Contains useful scripts that are used throughout the project, for example in Mak
 
 Create an OpenAPI Specification to document your API. For more information about developing specifications see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Documenting+your+API).
 
-#### `/tests`:
+#### `/api_tests`:
 
-End to End tests. These tests are written in Python and use the PyTest test runner. Before running these tests you will need to set environment variables. The `test_endpoint.py` file provides a template of how to set up tests which test your api endpoints. For more information about testing your API see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Testing+your+API ).
+End to End tests. These tests are written in Python and use the PyTest test runner. Before running these tests you will need to set environment variables. You wull find a README in this test folder to fully explain how to run the tests.
 
 #### `Makefile`:
 Useful make targets to get started including: installing dependencies and running smoke tests.

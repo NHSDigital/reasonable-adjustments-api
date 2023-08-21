@@ -1,7 +1,5 @@
 -include .env
 
-APIGEE_ACCESS_TOKEN ?= $(shell export SSO_LOGIN_URL=https://login.apigee.com && eval get_token -u $(APIGEE_USERNAME))
-
 TEST_CMD := @APIGEE_ACCESS_TOKEN=$(APIGEE_ACCESS_TOKEN) \
 	poetry run pytest tests/reasonable_adjustment_flag -v \
 	--color=yes \
