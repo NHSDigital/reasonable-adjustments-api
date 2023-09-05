@@ -53,7 +53,7 @@ apigee:
 {% set approval_type = env.approval_type | default('auto') %}
 {% for mode in ACCESS_MODES %}
       - name: reasonable-adjustment-flag-{{ env.name }}{{ mode.nameSuffix }}
-        approvalType: {{ env.approval_type | default('auto') }}
+        approvalType: {{ approval_type }}
         attributes:
           - name: access
             value: public
