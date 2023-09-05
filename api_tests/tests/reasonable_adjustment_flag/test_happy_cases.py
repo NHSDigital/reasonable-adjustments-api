@@ -161,7 +161,7 @@ class TestHappyCasesSuite:
             headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
-                'If-Match': version_id
+                'if-Match': version_id
             }
         )
 
@@ -295,7 +295,7 @@ class TestHappyCasesSuite:
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'Accept': 'application/fhir+json',
-                'If-match': version_id,
+                'if-match': version_id,
             },
             json=request_bank.get_body(Request.FLAG_PUT)
         )
@@ -422,7 +422,7 @@ class TestHappyCasesSuite:
             headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
-                'If-Match': 'W/"1"'
+                'if-Match': 'W/"1"'
             },
             json=request_bank.get_body(Request.REMOVE_RA_RECORD_POST)
         )
