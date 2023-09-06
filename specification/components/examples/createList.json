@@ -49,7 +49,7 @@
         "coding": [
           {
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ConditionCode-1",
-            "code": "01",
+            "code": "1",
             "display": "Impairment related to autism (Equality Act 2010)"
           }
         ]
