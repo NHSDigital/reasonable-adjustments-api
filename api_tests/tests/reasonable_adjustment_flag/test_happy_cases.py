@@ -154,6 +154,8 @@ class TestHappyCasesSuite:
         consent_id = consent['id']
         version_id = consent['version']
 
+        print(version_id)
+
         # When
         response = requests.put(
             url=f"{nhsd_apim_proxy_url}/Consent/{consent_id}",
@@ -288,6 +290,8 @@ class TestHappyCasesSuite:
         flag_id = get_flag_response['id']
         version_id = get_flag_response['version']
 
+        print(version_id)
+
         # When
         response = requests.put(
             url=f"{nhsd_apim_proxy_url}/Flag/{flag_id}",
@@ -379,6 +383,8 @@ class TestHappyCasesSuite:
         get_list_response = Utils.send_list_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
         list_id = get_list_response['id']
         version_id = get_list_response['version']
+
+        print(version_id)
 
         # Given
         expected_status_code = 200
