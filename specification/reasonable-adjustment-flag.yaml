@@ -1111,7 +1111,7 @@ components:
       description: The id of the record. To retrieve the consentID, you need to do a GET /Consent first. The successful response from GET /Consent endpoint contains the consentID. See the example of successful response in [Get consent details](https://digital.nhs.uk/developer/api-catalogue/reasonable-adjustment-flag-fhir#api-Endpoints-readConsent) section. See the example below to know the consentID from that response.
       schema:
         type: string
-        example: '9693892283.11eccc9b-4a6f-4467-a76b-1b8a82bafd65'
+        example: '5900026175.11eccc9b-4a6f-4467-a76b-1b8a82bafd65'
     flagID:
       name: flagID
       in: path
@@ -1119,7 +1119,7 @@ components:
       description: The id of the flag. To retrieve the flagID, you need to do a GET /Flag first. The successful response from GET /Flag endpoint contains the flagID. See the example of successful response in [Get reasonable adjustments](https://digital.nhs.uk/developer/api-catalogue/reasonable-adjustment-flag-fhir#api-Endpoints-readFlag) section. See the example below to know the flagID from that response.
       schema:
         type: string
-        example: '9693892283.b1fe6cc0-7bf5-453c-a396-1ae97cfad72a'
+        example: '5900026175.b1fe6cc0-7bf5-453c-a396-1ae97cfad72a'
     listID:
       name: listID
       in: path
@@ -1127,7 +1127,7 @@ components:
       description: The id of the list. To retrieve the listID, you need to do a GET /List first. The successful response from GET /List endpoint contains the listID. See the example of successful response in [Get impairments](https://digital.nhs.uk/developer/api-catalogue/reasonable-adjustment-flag-fhir#api-Endpoints-readList) section. See the example below to know the listID from that response.
       schema:
         type: string
-        example: '9693892283.3d368fbe-e621-4c0b-be74-9a59b4f0e467'
+        example: '5900026175.3d368fbe-e621-4c0b-be74-9a59b4f0e467'
     patient:
       name: patient
       in: query
@@ -1135,7 +1135,7 @@ components:
       description: 'The patient''s NHS number. The primary identifier of a patient, unique within NHS England and Wales. Always 10 digits and must be a [valid NHS number](https://datadictionary.nhs.uk/attributes/nhs_number.html).'
       schema:
         type: string
-        example: '9693892283'
+        example: '5900026175'
     status:
       name: status
       in: query
