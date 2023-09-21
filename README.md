@@ -2,7 +2,7 @@
 
 ![Build](https://github.com/NHSDigital/reasonable-adjustment-api/workflows/Build/badge.svg?branch=master)
 
-This is a specification for the *gp-connect-access-record-fhir* API.
+This is a specification for the *reasonable-adjustments* API.
 
 * `specification/` This [Open API Specification](https://swagger.io/docs/specification/about/) describes the endpoints, methods and messages exchanged by the API. Use it to generate interactive documentation; the contract between the API and its consumers.
 * `sandbox/` This NodeJS application implements a mock implementation of the service. Use it as a back-end service to the interactive documentation to illustrate interactions and concepts. It is not intended to provide an exhaustive/faithful environment suitable for full development and testing.
@@ -89,7 +89,7 @@ The Apigee portal will not automatically pull examples from schemas, you must sp
 ### Platform setup
 
 As currently defined in your `proxies` folder, your proxies do pretty much nothing.
-Telling Apigee how to connect to your backend requires a *Target Server*, which you should call named `gp-connect-access-record-fhir-target`.
+Telling Apigee how to connect to your backend requires a *Target Server*, which you should call named `spine-demographics`.
 Our *Target Servers* defined in the [api-management-infrastructure](https://github.com/NHSDigital/api-management-infrastructure) repository.
 
 :bulb: For Sandbox-running environments (`test`) these need to be present for successful deployment but can be set to empty/dummy values.

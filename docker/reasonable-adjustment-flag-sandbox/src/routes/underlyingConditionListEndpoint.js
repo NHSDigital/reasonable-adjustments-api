@@ -2,7 +2,7 @@ const underlyingConditionListGet =  {
     method: 'GET',
     path: '/UnderlyingConditionList',
     handler: (request, h) => {
-        if (request.query["patient"] != '9693892283') {
+        if (request.query["patient"] != '5900026175') {
             const path = 'underlyingConditionListGETerror.json'
             return h.response(h.file(path)).code(404);
         }

@@ -49,13 +49,13 @@
         "coding": [
           {
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ConditionCode-1",
-            "code": "01",
+            "code": "1",
             "display": "Impairment related to autism (Equality Act 2010)"
           }
         ]
       },
       "subject": {
-        "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/9693892283"
+        "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/5900026175"
       },
       "id": "dbdfb9a6-6f75-42e4-9bd8-63c6f83cfceb"
     },
@@ -116,7 +116,7 @@
     ]
   },
   "subject": {
-    "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/9693892283"
+    "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/5900026175"
   },
   "date": "2018-07-23T11:00:00+00:00",
   "entry": [

@@ -69,4 +69,3 @@ extends:
               parameters:
                   environment: 'prod'
                   service_name: ${{ variables.service_name }}
-        

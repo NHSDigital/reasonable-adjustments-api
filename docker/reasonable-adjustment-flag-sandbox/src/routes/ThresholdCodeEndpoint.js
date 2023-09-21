@@ -2,7 +2,7 @@ const ThresholdCodeGet =  {
     method: 'GET',
     path: '/ThresholdCode',
     handler: (request, h) => {
-        if (request.query["patient"] != '9693892283') {
+        if (request.query["patient"] != '5900026175') {
             const path = 'ThresholdCodeGETerror.json'
             return h.response(h.file(path)).code(404);
         }

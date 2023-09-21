@@ -30,7 +30,7 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active',
                 '_from': 'json'
@@ -64,7 +64,7 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active',
                 '_from': 'json'
@@ -154,6 +154,8 @@ class TestHappyCasesSuite:
         consent_id = consent['id']
         version_id = consent['version']
 
+        print(version_id)
+
         # When
         response = requests.put(
             url=f"{nhsd_apim_proxy_url}/Consent/{consent_id}",
@@ -161,7 +163,7 @@ class TestHappyCasesSuite:
             headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
-                'If-Match': version_id
+                'if-Match': version_id
             }
         )
 
@@ -185,7 +187,7 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Flag",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -222,7 +224,7 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Flag",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -288,6 +290,8 @@ class TestHappyCasesSuite:
         flag_id = get_flag_response['id']
         version_id = get_flag_response['version']
 
+        print(version_id)
+
         # When
         response = requests.put(
             url=f"{nhsd_apim_proxy_url}/Flag/{flag_id}",
@@ -295,7 +299,7 @@ class TestHappyCasesSuite:
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'Accept': 'application/fhir+json',
-                'If-match': version_id,
+                'if-match': version_id,
             },
             json=request_bank.get_body(Request.FLAG_PUT)
         )
@@ -320,7 +324,7 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/List",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'status': 'active',
                 'code': 'http://snomed.info/sct|1094391000000102'
             },
@@ -380,6 +384,8 @@ class TestHappyCasesSuite:
         list_id = get_list_response['id']
         version_id = get_list_response['version']
 
+        print(version_id)
+
         # Given
         expected_status_code = 200
         req_body = request_bank.get_body(Request.LIST_PUT)
@@ -422,7 +428,7 @@ class TestHappyCasesSuite:
             headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
-                'If-Match': 'W/"1"'
+                'if-Match': 'W/"1"'
             },
             json=request_bank.get_body(Request.REMOVE_RA_RECORD_POST)
         )
@@ -448,7 +454,7 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/ThresholdCode",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -482,7 +488,7 @@ class TestHappyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
