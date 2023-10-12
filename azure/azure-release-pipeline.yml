@@ -43,11 +43,29 @@ extends:
       - environment: internal-qa-sandbox
         proxy_path: sandbox
       - environment: int
+        post_deploy:
+            - template: templates/tests.yml
+              parameters:
+                  service_name: ${{ variables.service_name }}
         depends_on:
             - internal_qa
             - internal_qa_sandbox
       - environment: sandbox
         proxy_path: sandbox
+        post_deploy:
+            - template: templates/tests.yml
+              parameters:
+                  service_name: ${{ variables.service_name }}
         depends_on:
             - internal_qa
             - internal_qa_sandbox
+      - environment: prod
+        proxy_path: live
+        depends_on:              # which environments to depend on before deploying
+            - int
+            - sandbox
+        post_deploy:
+            - template: templates/tests.yml
+              parameters:
+                  environment: 'prod'
+                  service_name: ${{ variables.service_name }}

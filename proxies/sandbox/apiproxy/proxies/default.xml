@@ -9,10 +9,23 @@
       </Response>
       <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
     </Flow>
-    <Flow name="statusEndpoint">
-      <Request/>
-      <Response/>
-      <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+    <Flow name="StatusEndpoint">
+      <Request>
+        <Step>
+          <Condition>request.header.apikey = null or private.common.status-endpoint-api-key != request.header.apikey</Condition>
+          <Name>RaiseFault.401Unauthorized</Name>
+        </Step>
+        <Step>
+          <Name>ServiceCallout.CallHealthcheckEndpoint</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>javascript.SetStatusResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))
+      </Condition>
     </Flow>
     <Flow name="AddPayloadToPing">
       <Description/>
@@ -78,6 +91,33 @@
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/Flag/*") and (request.verb = "PUT"))</Condition>
     </Flow>
+     <Flow name="UnderlyingConditionList-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.InvalidQueryParams</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList") and (request.verb = "GET"))</Condition>
+    </Flow>
+    <Flow name="UnderlyingConditionList-POST">
+      <Request>
+        <Step>
+          <Name>RaiseFault.400BadRequest</Name>
+          <Condition>request.content = ""</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList") and (request.verb = "POST"))</Condition>
+    </Flow>
+    <Flow name="ThresholdCode-GET">
+      <Request>
+        <Step>
+          <Name>RaiseFault.InvalidQueryParams</Name>
+          <Condition>request.queryparam.patient = null or request.queryparam.patient = "" or request.queryparam.status = null or request.queryparam.status = "" or request.queryparam.category = null or request.queryparam.category = ""</Condition>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/ThresholdCode") and (request.verb = "GET"))</Condition>
+    </Flow>
     <Flow name="list-GET">
       <Request>
         <Step>
@@ -133,9 +173,8 @@
    <RouteRule name="NoRoutePing">
     <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
   </RouteRule>
-  <RouteRule name="status">
+  <RouteRule name="NoRouteStatus">
     <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
-    <TargetEndpoint>status</TargetEndpoint>
   </RouteRule>
   <RouteRule name="apim">
     <TargetEndpoint>apim</TargetEndpoint>

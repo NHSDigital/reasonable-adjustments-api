@@ -33,8 +33,13 @@ steps:
       export INTERNAL_TESTING_WITHOUT_ASID_SECRET="$(INTERNAL_TESTING_WITHOUT_ASID_SECRET)"
       export INTERNAL_TESTING_WITHOUT_ODS_KEY="$(INTERNAL_TESTING_WITHOUT_ODS_KEY)"
       export INTERNAL_TESTING_WITHOUT_ODS_SECRET="$(INTERNAL_TESTING_WITHOUT_ODS_SECRET)"
-       
-      poetry run pytest -v --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+
+      if [[ $APIGEE_ENVIRONMENT == "prod" ]] || [[ $APIGEE_ENVIRONMENT == "sandbox" ]] || [[ $APIGEE_ENVIRONMENT == "int" ]]; then
+          # only run tests which are marked as "smoke"
+          poetry run pytest -v -m smoke --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+      else
+          poetry run pytest -v --api-name=reasonable-adjustment-flag --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+      fi
 
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/api_tests/tests/reasonable_adjustment_flag"
     displayName: Run full test suite

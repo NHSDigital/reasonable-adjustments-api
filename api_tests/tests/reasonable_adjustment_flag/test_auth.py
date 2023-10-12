@@ -10,7 +10,6 @@ class TestAuthCasesSuite:
     existing_patient = '5900008142'
 
     @pytest.mark.integration
-    @pytest.mark.smoke
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",

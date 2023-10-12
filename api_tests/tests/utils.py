@@ -60,7 +60,7 @@ class Utils:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -78,7 +78,7 @@ class Utils:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Flag",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active'
             },
@@ -105,13 +105,46 @@ class Utils:
         )
 
         return response
+    
+    @staticmethod
+    def send_underlyingconditionlist_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
+            params={
+                'patient': config.TEST_PATIENT_NHS_NUMBER,
+                'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
+                'status': 'active'
+            },
+            headers={
+                **nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'Accept': 'application/fhir+json'
+            }
+        )
+
+        return get_details(response)
+    
+    @staticmethod
+    def send_underlyingconditionlist_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        response = requests.post(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
+            headers={
+                **nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json'
+            },
+            json=request_bank.get_body(Request.UnderlyingConditionList_POST),
+        )
+
+        return response
 
     @staticmethod
     def send_list_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/List",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'status': 'active',
                 'code': 'http://snomed.info/sct|1094391000000102'
             },

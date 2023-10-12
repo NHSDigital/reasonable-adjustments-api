@@ -1,0 +1,8 @@
+type: object
+properties:
+    url:
+        type: string
+        example: "supportingComment"
+    valueString:
+        type: string
+        example: "Requires Large Print rather than Easy Read"

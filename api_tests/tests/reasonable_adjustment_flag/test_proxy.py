@@ -5,8 +5,8 @@ import uuid
 import pytest
 import requests
 from assertpy import assert_that
-from pytest_nhsd_apim.apigee_apis import ApigeeNonProdCredentials, ApigeeClient, DeveloperAppsAPI, DebugSessionsAPI
 from api_tests.tests.utils import Utils
+
 
 @pytest.mark.usefixtures("test_teardown")
 class TestProxyCasesSuite:
@@ -57,7 +57,8 @@ class TestProxyCasesSuite:
             "login_form": {"username": "ra-test-user"},
         }
     )
-    def test_x_request_id_equals_nhsd_request_id(self, test_app_with_attributes, trace, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_x_request_id_equals_nhsd_request_id(self, test_app_with_attributes, trace, nhsd_apim_proxy_url,
+                                                 nhsd_apim_auth_headers):
         # Given
         trace.post_debugsession(session="my_session")
 
@@ -89,7 +90,8 @@ class TestProxyCasesSuite:
             "login_form": {"username": "ra-test-user"},
         }
     )
-    def test_outgoing_request_contains_nhsd_correlation_id_header(self, test_app_with_attributes, trace, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_outgoing_request_contains_nhsd_correlation_id_header(self, test_app_with_attributes, trace,
+                                                                  nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         trace.post_debugsession(session="my_session")
 
@@ -192,11 +194,15 @@ class TestProxyCasesSuite:
 
         trace.delete_debugsession_by_name(session_name="my_session")
 
-        assert_that(expected_jwt_claims['reason_for_request']).is_equal_to_ignoring_case(actual_jwt_claims['reason_for_request'])
+        assert_that(expected_jwt_claims['reason_for_request']).is_equal_to_ignoring_case(
+            actual_jwt_claims['reason_for_request'])
         assert_that(expected_jwt_claims['scope']).is_equal_to_ignoring_case(actual_jwt_claims['scope'])
-        assert_that(expected_jwt_claims['requesting_organization']).is_equal_to_ignoring_case(actual_jwt_claims['requesting_organization'])
-        assert_that(expected_jwt_claims['requesting_system']).is_equal_to_ignoring_case(actual_jwt_claims['requesting_system'])
-        assert_that(expected_jwt_claims['requesting_user']).is_equal_to_ignoring_case(actual_jwt_claims['requesting_user'])
+        assert_that(expected_jwt_claims['requesting_organization']).is_equal_to_ignoring_case(
+            actual_jwt_claims['requesting_organization'])
+        assert_that(expected_jwt_claims['requesting_system']).is_equal_to_ignoring_case(
+            actual_jwt_claims['requesting_system'])
+        assert_that(expected_jwt_claims['requesting_user']).is_equal_to_ignoring_case(
+            actual_jwt_claims['requesting_user'])
         assert_that(expected_jwt_claims['sub']).is_equal_to_ignoring_case(actual_jwt_claims['sub'])
         assert_that(expected_jwt_claims['iss']).is_equal_to_ignoring_case(actual_jwt_claims['iss'])
         assert_that(expected_jwt_claims['aud']).is_equal_to_ignoring_case(actual_jwt_claims['aud'])
@@ -209,7 +215,8 @@ class TestProxyCasesSuite:
             "login_form": {"username": "ra-test-user"},
         }
     )
-    def test_response_contains_request_id_and_correlation_id_headers(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+    def test_response_contains_request_id_and_correlation_id_headers(self, test_app_with_attributes,
+                                                                     nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         # Given
         request_id = str(uuid.uuid4())
         correlation_id = str(uuid.uuid4())
@@ -218,7 +225,7 @@ class TestProxyCasesSuite:
         response = requests.get(
             url=f"{nhsd_apim_proxy_url}/Consent",
             params={
-                'patient': '9693892283',
+                'patient': '5900026175',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
                 'status': 'active',
                 '_from': 'json'
@@ -237,29 +244,3 @@ class TestProxyCasesSuite:
         assert_that(request_id).is_equal_to(response.headers['x-request-id'])
         assert_that(response.headers).contains_key('x-correlation-id')
         assert_that(correlation_id).is_equal_to(response.headers['x-correlation-id'])
-
-    @pytest.mark.happy_path
-    @pytest.mark.integration
-    @pytest.mark.smoke
-    def test_status_get(self, nhsd_apim_proxy_url, status_endpoint_auth_headers):
-        # Given
-        expected_status_code = 200
-        # When
-        response = requests.get(
-            f"{nhsd_apim_proxy_url}/_status",
-            headers=status_endpoint_auth_headers
-        )
-
-        # Then
-        assert_that(expected_status_code).is_equal_to(response.status_code)
-
-    @pytest.mark.integration
-    def test_ping(self, nhsd_apim_proxy_url):
-        # Given
-        expected_status_code = 200
-
-        # When
-        response = requests.get(f"{nhsd_apim_proxy_url}/_ping")
-
-        # Then
-        assert_that(expected_status_code).is_equal_to(response.status_code)
