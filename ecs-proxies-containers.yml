@@ -2,5 +2,3 @@ docker_containers:
     - name: reasonable-adjustment-flag-sandbox
       dockerfile: "docker/reasonable-adjustment-flag-sandbox/Dockerfile"
       path: "docker/reasonable-adjustment-flag-sandbox"
-
-
