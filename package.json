@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "OAS (Swagger v3) API Definition for Reasonable Adjustment Flag API",
   "scripts": {
-    "lint": "node_modules/.bin/openapi-generator-cli validate -i specification/reasonable-adjustment-flag.yaml",
-    "publish": "./node_modules/.bin/openapi-generator-cli generate -i specification/reasonable-adjustment-flag.yaml --generator-key v3.0  -g openapi -o build && rm openapitools.json && mv build/openapi.json build/reasonable-adjustment-flag.json",
+    "lint": "node_modules/.bin/speccy lint -s openapi-tags -s operation-tags specification/reasonable-adjustment-flag.yaml --skip default-and-example-are-redundant",
+    "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/reasonable-adjustment-flag.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py > build/reasonable-adjustment-flag.json",    
     "serve": "node_modules/.bin/speccy serve build/reasonable-adjustment-flag.json",
     "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
   },
@@ -12,7 +12,9 @@
   "license": "(MIT OR OGL)",
   "homepage": "https://github.com/NHSDigital/reasonable-adjustments-api",
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.7.0",
     "license-checker": "^25.0.1"
+  },
+  "dependencies": {
+    "speccy": "^0.11.0"
   }
 }
