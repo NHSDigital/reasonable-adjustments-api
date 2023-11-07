@@ -198,10 +198,8 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/createConsent.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/createConsent.json
+            example:
+              $ref: components/examples/createConsent.json
       responses:
         '201':
           description: Reasonable Adjustment Flag created and consent details added.
@@ -218,11 +216,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/createConsentResponse.json
+              example:
+                  $ref: components/examples/createConsentResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -271,11 +266,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/readConsentResponse.json
+              example:
+                $ref: components/examples/readConsentResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -321,10 +313,8 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/updateConsent.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/updateConsent.json
+            example:
+              $ref: components/examples/updateConsent.json
       responses:
         '200':
           description: Successful response.
@@ -339,11 +329,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/updateConsentResponse.json
+              example:
+                $ref: components/examples/updateConsentResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -387,11 +374,8 @@ paths:
           application/fhir+json:
             schema:
               type: object
-            examples:
-              Successful:
-                summary: A successful request.
-                value:
-                  $ref: components/examples/createList.json
+            example:
+              $ref: components/examples/createList.json
       responses:
         '201':
           description: Successful response.
@@ -408,11 +392,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/createListResponse.json
+              example:
+                $ref: components/examples/createListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -461,11 +442,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/readListResponse.json
+              example:
+                $ref: components/examples/readListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -504,10 +482,8 @@ paths:
           application/fhir+json:
             schema:
               type: object
-            examples:
-              success:
-                value:
-                  $ref: components/examples/updateList.json
+            example:
+              $ref: components/examples/updateList.json
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
@@ -529,11 +505,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/updateListResponse.json
+              example:
+                $ref: components/examples/updateListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -592,10 +565,8 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/createFlag.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/createFlag.json
+            example:
+              $ref: components/examples/createFlag.json
       responses:
         '201':
           description: Successful response.
@@ -612,11 +583,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/createFlagResponse.json
+              example:
+                $ref: components/examples/createFlagResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -725,10 +693,8 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/updateFlag.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/updateFlag.json
+            example:
+              $ref: components/examples/updateFlag.json
       responses:
         '200':
           description: Successful response.
@@ -743,11 +709,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/updateFlagResponse.json
+              example:
+                $ref: components/examples/updateFlagResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -805,10 +768,8 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/createUnderlyingConditionList.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/createUnderlyingConditionList.json
+            example:
+              $ref: components/examples/createUnderlyingConditionList.json
       responses:
         '201':
           description: Successful response.
@@ -825,11 +786,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/createUnderlyingConditionListResponse.json
+              example:
+                $ref: components/examples/createUnderlyingConditionListResponse.json
         '400':
           description: Invalid parameters.
           content:
@@ -987,10 +945,8 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/removerarecord.yaml
-            examples:
-              success:
-                value:
-                  $ref: components/examples/removerarecord.json
+            example:
+              $ref: components/examples/removerarecord.json
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/RoleId'
@@ -1007,11 +963,8 @@ paths:
               $ref: components/schemas/Content-Type.yaml
           content:
             application/json:
-              examples:
-                Successful:
-                  summary: The response from a successful request.
-                  value:
-                    $ref: components/examples/removerarecordResponse.json
+              example:
+                $ref: components/examples/removerarecordResponse.json
         '400':
           description: Invalid parameters.
           content:
