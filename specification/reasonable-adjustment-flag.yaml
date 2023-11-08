@@ -708,7 +708,7 @@ paths:
             Content-Type:
               $ref: components/schemas/Content-Type.yaml
           content:
-            application/json:
+            application/fhir+json:
               example:
                 $ref: components/examples/updateFlagResponse.json
         '400':
