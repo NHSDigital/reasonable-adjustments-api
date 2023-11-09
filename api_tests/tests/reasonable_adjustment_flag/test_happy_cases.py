@@ -15,6 +15,7 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
+    @pytest.mark.debug
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -40,6 +41,8 @@ class TestHappyCasesSuite:
                 'Accept': 'application/fhir+json'
             }
         )
+
+        print(response.text)
 
         # Then
         result_dict = json.loads(response.text)
@@ -489,8 +492,10 @@ class TestHappyCasesSuite:
             url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList",
             params={
                 'patient': '5900026175',
+                'status': 'active',
                 'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
-                'status': 'active'
+                '_format': 'xml HTTP/1.1',
+                'code': 'http://snomed.info/sct|1094391000000102'
             },
             headers={**nhsd_apim_auth_headers,
                 'x-request-id': str(uuid.uuid4()),
@@ -528,8 +533,51 @@ class TestHappyCasesSuite:
                 'x-request-id': str(uuid.uuid4()),
                 'content-type': 'application/fhir+json',
                 'Accept': 'application/fhir+json',
+                'Prefer': 'return=representation'
             },
             json=request_bank.get_body(Request.UnderlyingConditionList_POST),
+        )
+
+        print(response.text)
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+
+    @pytest.mark.happy_path
+    @pytest.mark.integration
+    @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
+    @pytest.mark.nhsd_apim_authorization(
+        {
+            "access": "healthcare_worker",
+            "level": "aal3",
+            "login_form": {"username": "ra-test-user"},
+        }
+    )
+    def test_underlyingCondition_put(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        # Pre-Req
+        Utils.send_consent_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers, test_app_with_attributes)
+        Utils.send_list_post(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        get_list_response = Utils.send_list_get(nhsd_apim_proxy_url, nhsd_apim_auth_headers)
+        list_id = get_list_response['id']
+        version_id = get_list_response['version']
+
+        print(version_id)
+
+        # Given
+        expected_status_code = 200
+        req_body = request_bank.get_body(Request.UnderlyingConditionList_PUT)
+        req_body['id'] = list_id
+
+        # When
+        response = requests.put(
+            url=f"{nhsd_apim_proxy_url}/UnderlyingConditionList/{list_id}",
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'content-type': 'application/fhir+json',
+                'accept': 'application/fhir+json',
+                'if-match': version_id,
+            },
+            data=json.dumps(req_body)
         )
 
         # Then

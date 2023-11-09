@@ -135,6 +135,17 @@
       </Request>
       <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList") and (request.verb = "POST"))</Condition>
     </Flow>
+    <Flow name="UnderlyingConditionList-PUT">
+      <Request>
+        <Step>
+          <Name>ExtractVariables.EndpointName</Name>
+        </Step>
+        <Step>
+          <Name>KeyValueMapOperations.GetInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/UnderlyingConditionList/*") and (request.verb = "PUT"))</Condition>
+    </Flow>
     <Flow name="ThresholdCode-GET">
       <Request>
         <Step>

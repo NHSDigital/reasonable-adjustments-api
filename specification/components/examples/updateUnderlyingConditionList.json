@@ -1,0 +1,133 @@
+{
+    "resourceType": "List",
+    "id": "fd756ccc-e6d2-4e40-991d-b022abc20aa0",
+    "meta": {
+        "versionId": "616201a0-1364-427b-999f-750691b08989",
+        "profile":  [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-RARecord-List-1"
+        ]
+    },
+    "contained":  [
+        {
+            "resourceType": "Condition",
+            "id": "18965b02-b29f-42f4-9459-535deb2eaacc",
+            "extension":  [
+                {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-RemovalReason-1",
+                    "extension":  [
+                        {
+                            "url": "removalReason",
+                            "valueCodeableConcept": {
+                                "coding":  [
+                                    {
+                                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1",
+                                        "code": "Error",
+                                        "display": "The Reasonable Adjustment Flag was created in error"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "url": "supportingComment",
+                            "valueString": "Reasonable Adjustment Flag was created in error"
+                        }
+                    ]
+                }
+            ],
+            "clinicalStatus": "active",
+            "category":  [
+                {
+                    "coding":  [
+                        {
+                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                            "code": "issue",
+                            "display": "Issue"
+                        }
+                    ]
+                }
+            ],
+            "code": {
+                "coding":  [
+                    {
+                        "system": "https://snomed.info/sct",
+                        "code": "408856003",
+                        "display": "Autistic disorder"
+                    }
+                ]
+            },
+            "subject": {
+                "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/999999998"
+            }
+        },
+        {
+            "resourceType": "Provenance",
+            "id": "db4e7f9f-6730-4d48-b372-de7e5bae8bd4",
+            "target":  [
+                {
+                    "reference": "#"
+                }
+            ],
+            "recorded": "2023-04-11T11:00:00+00:00",
+            "activity": {
+                "system": "http://hl7.org/fhir/v3/DataOperation",
+                "code": "CREATE",
+                "display": "create"
+            },
+            "agent":  [
+                {
+                    "role":  [
+                        {
+                            "coding":  [
+                                {
+                                    "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                                    "code": "R0260",
+                                    "display": "General Medical Practitioner"
+                                }
+                            ]
+                        }
+                    ],
+                    "whoReference": {
+                        "reference": "https://sds.spineservices.nhs.uk/STU3/Practitioner/2ee4tr6a9",
+                        "display": "Dr.D"
+                    },
+                    "onBehalfOfReference": {
+                        "reference": "https://directory.spineservices.nhs.uk/STU3/Organization/a3e5i7",
+                        "display": "Some GP Clinic"
+                    }
+                }
+            ]
+        }
+    ],
+    "status": "current",
+    "mode": "changes",
+    "title": "Reasonable Adjustment List",
+    "code": {
+        "coding":  [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "1094391000000102",
+                "display": "Reasonable adjustments for health and care access"
+            }
+        ]
+    },
+    "subject": {
+        "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/999999998"
+    },
+    "date": "2023-04-11T11:00:00+00:00",
+    "entry":  [
+        {
+            "deleted": false,
+            "date": "2023-04-11T11:00:00+00:00",
+            "item": {
+                "reference": "urn:uuid:18965b02-b29f-42f4-9459-535deb2eaacc"
+            }
+        },
+        {
+            "deleted": false,
+            "date": "2023-04-11T11:00:00+00:00",
+            "item": {
+                "reference": "urn:uuid:db4e7f9f-6730-4d48-b372-de7e5bae8bd4"
+            }
+        }
+    ]
+}

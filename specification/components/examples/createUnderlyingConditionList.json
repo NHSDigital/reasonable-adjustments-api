@@ -1,44 +1,27 @@
 {
-  "resourceType": "UnderlyingConditionList",
-  "meta": {
-    "profile": [
-      "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1"
-    ]
-  },
-  "extension": [
-    {
-      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-RARecord-AdjustmentCategory-1",
-      "valueCodeableConcept": {
-        "coding": [
-          {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
-            "code": "003",
-            "display": "Accessible Information - requires specific contact method"
-          }
-        ]
+  "resourceType": "Condition",
+  "clinicalStatus": "active",
+  "category":  [
+      {
+          "coding":  [
+              {
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                  "code": "issue",
+                  "display": "Issue"
+              }
+          ]
       }
-    }
   ],
-  "status": "active",
-  "category": {
-    "coding": [
-      {
-        "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1",
-        "code": "NRAF",
-        "display": "Reasonable Adjustments Underlying Condition List"
-      }
-    ]
-  },
   "code": {
-    "coding": [
-      {
-        "system": "https://snomed.info/sct",
-        "code": "945951000000108",
-        "display": "Requires information in Easyread"
-      }
-    ]
+      "coding":  [
+          {
+              "system": "https://snomed.info/sct",
+              "code": "408856003",
+              "display": "Autistic disorder"
+          }
+      ]
   },
   "subject": {
-    "reference": "demographics.spineservices.nhs.uk/STU3/Patient/5900026175"
+      "reference": "https://demographics.spineservices.nhs.uk/STU3/Patient/5900026175"
   }
 }
