@@ -475,7 +475,7 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    # @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
+    @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -511,7 +511,7 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    # @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
+    @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
@@ -545,7 +545,7 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
-    # @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
+    @pytest.mark.skip(reason="The ASID we use for testing can not perform this interaction, we have tried adding the interactions on the VEIT07 environment but continue to get the same error")
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",

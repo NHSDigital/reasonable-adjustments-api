@@ -16,7 +16,7 @@ authors = [
 readme = 'README.md'
 
 repository = "https://github.com/NHSDigital/reasonable-adjustments-api"
-homepage = ""
+homepage = "https://github.com/NHSDigital/reasonable-adjustments-api"
 
 keywords = ["healthcare", "uk", "nhs"]
 
