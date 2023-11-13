@@ -15,6 +15,10 @@ class TestAuthCasesSuite:
             "access": "healthcare_worker",
             "level": "aal3",
             "login_form": {"username": "ra-test-user"},
+        },
+        {
+            "access": "application",
+            "level": "level3",
         }
     )
     def test_asid_auth(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):

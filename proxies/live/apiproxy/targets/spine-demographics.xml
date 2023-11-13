@@ -3,9 +3,6 @@
     <PreFlow name="PreFlow">
         <Request>
             <Step>
-                <Name>FlowCallout.UserRoleService</Name>
-            </Step>
-            <Step>
                 <Name>OAuthV2.VerifyAccessToken</Name>
             </Step>
             <Step>
