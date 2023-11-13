@@ -8,6 +8,7 @@ var nhsdSessionURID = context.getVariable('request.header.NHSD-Session-URID')
 var contentType = context.getVariable('request.header.content-type')
 var asid = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.asid')
 var ods = context.getVariable('verifyapikey.VerifyAPIKey.CustomAttributes.ods')
+var xtestjolo = context.getVariable('request.header.X-Test-Jolo')
 
 
 var regex = RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
@@ -35,6 +36,11 @@ else if (asid === null) {
 else if (ods === null) {
     var errorDescription = "An internal server error occurred. Missing ODS. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support quoting Message ID"
     var internalServerError = true
+}
+
+if (xtestjolo === null) {
+    var errorDescription = "x-test-jolo is missing"
+    var invalidResponse = true
 }
 
 context.setVariable('internalServerError', internalServerError)
