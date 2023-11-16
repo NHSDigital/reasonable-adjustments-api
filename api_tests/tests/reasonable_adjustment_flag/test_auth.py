@@ -16,6 +16,7 @@ class TestAuthCasesSuite:
             "level": "aal3",
             "login_form": {"username": "ra-test-user"},
         },
+        # Allow app-restricted access
         {
             "access": "application",
             "level": "level3",
