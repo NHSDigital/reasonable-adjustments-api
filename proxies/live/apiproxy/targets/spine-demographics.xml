@@ -4,6 +4,7 @@
         <Request>
             <Step>
                 <Name>FlowCallout.UserRoleService</Name>
+                <Condition>(access-mode Equals "user-restricted")</Condition>
             </Step>
             <Step>
                 <Name>OAuthV2.VerifyAccessToken</Name>
