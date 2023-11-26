@@ -3,11 +3,18 @@
     <PreFlow name="PreFlow">
         <Request>
             <Step>
-                <Name>FlowCallout.UserRoleService</Name>
-                <Condition>(access-mode Equals "user-restricted")</Condition>
+                <Name>OAuthV2.VerifyAccessToken</Name>
             </Step>
             <Step>
-                <Name>OAuthV2.VerifyAccessToken</Name>
+                <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
+            </Step>
+            <Step>
+                <Name>AssignMessage.SetAccessModeUserRestricted</Name>
+                <Condition>(scope JavaRegex "(.* )?urn:nhsd:apim:user-nhs-cis2:aal3:reasonable-adjustment-flag:( .*)?")</Condition>
+            </Step>
+            <Step>
+                <Name>FlowCallout.UserRoleService</Name>
+                <Condition>(access-mode Equals "user-restricted")</Condition>
             </Step>
             <Step>
                 <Name>Quota</Name>
