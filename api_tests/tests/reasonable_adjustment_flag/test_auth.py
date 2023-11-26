@@ -16,11 +16,7 @@ class TestAuthCasesSuite:
             "level": "aal3",
             "login_form": {"username": "ra-test-user"},
         },
-        # Allow app-restricted access
-        {
-            "access": "application",
-            "level": "level3",
-        }
+        
     )
     def test_asid_auth(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         expected_status_code = 200
@@ -40,4 +36,34 @@ class TestAuthCasesSuite:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
+
+    @pytest.mark.integration
+    @pytest.mark.nhsd_apim_authorization(
+        # Allow app-restricted access
+        {
+            "access": "application",
+            "level": "level3",
+        }
+        
+    )
+    def test_asid_auth_app_restricted(self, test_app_with_attributes, nhsd_apim_proxy_url, nhsd_apim_auth_headers):
+        expected_status_code = 200
+
+        # When
+        response = requests.get(
+            url=f"{nhsd_apim_proxy_url}/Consent",
+            params={
+                'patient': self.existing_patient,
+                'category': 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF',
+                'status': 'active'
+            },
+            headers={**nhsd_apim_auth_headers,
+                'x-request-id': str(uuid.uuid4()),
+                'accept': 'application/fhir+json'}
+        )
+
+        # Then
+        assert_that(expected_status_code).is_equal_to(response.status_code)
+
+
 
