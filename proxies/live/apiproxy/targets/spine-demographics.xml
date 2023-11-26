@@ -10,7 +10,7 @@
             </Step>
             <Step>
                 <Name>AssignMessage.SetAccessModeUserRestricted</Name>
-                <Condition>(scope JavaRegex "(.* )?urn:nhsd:apim:user-nhs-cis2:aal3:reasonable-adjustment-flag:( .*)?")</Condition>
+                <Condition>(scope Equals "urn:nhsd:apim:user-nhs-cis2:aal3:reasonable-adjustment-flag")</Condition>
             </Step>
             <Step>
                 <Name>FlowCallout.UserRoleService</Name>
