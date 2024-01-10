@@ -13,7 +13,7 @@ properties:
                     properties:
                         system:
                             type: string
-                            example: "ttps://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1"
+                            example: "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1"
                         code:
                             type: string
                             example: "001"

@@ -14,7 +14,7 @@
       "valueCodeableConcept": {
         "coding": [
           {
-            "system": "ttps://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
+            "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
             "code": "001",
             "display": "Communication support"
           }
