@@ -68,9 +68,9 @@
           "valueCodeableConcept": {
             "coding": [
               {
-                "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1",
+                "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReasonIndividualImpairment-1",
                 "code": "Error",
-                "display": "The Reasonable Adjustment Consent was created in error"
+                "display": "The impairment was created in error"
               }
             ]
           }

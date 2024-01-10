@@ -88,7 +88,7 @@
           {
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
             "code": "003",
-            "display": "Accessible Information - requires specific contact method"
+            "display": "Requires specific contact method"
           }
         ]
       }

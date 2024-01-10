@@ -1,5 +1,8 @@
 {
   "resourceType": "Flag",
+  "fhir_comments": [
+    " xml example fileAddExample-CreateFlagRequest.xml "
+  ],
   "meta": {
     "profile": [
       "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1"
@@ -11,9 +14,9 @@
       "valueCodeableConcept": {
         "coding": [
           {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
-            "code": "003",
-            "display": "Accessible Information - requires specific contact method"
+            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1",
+            "code": "comms",
+            "display": "Communication"
           }
         ]
       }
@@ -23,8 +26,8 @@
   "category": {
     "coding": [
       {
-        "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1",
-        "code": "NRAF",
+        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1",
+        "code": "reasonable adjustments flag",
         "display": "Reasonable Adjustments Flag"
       }
     ]
@@ -32,8 +35,8 @@
   "code": {
     "coding": [
       {
-        "system": "https://snomed.info/sct",
-        "code": "945951000000108",
+        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1",
+        "code": "requiresinformationineasyread",
         "display": "Requires information in Easyread"
       }
     ]
