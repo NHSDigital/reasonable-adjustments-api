@@ -13,7 +13,7 @@ properties:
                     properties:
                         system:
                             type: string
-                            example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1"
+                            example: "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1"
                         code:
                             type: string
                             example: "DoesntApply"

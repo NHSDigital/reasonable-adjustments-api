@@ -29,7 +29,7 @@
             {
               "coding": [
                 {
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
                   "code": "R1974",
                   "display": "Community Learning Disabilities Nurse"
                 }
@@ -86,9 +86,9 @@
       "valueCodeableConcept": {
         "coding": [
           {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategories-1",
-            "code": "comms",
-            "display": "Communication"
+            "system": "ttps://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
+            "code": "001",
+            "display": "Communication support"
           }
         ]
       }
@@ -101,7 +101,7 @@
         {
           "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1",
           "code": "NRAF",
-          "display": "Reasonable Adjustments Flag"
+          "display": "National Reasonable Adjustments Flag"
         }
       ]
     }

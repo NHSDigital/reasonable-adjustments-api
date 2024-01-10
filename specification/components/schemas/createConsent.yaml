@@ -29,13 +29,13 @@ properties:
                                 properties:
                                     system:
                                         type: string
-                                        example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-ProxyRole-1"
+                                        example: "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ProxyRole-1"
                                     code:
                                         type: string
                                         example: "lpa"
                                     display:
                                         type: string
-                                        example: "Lasting power of attorney personal welfare"
+                                        example: "Lasting power of attorney for health and welfare, or court-appointed deputy, or equivalent"
     status:
         type: string
         example: "active"
@@ -51,13 +51,13 @@ properties:
                         properties:
                             system:
                                 type: string
-                                example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1"
+                                example: "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1"
                             code:
                                 type: string
-                                example: "reasonable adjustment flag"
+                                example: "NRAF"
                             display:
                                 type: string
-                                example: "Reasonable Adjustment Flag"
+                                example: "National Reasonable Adjustments Flag"
     patient:
         type: object
         properties:

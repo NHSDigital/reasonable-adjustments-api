@@ -73,7 +73,7 @@
                 {
                   "code": "R0050",
                   "display": "Consultant",
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
                 }
               ]
             }

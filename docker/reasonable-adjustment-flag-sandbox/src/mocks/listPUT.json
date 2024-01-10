@@ -35,7 +35,7 @@
           },
           "code": {
             "coding": {
-              "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-ConditionCode-1",
+              "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ConditionCode-1",
               "code": "1855002",
               "display": "Learning Disability(s)"
             }
@@ -63,7 +63,7 @@
           "agent": {
             "role": {
               "coding": {
-                "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
                 "code": "R0260",
                 "display": "General Medical Practitioner"
               }

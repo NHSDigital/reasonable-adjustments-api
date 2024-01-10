@@ -1016,7 +1016,7 @@ paths:
         ## Overview
         Use this endpoint to remove a [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag) from the [NHS Spine](https://digital.nhs.uk/services/spine).  To remove a flag you must provide a reason for it being removed, for example the flag may have been created in error, or the flag may no longer apply to the patient. 
 
-        For a patient it is represented as [CodeSystem-RARecord-RemovalReason-1](https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1). This triggers the system to inactivate all Reasonable Adjustment Flag resources contained within the patient record.
+        For a patient it is represented as [RARecord-RemovalReason-1](https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1). This triggers the system to inactivate all Reasonable Adjustment Flag resources contained within the patient record.
       operationId: removeRecord
       requestBody:
         description: Remove Reasonable Adjustment Flag record
@@ -1104,7 +1104,7 @@ components:
                   properties:
                     system:
                       type: string
-                      example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-RemovalReason-1'
+                      example: 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-RemovalReason-1'
                     code:
                       type: string
                       example: DoesntApply
@@ -1184,7 +1184,7 @@ components:
       description: The category of the resource being interacted with.
       schema:
         type: string
-        example: 'https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1|reasonable%20adjustments%20flag'
+        example: 'https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF'
     code:
       name: code
       in: query
@@ -1200,8 +1200,8 @@ components:
       description: |
         The user role ID (URID) for the current session. Also known as a user role profile ID (URPID).
 
-        If you are using User-restricted RESTful APIs - NHS login combined authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) guidance.
-        If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) guidance.
+        If you are using User-restricted RESTful APIs - NHS login combined authentication and authorisation, See [determine the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) guidance.
+        If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, See [determine the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) guidance.
       
         This field is optional.
 
@@ -1228,7 +1228,7 @@ components:
       description: |
         A globally unique identifier (GUID) for the request, which we use to trace the request if you contact our helpdesk.
         Mirrored back in a response header.
-        Avoid . characters.
+        Avoid characters.
       schema:
         type: string
         example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA

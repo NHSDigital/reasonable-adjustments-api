@@ -11,7 +11,7 @@
     "link": [
       {
         "relation": "self",
-        "url": "https://clinicals.spineservices.nhs.uk/STU3/UnderlyingConditionList?patient=999999998&status=active&category=https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1|reasonable%20adjustments%20flag"
+        "url": "https://clinicals.spineservices.nhs.uk/STU3/UnderlyingConditionList?patient=999999998&status=active&category=https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1|NRAF"
       }
     ]
   }
