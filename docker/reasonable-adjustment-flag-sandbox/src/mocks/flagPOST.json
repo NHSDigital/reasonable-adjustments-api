@@ -78,8 +78,8 @@
     "coding": [
       {
         "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1",
-        "code": "reasonable adjustments flag",
-        "display": "Reasonable Adjustments Flag"
+        "code": "NRAF",
+        "display": "National Reasonable Adjustments Flag"
       }
     ]
   },
