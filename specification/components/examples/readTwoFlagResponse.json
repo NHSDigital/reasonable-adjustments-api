@@ -29,7 +29,7 @@
             {
               "code": "367741000000102",
               "display": "Requires information verbally",
-              "system": "https://snomed.info/sct"
+              "system": "http://snomed.info/sct"
             }
           ]
         },
@@ -179,7 +179,7 @@
             {
               "code": "7961610000001018",
               "display": "Requires visual alert",
-              "system": "https://snomed.info/sct"
+              "system": "http://snomed.info/sct"
             }
           ]
         },

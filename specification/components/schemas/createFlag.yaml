@@ -66,10 +66,10 @@ properties:
                     properties:
                         system:
                             type: string
-                            example: "https://snomed.info/sct"
+                            example: "http://snomed.info/sct"
                         code: 
                             type: string
-                            example: "796161000000101"
+                            example: "441092009"
                         display: 
                             type: string
                             example: "Does lip read"

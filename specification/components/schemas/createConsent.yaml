@@ -82,7 +82,7 @@ properties:
             properties:
                 system:
                     type: string
-                    example: "https://snomed.info/sct"
+                    example: "http://snomed.info/sct"
                 code:
                     type: string
                     example: "370856009"

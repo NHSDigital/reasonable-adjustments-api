@@ -151,8 +151,8 @@
   "code": {
     "coding": [
       {
-        "system": "https://snomed.info/sct",
-        "code": "796161000000101",
+        "system": "http://snomed.info/sct",
+        "code": "441092009",
         "display": "Does lip read"
       }
     ]

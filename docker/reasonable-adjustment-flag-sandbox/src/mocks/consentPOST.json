@@ -101,7 +101,7 @@
   ],
   "purpose": [
     {
-      "system": "https://snomed.info/sct",
+      "system": "http://snomed.info/sct",
       "code": "370856009",
       "display": "Limiting access to confidential patient information"
     }

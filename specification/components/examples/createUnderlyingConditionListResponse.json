@@ -13,7 +13,7 @@
       {
         "code": "7961610000001018",
         "display": "Requires visual alert",
-        "system": "https://snomed.info/sct"
+        "system": "http://snomed.info/sct"
       }
     ]
   },
