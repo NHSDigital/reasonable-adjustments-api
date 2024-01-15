@@ -1,8 +1,5 @@
 {
   "resourceType": "Flag",
-  "fhir_comments": [
-    " xml example fileAddExample-CreateFlagRequest.xml "
-  ],
   "meta": {
     "profile": [
       "https://fhir.nhs.uk/STU3/StructureDefinition/RARecord-Flag-1"
@@ -35,9 +32,9 @@
   "code": {
     "coding": [
       {
-        "system": "ttps://snomed.info/sct",
+        "system": "http://snomed.info/sct",
         "code": "796161000000101",
-        "display": "Requires information in Easyread"
+        "display": "Does lip read"
       }
     ]
   },

@@ -129,7 +129,7 @@ properties:
                     properties:
                         system:
                             type: string
-                            example: "ttps://snomed.info/sct"
+                            example: "https://snomed.info/sct"
                         code:
                             type: string
                             example: "796161000000101"
