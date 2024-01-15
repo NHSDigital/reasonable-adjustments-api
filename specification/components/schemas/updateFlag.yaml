@@ -135,7 +135,7 @@ properties:
                             example: "796161000000101"
                         display:
                             type: string
-                            example: "Requires information in Easyread"
+                            example: "Does lip read"
     subject:
         type: object
         properties:

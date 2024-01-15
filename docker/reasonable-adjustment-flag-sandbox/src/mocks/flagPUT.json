@@ -153,7 +153,7 @@
       {
         "system": "https://snomed.info/sct",
         "code": "796161000000101",
-        "display": "Requires information in Easyread"
+        "display": "Does lip read"
       }
     ]
   },
