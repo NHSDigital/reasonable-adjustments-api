@@ -87,8 +87,8 @@
         "coding": [
           {
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
-            "code": "003",
-            "display": "Requires specific contact method"
+            "code": "006",
+            "display": "Community Language Support"
           }
         ]
       }
@@ -108,8 +108,8 @@
     "coding": [
       {
         "system": "http://snomed.info/sct",
-        "code": "7961610000001018",
-        "display": "Does lip read"
+        "code": "362691000000102",
+        "display": "Afar language interpreter needed"
       }
     ]
   },
