@@ -275,6 +275,7 @@ class TestHappyCasesSuite:
 
     @pytest.mark.happy_path
     @pytest.mark.integration
+    @pytest.mark.skip(reason="VEIT07 is not accepting valid snomed codes in our request body")
     @pytest.mark.nhsd_apim_authorization(
         {
             "access": "healthcare_worker",
