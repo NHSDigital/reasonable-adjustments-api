@@ -13,7 +13,7 @@
           {
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ProxyRole-1",
             "code": "003",
-            "display": "Lasting power of attorney for personal welfare or court-appointed deputy or equivalent (Mental Capacity Act 2005)"
+            "display": "Lasting power of attorney for health and welfare, or court-appointed deputy, or equivalent"
           }
         ]
       }
@@ -26,7 +26,7 @@
         {
           "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1",
           "code": "NRAF",
-          "display": "Reasonable Adjustments Flag"
+          "display": "National Reasonable Adjustments Flag"
         }
       ]
     }

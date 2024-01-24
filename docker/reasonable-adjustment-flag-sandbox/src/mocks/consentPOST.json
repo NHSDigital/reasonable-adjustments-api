@@ -29,7 +29,7 @@
             {
               "coding": [
                 {
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
                   "code": "R0260",
                   "display": "General Medical Practitioner"
                 }
@@ -54,9 +54,9 @@
       "valueCodeableConcept": {
         "coding": [
           {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-ProxyRole-1",
+            "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ProxyRole-1",
             "code": "lpa",
-            "display": "Lasting power of attorney personal welfare"
+            "display": "Lasting power of attorney for health and welfare, or court-appointed deputy, or equivalent"
           }
         ]
       }
@@ -78,9 +78,9 @@
     {
       "coding": [
         {
-          "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1",
-          "code": "reasonable adjustments flag",
-          "display": "Reasonable Adjustments Flag"
+          "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1",
+          "code": "NRAF",
+          "display": "National Reasonable Adjustments Flag"
         }
       ]
     }
@@ -101,7 +101,7 @@
   ],
   "purpose": [
     {
-      "system": "https://snomed.info/sct",
+      "system": "http://snomed.info/sct",
       "code": "370856009",
       "display": "Limiting access to confidential patient information"
     }

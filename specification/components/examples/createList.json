@@ -49,8 +49,8 @@
         "coding": [
           {
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-ConditionCode-1",
-            "code": "1",
-            "display": "Impairment related to autism (Equality Act 2010)"
+            "code": "9",
+            "display": "Social or behavioural (for example associated with autism spectrum disorder (ASD) which includes Asperger’s, or attention deficit hyperactivity disorder (ADHD))"
           }
         ]
       },
@@ -87,7 +87,7 @@
               "coding": [
                 {
                   "display": "Consultant",
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
                   "code": "R0050"
                 }
               ]

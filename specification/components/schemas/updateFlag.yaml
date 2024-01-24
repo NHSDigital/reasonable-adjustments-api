@@ -67,7 +67,7 @@ properties:
                                                 properties:
                                                     system:
                                                         type: string
-                                                        example: "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                                                        example: "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
                                                     code:
                                                         type: string
                                                         example: "R1974"
@@ -112,13 +112,13 @@ properties:
                     properties:
                         system:
                             type: string
-                            example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1"
+                            example: "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1"
                         code:
                             type: string
-                            example: "reasonable adjustment flag"
+                            example: "NRAF"
                         display:
                             type: string
-                            example: "Reasonable Adjustment Flag"
+                            example: "National Reasonable Adjustments Flag"
     code:
         type: object
         properties:
@@ -129,13 +129,13 @@ properties:
                     properties:
                         system:
                             type: string
-                            example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1"
+                            example: "http://snomed.info/sct"
                         code:
                             type: string
-                            example: "requiresinformationineasyread"
+                            example: "441092009"
                         display:
                             type: string
-                            example: "Requires information in Easyread"
+                            example: "Does lip read"
     subject:
         type: object
         properties:

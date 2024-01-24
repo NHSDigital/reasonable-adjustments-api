@@ -29,7 +29,7 @@
             {
               "coding": [
                 {
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
                   "code": "R1974",
                   "display": "Community Learning Disabilities Nurse"
                 }
@@ -67,7 +67,7 @@
             {
               "coding": [
                 {
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
                   "code": "R0260",
                   "display": "General Medical Practitioner"
                 }
@@ -130,9 +130,9 @@
       "valueCodeableConcept": {
         "coding": [
           {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1",
-            "code": "comms",
-            "display": "Communication"
+            "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1",
+            "code": "001",
+            "display": "Communication support"
           }
         ]
       }
@@ -142,18 +142,18 @@
   "category": {
     "coding": [
       {
-        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-FlagCategory-1",
-        "code": "reasonable adjustments flag",
-        "display": "Reasonable Adjustments Flag"
+        "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-FlagCategory-1",
+        "code": "NRAF",
+        "display": "National Reasonable Adjustments Flag"
       }
     ]
   },
   "code": {
     "coding": [
       {
-        "system": "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AccessibleInformationAdjustments-1",
-        "code": "requiresinformationineasyread",
-        "display": "Requires information in Easyread"
+        "system": "http://snomed.info/sct",
+        "code": "441092009",
+        "display": "Does lip read"
       }
     ]
   },

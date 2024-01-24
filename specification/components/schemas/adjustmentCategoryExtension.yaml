@@ -13,10 +13,10 @@ properties:
                     properties:
                         system:
                             type: string
-                            example: "https://fhir.nhs.uk/STU3/CodeSystem/CodeSystem-RARecord-AdjustmentCategories-1"
+                            example: "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1"
                         code:
                             type: string
-                            example: "comms"
+                            example: "001"
                         display:
                             type: string
-                            example: "Communication"
+                            example: "Communication support"

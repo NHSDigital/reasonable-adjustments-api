@@ -49,9 +49,9 @@
             "code": {
                 "coding":  [
                     {
-                        "system": "https://snomed.info/sct",
-                        "code": "408856003",
-                        "display": "Autistic disorder"
+                        "system": "http://snomed.info/sct",
+                        "code": "73618009",
+                        "display": "Autistic spectrum disorder with isolated skills"
                     }
                 ]
             },

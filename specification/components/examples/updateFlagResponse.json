@@ -11,9 +11,9 @@
   "code": {
     "coding": [
       {
-        "code": "945951000000108",
+        "code": "7961610000001018",
         "display": "Requires visual alert",
-        "system": "https://snomed.info/sct"
+        "system": "http://snomed.info/sct"
       }
     ]
   },
@@ -31,7 +31,7 @@
                 {
                   "code": "R0050",
                   "display": "Consultant",
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
                 }
               ]
             }
@@ -69,7 +69,7 @@
                 {
                   "code": "R0050",
                   "display": "Consultant",
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
                 }
               ]
             }
@@ -107,7 +107,7 @@
                 {
                   "code": "R0050",
                   "display": "Consultant",
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
                 }
               ]
             }
@@ -145,7 +145,7 @@
                 {
                   "code": "R0050",
                   "display": "Consultant",
-                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
+                  "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1"
                 }
               ]
             }
@@ -195,7 +195,7 @@
         "coding": [
           {
             "code": "003",
-            "display": "Accessible Information - requires specific contact method",
+            "display": "requires specific contact method",
             "system": "https://fhir.nhs.uk/STU3/CodeSystem/RARecord-AdjustmentCategory-1"
           }
         ]
