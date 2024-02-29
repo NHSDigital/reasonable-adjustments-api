@@ -3,6 +3,20 @@ info:
   version: 0.3.4-beta
   title: Reasonable Adjustment Flag API
   description: |-
+    <div class="nhsd-m-emphasis-box nhsd-m-emphasis-box--emphasis nhsd-!t-margin-bottom-6" aria-label="Highlighted Information">
+        <div class="nhsd-a-box nhsd-a-box--border-blue">
+            <div class="nhsd-m-emphasis-box__image-box">
+                <figure class="nhsd-a-image">
+                    <picture class="nhsd-a-image__picture">
+                        <img src="http://digital.nhs.uk/binaries/content/gallery/icons/info.svg?colour=231f20" alt="" style="object-fit:fill">
+                    </picture>
+                </figure>
+            </div>
+            <div class="nhsd-m-emphasis-box__content-box">
+                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is <a href="https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses">retired</a> and not available for use.</p></div>
+            </div>
+        </div>
+    </div>
     ## Overview
     Use this API to access and update the [Reasonable Adjustment Flag](https://digital.nhs.uk/services/reasonable-adjustment-flag#top) - a national record which indicates that a patient requires reasonable adjustments and optionally includes details of impairments and adjustments to be considered.
 
@@ -45,7 +59,7 @@ info:
       - [National Record Locator (NRL) (FHIR) API](https://developer.nhs.uk/apis/nrl/) - use this API to locate and share patient records held within local health and social care systems.
 
     ## API status and roadmap
-     This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses) - expect further breaking changes.
+     This API is [is retired](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses) and not available for use.
      
      The API is currently available for sandbox testing, but not integration testing or for production use.
          
